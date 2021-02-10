@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.*;
+
 
 public class main
 {
@@ -64,14 +66,18 @@ public class main
             System.out.println(option + "\n");
             System.out.println("Type in l (dislike) or r (like): ");
             userSwipe = swipe.nextLine();
+            //System.out.println("Outside while loop " + userSwipe + "\n");
 
-            while(userSwipe != "l" || userSwipe != "r" ){
+            while(!userSwipe.equals("l") && !userSwipe.equals("r")){
+                //System.out.println("is not l: " + (!userSwipe.equals("l")));
+                //System.out.println("is not r: " + (!userSwipe.equals("r")));
+
                 System.out.println("Please enter l or r \n");
                 userSwipe = swipe.nextLine();
             }
 
             //add to the left and right lists
-            if(userSwipe == "l"){
+            if(userSwipe.equals("l")){
                 leftList.add(option);
             } else {
                 rightList.add(option);
@@ -79,16 +85,23 @@ public class main
 
         }
 
-        System.out.println("Here is the list of everything you liked: \n");
-        for(String liked:rightList) {
-            System.out.println(liked + "\n");
+        if(leftList.isEmpty()){
+
+            System.out.println("You did not like any of the options :(\n");
+
+        } else {
+
+            System.out.println("Here is the list of everything you liked: \n");
+            for (String liked : rightList) {
+                System.out.println(liked + "\n");
+            }
+
+            //randomly pick from the options you liked
+            Random rand = new Random();
+            String randChoice = rightList.get(rand.nextInt(rightList.size()));
+
+            System.out.println("Our recommendation is to go to: " + randChoice);
+
         }
-
-        //randomly pick from the options you liked
-        Random rand = new Random();
-        String randChoice = rightList.get(rand.nextInt(rightList.size()));
-
-        System.out.println("Our recommendation is to go to: " + randChoice);
-
     }
 }
