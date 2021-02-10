@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="603a127a-6580-4c86-b2ba-ba05e3f939db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/framework/lobby.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/framework/lobby.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/lobby.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperationHours.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperationHours.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

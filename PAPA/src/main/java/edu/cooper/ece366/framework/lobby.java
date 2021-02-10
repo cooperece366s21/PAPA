@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import edu.cooper.ece366.framework.*;
+
 public class Lobby {
 
     //Members

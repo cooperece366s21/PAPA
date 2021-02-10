@@ -1,15 +1,16 @@
 package edu.cooper.ece366.util;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-public class OpeningHours {
+public class OperationHours {
     public enum DAY {
         MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
 
+    private ArrayList<OperationHours> operationHours;
 
-
-    public OpeningHours(DAY day, int from, int to) {
+    public OperationHours(DAY day, int from, int to) {
         this.day = day;
         this.from = from; // format time using 800 for 8:00am or 2300 for 23:00
         this.to = to;
@@ -20,13 +21,13 @@ public class OpeningHours {
         return "OpeningHours [day=" + day + ", from=" + from + ", to=" + to + ", isAllDay=" + isAllDay + "]";
     }
 
-    public OpeningHours() {
+    public OperationHours() {
 
     }
 
     public DAY day;
-    public Integer from;
-    public Integer to;
+    public int from;
+    public int to;
     public boolean isAllDay = false;
 
     public void isOpenx(LocalDateTime start) {
@@ -35,7 +36,7 @@ public class OpeningHours {
 
     public boolean isOpen(LocalDateTime start) {
 
-        if (day.ordinal() != start.getDayOfWeek() - 1) {
+        if (day.ordinal() != start.getDayOfWeek().getValue() - 1) {
             return false;
         }
 
@@ -51,8 +52,8 @@ public class OpeningHours {
         Integer th = Integer.valueOf(t.substring(0, 2));
         Integer tm = Integer.valueOf(t.substring(2));
 
-        DateTime intStart = start.withHourOfDay(fh).withMinuteOfHour(fm);
-        DateTime intEnd = start.withHourOfDay(th).withMinuteOfHour(tm);
+        LocalDateTime intStart = start.withHour(fh).withMinute(fm);
+        LocalDateTime intEnd = start.withHour(th).withMinute(tm);
 
         if (intStart.equals(start) || intEnd.equals(start)) {
             return true;
