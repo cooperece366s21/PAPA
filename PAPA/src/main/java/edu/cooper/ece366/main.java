@@ -20,17 +20,17 @@ public class main
     {
         //category list
         ArrayList<String> catList = new ArrayList<String>();
-        catList.add("Resturants");
+        catList.add("Restaurants");
         catList.add("Movies (DO NOT SELECT FOR NOW!)");
 
         //test resturant list
-        ArrayList<String> resturants = new ArrayList<String>();
-        resturants.add("Smac");
-        resturants.add("5 guys");
-        resturants.add("Artichoke");
-        resturants.add("2 Bros");
-        resturants.add("Mamouns");
-        resturants.add("Stickies");
+        ArrayList<String> restaurants = new ArrayList<String>();
+        restaurants.add("Smac");
+        restaurants.add("5 guys");
+        restaurants.add("Artichoke");
+        restaurants.add("2 Bros");
+        restaurants.add("Mamouns");
+        restaurants.add("Stickies");
 
         System.out.println("Select option from one of the following categories: \n");
 
@@ -60,7 +60,8 @@ public class main
         Scanner swipe = new Scanner(System.in);
         String userSwipe;
         //change to work for any category selected
-        for(String option:resturants) {
+        for(String option:restaurants) {
+            System.out.println(option + "\n");
             System.out.println("Type in l (dislike) or r (like): ");
             userSwipe = swipe.nextLine();
 
@@ -69,11 +70,13 @@ public class main
                 userSwipe = swipe.nextLine();
             }
 
-            if(userSwipe != "l"){
+            //add to the left and right lists
+            if(userSwipe == "l"){
                 leftList.add(option);
             } else {
                 rightList.add(option);
             }
+
         }
 
         System.out.println("Here is the list of everything you liked: \n");
@@ -81,6 +84,7 @@ public class main
             System.out.println(liked + "\n");
         }
 
+        //randomly pick from the options you liked
         Random rand = new Random();
         String randChoice = rightList.get(rand.nextInt(rightList.size()));
 
