@@ -85,7 +85,7 @@ public class main
 
         }
 
-        if(leftList.isEmpty()){
+        if(rightList.isEmpty()){
 
             System.out.println("You did not like any of the options :(\n");
 
