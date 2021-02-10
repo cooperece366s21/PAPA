@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="603a127a-6580-4c86-b2ba-ba05e3f939db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/lobby.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/lobby.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/framework/lobby.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/framework/lobby.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +25,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -35,6 +37,7 @@
       <option name="presentableId" value="Default" />
       <updated>1612985932431</updated>
       <workItem from="1612985994608" duration="378000" />
+      <workItem from="1612987774054" duration="4676000" />
     </task>
     <servers />
   </component>
@@ -42,6 +45,15 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
