@@ -1,3 +1,5 @@
+package edu.cooper.ece366;
+
 import java.util.HashMap;
 import java.util.Map;
 
