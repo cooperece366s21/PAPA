@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="603a127a-6580-4c86-b2ba-ba05e3f939db" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/test_operatingHours.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperationHours.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperationHours.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/categories/restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/categories/restaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/Cuisine.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/Cuisine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperationHours.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperatingHours.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -32,9 +43,35 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.test_operatingHours">
+    <configuration name="Cuisine" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.cooper.ece366.util.Cuisine" />
+      <module name="ECE366_SWE_PAPA" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.cooper.ece366.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="edu.cooper.ece366.main" />
+      <module name="ECE366_SWE_PAPA" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.cooper.ece366.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_operatingHours" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.cooper.ece366.test_operatingHours" />
       <module name="ECE366_SWE_PAPA" />
       <extension name="coverage">
         <pattern>
@@ -59,6 +96,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.test_operatingHours" />
+        <item itemvalue="Application.Cuisine" />
         <item itemvalue="Application.main" />
       </list>
     </recent_temporary>
