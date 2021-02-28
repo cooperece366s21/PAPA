@@ -34,7 +34,7 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
         String userSwipe;
 
         for(Restaurant option:restaurants) {
-            System.out.println(option + "\n");
+            System.out.println(option.getName() + "\n");
             System.out.println("Type in l (dislike) or r (like): ");
             userSwipe = swipe.nextLine();
 
@@ -60,14 +60,14 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
 
             System.out.println("Here is the list of everything you liked: \n");
             for (Restaurant liked : rightList) {
-                System.out.println(liked + "\n");
+                System.out.println(liked.getName() + "\n");
             }
 
             //randomly pick from the options you liked
             Random rand = new Random();
             Restaurant randChoice = rightList.get(rand.nextInt(rightList.size()));
 
-            System.out.println("Our recommendation is to go to: " + randChoice);
+            System.out.println("Our recommendation is to go to: " + randChoice.getName());
 
         }
 

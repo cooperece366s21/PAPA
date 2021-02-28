@@ -4,9 +4,6 @@ import edu.cooper.ece366.model.Address;
 import edu.cooper.ece366.model.Cuisine;
 import edu.cooper.ece366.model.OperatingHours;
 import edu.cooper.ece366.model.PhoneNumber;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
-
-import javax.xml.stream.Location;
 
 public class Restaurant {
     private final String id;                // yelp id for the restaurant
