@@ -1,11 +1,9 @@
 /*
-plan for now:
-- implement classes for the lobby
-- when running main user will be promoted with options (for now only resturant)
-- when they select resturant they will get options thrown at them
-    - create a list of some options
-- they can enter l or r to simulate the swipe
-- when finishing all the options well return the options they liked
+What we want to add:
+- User has the option to enter a lobby id or generate a lobby
+- If they made a new lobby generate a random code and a list of restaurants from our db
+- If they enter a code they join a lobby (for now each lobby just has a unique restaurant list
+- Swipe part starts here
  */
 package edu.cooper.ece366;
 
@@ -17,29 +15,49 @@ import java.util.*;
 
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.framework.Lobby;
 
 public class main
 {
     public static void main( String[] args )
     {
-
+        //generate the user
         User user1 = new User();
+
+        //enter or create lobby
+
+        System.out.println("Type C to create a lobby or type J to join an existing one: \n");
+
+        Scanner intPromptScan = new Scanner(System.in);  // Create a Scanner object
+        String initialPrompt = intPromptScan.nextLine();  // Read user input
+
+        //check to make sure a valid option was selected
+        while(!initialPrompt.equals("C") && !initialPrompt.equals("J")){
+            System.out.println("Please enter C or J: \n");
+
+            initialPrompt = intPromptScan.nextLine();
+        }
+
+        if(initialPrompt.equals("C")){
+            Lobby lobby1 = new Lobby();
+            //print id of the lobby using getLobbyId or something
+
+        } else {
+            System.out.println("Please enter your unique lobby code: ");
+            Scanner lobbyCode = new Scanner(System.in);  // Create a Scanner object
+            String code = lobbyCode.nextLine();  // Read user input
+
+            //getLobby function here or something
+        }
+
+        //generate the list of restaurants - this should be tied to what lobby your in
         ArrayList<Restaurant> restaurantsList;
         restaurantsList = restaurantTest.generateRestaurants();
+
         //category list
         ArrayList<String> catList = new ArrayList<String>();
         catList.add("Restaurants");
         catList.add("Movies (DO NOT SELECT FOR NOW!)");
-
-        /*
-        ArrayList<String> restaurants = new ArrayList<String>();
-        restaurants.add("Smac");
-        restaurants.add("5 guys");
-        restaurants.add("Artichoke");
-        restaurants.add("2 Bros");
-        restaurants.add("Mamouns");
-        restaurants.add("Stickies");
-        */
 
         System.out.println("Select option from one of the following categories: \n");
 
@@ -64,57 +82,5 @@ public class main
         System.out.println("You have selected the following category: " + userSelectedCat + "\n");
 
         user1.output(restaurantsList);
-
-        /*
-        //initialize the left and right swipe lists
-        ArrayList<String> rightList = new ArrayList<String>();
-        ArrayList<String> leftList = new ArrayList<String>();
-
-        Scanner swipe = new Scanner(System.in);
-        String userSwipe;
-        //change to work for any category selected
-        for(String option:restaurants) {
-            System.out.println(option + "\n");
-            System.out.println("Type in l (dislike) or r (like): ");
-            userSwipe = swipe.nextLine();
-            //System.out.println("Outside while loop " + userSwipe + "\n");
-
-            while(!userSwipe.equals("l") && !userSwipe.equals("r")){
-                //System.out.println("is not l: " + (!userSwipe.equals("l")));
-                //System.out.println("is not r: " + (!userSwipe.equals("r")));
-
-                System.out.println("Please enter l or r \n");
-                userSwipe = swipe.nextLine();
-            }
-
-            //add to the left and right lists
-            if(userSwipe.equals("l")){
-                leftList.add(option);
-            } else {
-                rightList.add(option);
-            }
-
-        }
-
-        if(rightList.isEmpty()){
-
-            System.out.println("You did not like any of the options :(\n");
-
-        } else {
-
-            System.out.println("Here is the list of everything you liked: \n");
-            for (String liked : rightList) {
-                System.out.println(liked + "\n");
-            }
-
-            //randomly pick from the options you liked
-            Random rand = new Random();
-            String randChoice = rightList.get(rand.nextInt(rightList.size()));
-
-            System.out.println("Our recommendation is to go to: " + randChoice);
-
-        }
-
-        */
     }
 }
