@@ -29,7 +29,7 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
         return restaurants;
     }
 
-    void output (ArrayList<Restaurant>restaurants) {
+    public void output(ArrayList<Restaurant> restaurants) {
         Scanner swipe = new Scanner(System.in);
         String userSwipe;
 

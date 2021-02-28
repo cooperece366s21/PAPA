@@ -15,17 +15,23 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.*;
 
+import edu.cooper.ece366.categories.Restaurant;
+import edu.cooper.ece366.framework.User;
 
 public class main
 {
     public static void main( String[] args )
     {
+
+        User user1 = new User();
+        ArrayList<Restaurant> restaurantsList;
+        restaurantsList = restaurantTest.generateRestaurants();
         //category list
         ArrayList<String> catList = new ArrayList<String>();
         catList.add("Restaurants");
         catList.add("Movies (DO NOT SELECT FOR NOW!)");
 
-        //test resturant list
+        /*
         ArrayList<String> restaurants = new ArrayList<String>();
         restaurants.add("Smac");
         restaurants.add("5 guys");
@@ -33,9 +39,11 @@ public class main
         restaurants.add("2 Bros");
         restaurants.add("Mamouns");
         restaurants.add("Stickies");
+        */
 
         System.out.println("Select option from one of the following categories: \n");
 
+        // have the user select a category
         //display options
         for(String categories:catList) {
             System.out.println(categories + "   ");
@@ -55,6 +63,9 @@ public class main
 
         System.out.println("You have selected the following category: " + userSelectedCat + "\n");
 
+        user1.output(restaurantsList);
+
+        /*
         //initialize the left and right swipe lists
         ArrayList<String> rightList = new ArrayList<String>();
         ArrayList<String> leftList = new ArrayList<String>();
@@ -103,5 +114,7 @@ public class main
             System.out.println("Our recommendation is to go to: " + randChoice);
 
         }
+
+        */
     }
 }
