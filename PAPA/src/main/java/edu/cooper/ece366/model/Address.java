@@ -1,4 +1,4 @@
-package edu.cooper.ece366.util;
+package edu.cooper.ece366.model;
 
 /**
  * A contact is a name and address.

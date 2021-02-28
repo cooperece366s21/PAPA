@@ -1,11 +1,10 @@
 package edu.cooper.ece366.categories;
 
-import edu.cooper.ece366.util.Address;
-import edu.cooper.ece366.util.Cuisine;
-import edu.cooper.ece366.util.PhoneNumber;
+import edu.cooper.ece366.model.Address;
+import edu.cooper.ece366.model.Cuisine;
+import edu.cooper.ece366.model.PhoneNumber;
 
 import javax.xml.stream.Location;
-import java.util.ArrayList;
 
 public class Restaurant {
     private final String id;             // yelp id for the restaurant

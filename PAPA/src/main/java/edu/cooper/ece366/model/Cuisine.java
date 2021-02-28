@@ -1,7 +1,6 @@
-package edu.cooper.ece366.util;
+package edu.cooper.ece366.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Cuisine{

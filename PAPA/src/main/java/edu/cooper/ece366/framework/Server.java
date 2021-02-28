@@ -12,6 +12,6 @@ public class Server {
 
     private Lobby[] lobbies = new Lobby[100000];
     private User[] users = new User[100000];
-    private Restaurants[] restaurants = new Restaurants[100000];
+    //private Restaurants[] restaurants = new Restaurants[100000];
 
 }

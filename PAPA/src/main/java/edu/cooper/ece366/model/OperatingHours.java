@@ -1,10 +1,8 @@
-package edu.cooper.ece366.util;
+package edu.cooper.ece366.model;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.time.LocalTime;
 import java.time.DayOfWeek;
-import java.util.Date;
 
 public class OperatingHours {
 

@@ -1,4 +1,4 @@
-package edu.cooper.ece366.util;
+package edu.cooper.ece366.model;
 
 /******************************************************************************
  *  Compilation:  javac PhoneNumber.java

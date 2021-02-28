@@ -1,13 +1,8 @@
 package edu.cooper.ece366;
 
-import edu.cooper.ece366.util.OperatingHours;
+import edu.cooper.ece366.model.OperatingHours;
 
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class test_operatingHours {
     public static void main(String[] args) {

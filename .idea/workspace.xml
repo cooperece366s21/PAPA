@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="603a127a-6580-4c86-b2ba-ba05e3f939db" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/test_operatingHours.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/categories/restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/categories/restaurant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/Cuisine.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/Cuisine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperationHours.java" beforeDir="false" afterPath="$PROJECT_DIR$/PAPA/src/main/java/edu/cooper/ece366/util/OperatingHours.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,13 +78,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -112,6 +109,7 @@
       <updated>1612985932431</updated>
       <workItem from="1612985994608" duration="378000" />
       <workItem from="1612987774054" duration="4676000" />
+      <workItem from="1613059510632" duration="554000" />
     </task>
     <servers />
   </component>
