@@ -1,5 +1,7 @@
 package edu.cooper.ece366.framework;
 
+import edu.cooper.ece366.categories.Restaurant;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ArrayList;
