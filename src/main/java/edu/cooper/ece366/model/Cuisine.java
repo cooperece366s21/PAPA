@@ -37,7 +37,7 @@ public class Cuisine{
         this.cuisine.add(cuisineIn);
     }
 
-    private ArrayList<String> getCuisineStr(List<cuisineType> cuisine){
+    public ArrayList<String> getCuisineStr(List<cuisineType> cuisine){
         ArrayList<String> cuisineString = new ArrayList<String>();
         for(cuisineType c : cuisine){
             cuisineString.add(c.toString());

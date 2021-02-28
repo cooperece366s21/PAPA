@@ -5,6 +5,8 @@ import edu.cooper.ece366.model.Cuisine;
 import edu.cooper.ece366.model.OperatingHours;
 import edu.cooper.ece366.model.PhoneNumber;
 
+import java.util.ArrayList;
+
 public class Restaurant {
     private final String id;                // yelp id for the restaurant
     private final String name;              // name of the restaurant
@@ -36,6 +38,26 @@ public class Restaurant {
     public Address getAddress(){return address;}
     public PhoneNumber getPhoneNumber(){return phoneNumber;}
     public OperatingHours getOperatingHours(){return operatingHours;}
+
+    public String toString(){
+        String returnStr = name + System.lineSeparator() + price + "\t\t";
+        ArrayList<String> cuisines = cuisine.getCuisineStr(cuisine.getCuisine());
+        for(String s : cuisines){
+            returnStr = returnStr + s + ',';
+        }
+        returnStr = returnStr.substring(0,returnStr.length()-1);
+        returnStr += System.lineSeparator();
+
+        returnStr += address.toString() + System.lineSeparator();
+        returnStr += phoneNumber.toString() + System.lineSeparator();
+
+        ArrayList<String> opHours = operatingHours.pString();
+        for(String str : opHours) {
+            returnStr += str + System.lineSeparator();
+        }
+
+        return returnStr;
+    }
 
 
 

@@ -16,6 +16,7 @@ public class restaurantTest {
         Restaurant restaurant3 = boka_setup();
         Restaurant restaurant4 = klong_setup();
         Restaurant restaurant5 = theBao_setup();
+        System.out.println(restaurant3.toString());
     }
 
     public static ArrayList<Restaurant> generateRestaurants(){
