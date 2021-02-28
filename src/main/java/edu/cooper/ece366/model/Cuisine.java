@@ -9,7 +9,14 @@ public class Cuisine{
         chinese("Chinese"),
         newamerican("American (New)"),
         french("French"),
-        wine_bars("Wine Bars");
+        wine_bars("Wine Bars"),
+        japanese("Japanese"),
+        korean("Korean"),
+        thai("Thai"),
+        shanghainese("Shanghainese"),
+        dim_sum("Dim Sum"),
+        cantonese("Cantonese"),
+        bakeries("Bakeries");
         private final String cuisineT;
 
         private cuisineType(String s){
