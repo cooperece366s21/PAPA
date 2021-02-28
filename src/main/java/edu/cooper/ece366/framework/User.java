@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.Random;
 
 public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN ARRAYLIST!!!!!
-    private String ID;
+    private UUID ID;
 
     public User(){
         this.ID= generateID();
@@ -33,7 +33,7 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
         Scanner swipe = new Scanner(System.in);
         String userSwipe;
 
-        for(String option:restaurants) {
+        for(Restaurant option:restaurants) {
             System.out.println(option + "\n");
             System.out.println("Type in l (dislike) or r (like): ");
             userSwipe = swipe.nextLine();
@@ -59,13 +59,13 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
         } else {
 
             System.out.println("Here is the list of everything you liked: \n");
-            for (String liked : rightList) {
+            for (Restaurant liked : rightList) {
                 System.out.println(liked + "\n");
             }
 
             //randomly pick from the options you liked
             Random rand = new Random();
-            String randChoice = rightList.get(rand.nextInt(rightList.size()));
+            Restaurant randChoice = rightList.get(rand.nextInt(rightList.size()));
 
             System.out.println("Our recommendation is to go to: " + randChoice);
 
@@ -105,10 +105,10 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
 
     //Getters and setters
 
-    public String getID() {
+    public UUID getID() {
         return ID;
     }
-    public void setID(String ID) {
+    public void setID(UUID ID) {
         this.ID = ID;
     }
 
