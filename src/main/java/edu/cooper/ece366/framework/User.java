@@ -1,15 +1,10 @@
 package edu.cooper.ece366.framework;
 
 import edu.cooper.ece366.categories.Restaurant;
-
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.UUID;
-import java.util.*;
-import java.util.Random;
 
 public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN ARRAYLIST!!!!!
     private UUID ID;
@@ -30,6 +25,7 @@ public class User {                  //NOTE: CHANGE STRING TO TYPE RESTAURANT IN
     }
 
     public void output(ArrayList<Restaurant> restaurants) {
+        // some of this code could be used for demo, but you'll want this separate from the server as a mock "client"
         Scanner swipe = new Scanner(System.in);
         String userSwipe;
 
