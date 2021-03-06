@@ -21,6 +21,7 @@ public class main
 {
     public static void main( String[] args )
     {
+        /*
         //generate the user
         User user1 = new User();
 
@@ -82,5 +83,7 @@ public class main
         System.out.println("You have selected the following category: " + userSelectedCat + "\n");
 
         user1.output(restaurantsList);
+
+         */
     }
 }
