@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class LobbyStore {
+public class LobbyStoreImpl implements LobbyStore {
     //Methods
     private void addUser(){};
     private void dropUser(){};
