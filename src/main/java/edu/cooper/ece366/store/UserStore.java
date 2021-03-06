@@ -2,8 +2,8 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.framework.User;
 
+import java.util.UUID;
+
 public interface UserStore {
-
-  //User get(String id);
-
+    User get(UUID id);
 }
