@@ -71,7 +71,6 @@ public class User {
     public UUID generateID(){
         return UUID.randomUUID();
     }
-
     public UUID getID() {
         return ID;
     }
