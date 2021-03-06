@@ -75,6 +75,5 @@ public class User {
     public UUID getID() {
         return ID;
     }
-
 }
 
