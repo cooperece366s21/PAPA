@@ -1,6 +1,7 @@
 package edu.cooper.ece366.handler;
 
 import com.google.gson.Gson;
+import edu.cooper.ece366.service.SwipingService;
 import edu.cooper.ece366.store.LobbyStore;
 import edu.cooper.ece366.store.UserStore;
 import edu.cooper.ece366.framework.User;
@@ -13,12 +14,14 @@ public class Handler {
 
     private final UserStore userStore;
     private final LobbyStore lobbyStore;
+    private final SwipingService swipingService;
     private final Gson gson;
 
     public Handler(
-            UserStore userStore, LobbyStore lobbyStore, final Gson gson) {
+            UserStore userStore, LobbyStore lobbyStore, SwipingService swipingService, final Gson gson) {
         this.userStore = userStore;
         this.lobbyStore = lobbyStore;
+        this.swipingService = swipingService;
         this.gson = gson;
     }
 
@@ -40,7 +43,7 @@ public class Handler {
     */
 
     /*
-    public Restaurant like(Request req){
+    public SwipingService like(Request req){
         Restaurant restaurant = request.header("Restaurant");
         UUID userID = UUID.fromString(request.params(":userID"));
         User.get(userID).liked.append(restaurant)
@@ -49,7 +52,7 @@ public class Handler {
      */
 
     /*
-    public Restaurant dislike(Request req){
+    public SwipingService dislike(Request req){
         Restaurant restaurant = request.header("Restaurant");
         UUID userID = UUID.fromString(request.params(":userID"));
         User.get(userID).dislike.append(restaurant)

@@ -5,6 +5,7 @@ import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,10 +15,9 @@ public interface LobbyStore {
 
     // Function to get the list of Restaurants within a certain amount of miles
     List<Restaurant> getByLocation(Double miles);
-    List<Restaurant> likes();
+    //List<Restaurant> like
 
 //    List<Content> getByRating(Rating rating);
 
-    void beginSearch(List<User> users, List<Restaurant> restaurants);
-
+    public Restaurant beginSearch(List<User> users, List<Restaurant> restaurants, Lobby lobby);
 }

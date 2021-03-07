@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface User {
     String ID();
 
-    String username();
+    String nickname();
 
     List<Restaurant> likes();
 

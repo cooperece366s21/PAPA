@@ -29,14 +29,20 @@ public class LobbyStoreImpl implements LobbyStore {
 
 
     @Override
-    public void beginSearch(List<User> users, List<Restaurant> restaurants) {
+    public Restaurant beginSearch(List<User> users, List<Restaurant> restaurants, Lobby lobby) {
         //ArrayList<Restaurant> restaurantsList;
+
+        Restaurant recommendation = RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york");
+
         for(Restaurant option:restaurants){
-            System.out.println(option);
-            System.out.println("Swipe left or right");
+            lobby.lobbyRestaurants().put(option, 0);
+            //.out.println(option);
+            //System.out.println("Swipe left or right");
             //HTTP POST /restaurant/:id/like
             //HTTP POST /restaurant/:id/dislike
         }
+
+        return recommendation;
     }
 
 

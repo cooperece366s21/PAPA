@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.framework.UserBuilder;
+import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.LobbyStoreImpl;
 import edu.cooper.ece366.store.UserStoreImpl;
 import io.norberg.automatter.AutoMatter;
@@ -44,7 +45,8 @@ public class App
 
         initExceptionHandler(Throwable::printStackTrace);
 
-        Handler handler = new Handler(new UserStoreImpl(), new LobbyStoreImpl(), gson);
+        Handler handler = new Handler(
+                new UserStoreImpl(), new LobbyStoreImpl(), new SwipingServiceImpl(), gson);
 
         options(
             "/*",
