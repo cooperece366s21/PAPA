@@ -22,14 +22,22 @@ public class Handler {
         this.gson = gson;
     }
 
-    /*
-    need to figure out issue with the type - request.params works with string but not UUID
+
+    //need to figure out issue with the type - request.params works with string but not UUID
 
     public User getUser(Request request) {
-        UUID userID = request.params(":userID");
+        UUID userID = UUID.fromString(request.params(":userID"));
         return userStore.get(userID);
     }
-     */
+
+    /*
+    add this one lobby is done
+
+    public User getLobby(Request request) {
+        UUID lobbyID = UUID.fromString(request.params(":lobbyID"));
+        return userStore.get(lobbyID);
+    }
+    */
 
     /*
     when working on front end add the following:
