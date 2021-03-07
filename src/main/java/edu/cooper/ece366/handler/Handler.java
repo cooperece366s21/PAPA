@@ -26,7 +26,7 @@ public class Handler {
     //need to figure out issue with the type - request.params works with string but not UUID
 
     public User getUser(Request request) {
-        UUID userID = UUID.fromString(request.params(":userID"));
+        String userID = request.params(":userID");
         return userStore.get(userID);
     }
 
