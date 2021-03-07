@@ -14,6 +14,7 @@ public interface LobbyStore {
 
     // Function to get the list of Restaurants within a certain amount of miles
     List<Restaurant> getByLocation(Double miles);
+    List<Restaurant> likes();
 
 //    List<Content> getByRating(Rating rating);
 
