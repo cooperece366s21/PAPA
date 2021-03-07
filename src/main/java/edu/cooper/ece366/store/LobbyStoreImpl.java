@@ -1,8 +1,11 @@
 package edu.cooper.ece366.store;
 
 
+import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
+import edu.cooper.ece366.framework.User;
 
+import java.util.List;
 import java.util.UUID;
 
 public class LobbyStoreImpl implements LobbyStore {
@@ -13,12 +16,22 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public List<Restauraunt> getByLocation(final double miles) {
+    public String getCode(Lobby lobby) {
         return null;
-//                contentMap.values().stream()
-//                .filter(content -> genre.equals(content.genre()))
-//                .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Restaurant> getByLocation(Double miles) {
+        return null;
+    }
+
+
+
+    @Override
+    public void beginSearch(List<User> users, List<Restaurant> resteraunts) {
+
+    }
+
 
 // Put the hard coded info in here
 
