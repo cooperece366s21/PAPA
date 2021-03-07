@@ -12,9 +12,9 @@ public interface User {
 
     String username();
 
-    List<Restaurant> liked();
+    List<Restaurant> likes();
 
-    List<Restaurant> disliked();
+    List<Restaurant> dislikes();
 
 }
 
