@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @AutoMatter
 public interface User {
-    UUID ID();
+    String ID();
 
     String username();
 

@@ -18,14 +18,14 @@ public class UserStoreImpl implements UserStore {
         USER_MAP =
                 List.of(
                         new UserBuilder()
-                        .ID(UUID.randomUUID())
+                        .ID(UUID.randomUUID().toString())
                         .build()
                 ).stream()
                 .collect(Collectors.toMap(User::ID, Function.identity()));
     }
 
     @Override
-    public User get(final UUID id) {
+    public User get(final String id) {
         return USER_MAP.get(id);
     }
 
