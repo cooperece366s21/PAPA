@@ -1,8 +1,8 @@
 package edu.cooper.ece366.store;
 
 
-import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.framework.UserBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class UserStoreImpl implements UserStore {
         USER_MAP =
                 List.of(
                         new UserBuilder()
-                        .id(UUID.randomUUID())
+                        .ID(UUID.randomUUID())
                         .build()
                 ).stream()
                 .collect(Collectors.toMap(User::ID, Function.identity()));

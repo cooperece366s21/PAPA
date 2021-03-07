@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.framework.User;
-import edu.cooper.ece366.model.UserBuilder;
+import edu.cooper.ece366.framework.UserBuilder;
 import edu.cooper.ece366.store.LobbyStoreImpl;
 import edu.cooper.ece366.store.UserStoreImpl;
 import io.norberg.automatter.AutoMatter;
