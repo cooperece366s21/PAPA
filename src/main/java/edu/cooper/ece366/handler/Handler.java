@@ -40,6 +40,24 @@ public class Handler {
     */
 
     /*
+    public Restaurant like(Request req){
+        Restaurant restaurant = request.header("Restaurant");
+        UUID userID = UUID.fromString(request.params(":userID"));
+        User.get(userID).liked.append(restaurant)
+        return System.out.println("Added to liked list");
+    }
+     */
+
+    /*
+    public Restaurant dislike(Request req){
+        Restaurant restaurant = request.header("Restaurant");
+        UUID userID = UUID.fromString(request.params(":userID"));
+        User.get(userID).dislike.append(restaurant)
+        return System.out.println("Added to dislike list");
+    }
+     */
+
+    /*
     when working on front end add the following:
     - login and logout
     - cookie stuff

@@ -72,12 +72,18 @@ public class App
 
         get("/ping", (req, res) -> "OK");
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
-        //get("/user/:userId/feed", (req, res) -> handler.getLobby(req), gson::toJson); once lobby is done
+        //get("/user/:lobbyId/feed", (req, res) -> handler.getLobby(req), gson::toJson); once lobby is done
 
         //get("/me", (req, res) -> handler.me(req, res), gson::toJson);
 
+
+        //post("/restaurant/:UserId/like", (req, res) -> handler.like(req), gson::toJson);
+        //post("/restaurant/:UserId/dislike", (req, res) -> handler.dislike(req), gson::toJson);
+
+
         //get("/cookie-example", App::cookieExample, responseTransformer);
         //get("/header-example", App::headerExample, responseTransformer);
+
         //post("/login", (req, res) -> handler.login(req, res), gson::toJson);
         //post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
 
