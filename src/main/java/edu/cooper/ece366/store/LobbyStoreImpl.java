@@ -4,6 +4,7 @@ package edu.cooper.ece366.store;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.restaurantTest;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,8 +29,14 @@ public class LobbyStoreImpl implements LobbyStore {
 
 
     @Override
-    public void beginSearch(List<User> users, List<Restaurant> resteraunts) {
-
+    public void beginSearch(List<User> users, List<Restaurant> restaurants) {
+        //ArrayList<Restaurant> restaurantsList;
+        for(Restaurant option:restaurants){
+            System.out.println(option);
+            System.out.println("Swipe left or right");
+            //HTTP POST /restaurant/:id/like
+            //HTTP POST /restaurant/:id/dislike
+        }
     }
 
 
