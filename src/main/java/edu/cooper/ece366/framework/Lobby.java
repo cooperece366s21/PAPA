@@ -5,16 +5,17 @@ import io.norberg.automatter.AutoMatter;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @AutoMatter
 public interface Lobby {
-    UUID ID();
+    String ID();
 
     String code();
 
-    List<User> userList();
+    List<User> user_lists();
 
-    HashMap<Restaurant, Integer> lobbyRestaurants();    //contains all the likes from all the users
+    Map<String, Integer> restaurant_maps();    //contains all the likes from all the users
 
 }

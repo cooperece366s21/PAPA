@@ -17,6 +17,7 @@ public class Cuisine{
         shanghainese("Shanghainese"),
         dim_sum("Dim Sum"),
         cantonese("Cantonese"),
+        halal("Halal"),
         bakeries("Bakeries");
         private final String cuisineT;
 
@@ -114,7 +115,7 @@ public class Cuisine{
         }
 
         public CuisineBuilder addCuisine(cuisineType c) {
-            if (cuisine == null) {
+            if (c == null) {
                 throw new NullPointerException("cuisine");
             }
             if (this.cuisine == null) {
@@ -124,8 +125,16 @@ public class Cuisine{
             return this;
         }
         public Cuisine build(){
-            List<cuisineType> _cuisine = (cuisine != null) ? Collections.unmodifiableList(new ArrayList<cuisineType>(cuisine)) : Collections.<cuisineType>emptyList();
-            return new Cuisine(_cuisine);
+            List<cuisineType> _cuisine;
+            if(cuisine == null){
+                _cuisine = new ArrayList<cuisineType>();
+                return new Cuisine(_cuisine);
+            } else if(cuisine != null){
+                _cuisine = cuisine;
+                return new Cuisine(_cuisine);
+            }
+            //_cuisine = (cuisine != null) ? Collections.unmodifiableList(new ArrayList<cuisineType>(cuisine)) : Collections.<cuisineType>emptyList();
+            return new Cuisine(cuisine);
         }
     }
 

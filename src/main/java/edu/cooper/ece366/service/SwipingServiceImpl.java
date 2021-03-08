@@ -23,10 +23,13 @@ public class SwipingServiceImpl implements SwipingService {
     public Integer swipeRight(User user, Restaurant restaurant, Lobby lobby){
         if(!user.likes().contains(restaurant))
             user.likes().add(restaurant);
-//        Restaurant r =lobby.lobbyRestaurants().get(restaurant)
 
+        //add to the like counter for the restaurant
+        Integer likeCount = (Integer) lobby.restaurant_maps().get(restaurant);
+        likeCount++;
 
-        //lobby.lobbyLikes().add(restaurant);
+        lobby.restaurant_maps().replace(restaurant.id(),likeCount);
+
         return 0;
     }
 

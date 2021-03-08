@@ -1,26 +1,31 @@
 package edu.cooper.ece366.handler;
 
 import com.google.gson.Gson;
+import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.service.SwipingService;
-import edu.cooper.ece366.store.LobbyStore;
-import edu.cooper.ece366.store.UserStore;
+import edu.cooper.ece366.store.*;
 import edu.cooper.ece366.framework.User;
-import java.util.Optional;
+import edu.cooper.ece366.categories.Restaurant;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 import spark.Request;
-import spark.Response;
 
 public class Handler {
 
     private final UserStore userStore;
     private final LobbyStore lobbyStore;
+    private final RestaurantStore restaurantStore;
     private final SwipingService swipingService;
     private final Gson gson;
 
     public Handler(
-            UserStore userStore, LobbyStore lobbyStore, SwipingService swipingService, final Gson gson) {
+            UserStore userStore, LobbyStore lobbyStore, RestaurantStore restaurantStore, SwipingService swipingService, final Gson gson) {
         this.userStore = userStore;
         this.lobbyStore = lobbyStore;
+        this.restaurantStore = restaurantStore;
         this.swipingService = swipingService;
         this.gson = gson;
     }
@@ -33,32 +38,77 @@ public class Handler {
         return userStore.get(userID);
     }
 
-    /*
-    add this one lobby is done
-
-    public User getLobby(Request request) {
-        UUID lobbyID = UUID.fromString(request.params(":lobbyID"));
-        return userStore.get(lobbyID);
+    public Lobby getLobby(Request request) {
+        String lobbyID = request.params(":lobbyID");
+        return lobbyStore.get(lobbyID);
     }
-    */
 
     /*
-    public SwipingService like(Request req){
-        Restaurant restaurant = request.header("Restaurant");
-        UUID userID = UUID.fromString(request.params(":userID"));
-        User.get(userID).liked.append(restaurant)
-        return System.out.println("Added to liked list");
+    public List<Restaurant> getRestList(Request req){
+
+    return lobbyStore.generateRestList();
     }
      */
+/*
+    public Map<String, Integer> start(Request req){
 
-    /*
-    public SwipingService dislike(Request req){
-        Restaurant restaurant = request.header("Restaurant");
-        UUID userID = UUID.fromString(request.params(":userID"));
-        User.get(userID).dislike.append(restaurant)
-        return System.out.println("Added to dislike list");
+        UUID lobbyID = UUID.fromString(req.params(":lobbyID"));
+
+        return lobbyStore.initializeLobby(lobbyStore.generateRestList(), lobbyStore.get(lobbyID));
     }
-     */
+
+ */
+
+
+    public Restaurant result(Request req){
+
+        String lobbyID = req.params(":lobbyID");
+
+        Map<String, Integer> hashMap = LobbyStoreImpl.LOBBY_MAP.get(lobbyID).restaurant_maps();
+
+        return lobbyStore.getRecommendation(hashMap, restaurantStore);
+    }
+
+
+
+    public Integer like(Request req){
+        //HTTP POST /:userID/:lobbyID/:restID/like
+        //curl -s localhost:4567/user/1/feed
+        //curl -s localhost:number/user/:userID/lobby/:lobbyID/restaurant/:restID/like
+
+        String userID = req.params(":userID");
+        User user = userStore.get(userID);
+
+        String lobbyID = req.params(":lobbyID");
+        Lobby lobby = lobbyStore.get(lobbyID);
+
+        String restID = req.params(":restID");
+        Restaurant restaurant = restaurantStore.get(restID);
+
+        return swipingService.swipeLeft(user, restaurant, lobby);
+    }
+
+
+
+
+    public Integer dislike(Request req){
+
+        //HTTP POST /:userID/:lobbyID/:restID/dislike
+
+        String userID1 = req.params(":userID");
+        User user1 = userStore.get(userID1);
+
+        String lobbyID1 = req.params(":lobbyID");
+        Lobby lobby1 = lobbyStore.get(lobbyID1);
+
+        String restID1 = req.params(":restID");
+        Restaurant restaurant1 = restaurantStore.get(restID1);
+
+        return swipingService.swipeRight(user1, restaurant1, lobby1);
+    }
+
+
+
 
     /*
     when working on front end add the following:

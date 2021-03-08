@@ -12,14 +12,23 @@ import java.util.stream.Collectors;
 
 public class UserStoreImpl implements UserStore {
 
-    private static final Map<String, User> USER_MAP;
+    public static final Map<String, User> USER_MAP;
 
     static {
         USER_MAP =
                 List.of(
                         new UserBuilder()
-                        .ID(UUID.randomUUID().toString())
-                        .build()
+                                .ID("KollKid")
+                                .nickname("KollKid")
+                                .build(),
+                        new UserBuilder()
+                                .ID("Pablo")
+                                .nickname("Pablo")
+                                .build(),
+                        new UserBuilder()
+                                .ID("xXx_Sephiroth_xXx")
+                                .nickname("xXx_Sephiroth_xXx")
+                                .build()
                 ).stream()
                 .collect(Collectors.toMap(User::ID, Function.identity()));
     }

@@ -9,19 +9,15 @@ import static spark.Spark.staticFiles;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.handler.Handler;
-import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.framework.UserBuilder;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.LobbyStoreImpl;
+import edu.cooper.ece366.store.RestaurantStore;
+import edu.cooper.ece366.store.RestaurantStoreImpl;
 import edu.cooper.ece366.store.UserStoreImpl;
-import io.norberg.automatter.AutoMatter;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import spark.Request;
-import spark.Response;
 import spark.ResponseTransformer;
 
 
@@ -46,7 +42,7 @@ public class App
         initExceptionHandler(Throwable::printStackTrace);
 
         Handler handler = new Handler(
-                new UserStoreImpl(), new LobbyStoreImpl(), new SwipingServiceImpl(), gson);
+                new UserStoreImpl(), new LobbyStoreImpl(), new RestaurantStoreImpl() , new SwipingServiceImpl(), gson);
 
         options(
             "/*",
@@ -74,13 +70,15 @@ public class App
 
         get("/ping", (req, res) -> "OK");
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
-        //get("/user/:lobbyId/feed", (req, res) -> handler.getLobby(req), gson::toJson); once lobby is done
+        get("/user/:lobbyId/", (req, res) -> handler.getLobby(req), gson::toJson);
 
         //get("/me", (req, res) -> handler.me(req, res), gson::toJson);
 
+        //get("/:lobbyId/start", (req, res) -> handler.start(req), gson::toJson);
+        get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);
 
-        //post("/restaurant/:UserId/like", (req, res) -> handler.like(req), gson::toJson);
-        //post("/restaurant/:UserId/dislike", (req, res) -> handler.dislike(req), gson::toJson);
+        post("/:UserId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
+        post("/restaurant/:UserId/dislike", (req, res) -> handler.dislike(req), gson::toJson);
 
 
         //get("/cookie-example", App::cookieExample, responseTransformer);
@@ -88,6 +86,34 @@ public class App
 
         //post("/login", (req, res) -> handler.login(req, res), gson::toJson);
         //post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
+
+
+        /*
+        curl lobby/generateRestList
+        curl lobby/begin
+
+        users in the lobby
+        restaurants in the lobby
+
+        optional:
+        curl restaurant/getInfo
+
+        display first option
+        curl user1/rest1/like
+        curl user2/rest1/dislike
+        curl user3/rest1/like
+
+
+        curl user1/rest2/like
+        curl user2/rest2/dislike
+        curl user3/rest2/like
+
+        curl user1/rest3/like
+        curl user2/rest3/dislike
+        curl user3/rest3/like
+
+        curl lobby/getRecommendation
+     */
 
     }
 }

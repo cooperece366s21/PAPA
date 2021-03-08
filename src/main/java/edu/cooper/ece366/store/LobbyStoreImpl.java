@@ -4,69 +4,106 @@ package edu.cooper.ece366.store;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.framework.LobbyBuilder;
+import edu.cooper.ece366.store.RestaurantStoreImpl;
+import edu.cooper.ece366.store.UserStoreImpl;
 import edu.cooper.ece366.restaurantTest;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class LobbyStoreImpl implements LobbyStore {
 
+    public static final Map<String, Lobby> LOBBY_MAP;
+    static {
+        LOBBY_MAP =
+                List.of(
+                        new LobbyBuilder()
+                                .ID("code1")
+                                .code("code1")
+                                .addUser_list(UserStoreImpl.USER_MAP.get("KollKid"))
+                                .addUser_list(UserStoreImpl.USER_MAP.get("Pablo"))
+                                .addUser_list(UserStoreImpl.USER_MAP.get("xXx_Sephiroth_xXx"))
+                                .putRestaurant_map("panya-bakery-new-york", 0)
+                                .putRestaurant_map("mamoun's-halal-new-york", 0)
+                                .putRestaurant_map("smac's-american-new-york", 0)
+                                .build(),
+                        new LobbyBuilder()
+                                .ID("code2")
+                                .code("code2")
+                                .addUser_list(UserStoreImpl.USER_MAP.get("KollKid"))
+                                .addUser_list(UserStoreImpl.USER_MAP.get("Pablo"))
+                                .putRestaurant_map("panya-bakery-new-york", 0)
+                                .putRestaurant_map("mamoun's-halal-new-york", 0)
+                                .putRestaurant_map("smac's-american-new-york", 0)
+                                .build())
+                        .stream()
+                        .collect(Collectors.toMap(Lobby::ID, Function.identity()));
+    }
+
     @Override
-    public Lobby get(UUID id) {
-        return null;
+    public Lobby get(String id) {
+        return LOBBY_MAP.get(id);
     }
 
     @Override
     public String getCode(Lobby lobby) {
-        return null;
+
+        return lobby.code();
+    }
+
+    @Override
+    public List<User> getUsers(Lobby lobby) {
+        return lobby.user_lists();
     }
 
     @Override
     public List<Restaurant> getByLocation(Double miles) {
+
+        return null;
+    }
+
+    @Override
+    public List<Restaurant> generateRestList(){
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+
+        for (Map.Entry<String, Restaurant> entry : RestaurantStoreImpl.RESTAURANT_MAP.entrySet()){
+            restaurants.add(entry.getValue());
+        }
+
+        return restaurants;
+    }
+    /*
+    @Override
+    public Map<Restaurant, Integer> initializeLobby(List<Restaurant> restaurants, Lobby lobby) {
+        //ArrayList<Restaurant> restaurantsList;
+        //restaurants = RestaurantStoreImpl.RESTAURANT_MAP
+        //Restaurant recommendation = RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york")
+
+        for(Restaurant option: restaurants){
+            lobby.restaurant_maps().put(option, 0);
+        }
+        //return null;
+        return lobby.restaurant_maps();
+    }
+
+    */
+
+    @Override
+    public Restaurant getRecommendation(Map<String, Integer> restaurant_maps, RestaurantStore restaurantStore) {
+
+        Integer maxLikes = Collections.max(restaurant_maps.values());
+
+        for (Map.Entry<String, Integer> temp : restaurant_maps.entrySet()) {
+            if (temp.getValue().equals(maxLikes)) {
+
+                return restaurantStore.get(temp.getKey());
+            }
+        }
         return null;
     }
 
 
-
-    @Override
-    public Restaurant beginSearch(List<User> users, List<Restaurant> restaurants, Lobby lobby) {
-        //ArrayList<Restaurant> restaurantsList;
-
-        Restaurant recommendation = RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york");
-
-        for(Restaurant option:restaurants){
-            lobby.lobbyRestaurants().put(option, 0);
-            //.out.println(option);
-            //System.out.println("Swipe left or right");
-            //HTTP POST /restaurant/:id/like
-            //HTTP POST /restaurant/:id/dislike
-        }
-
-        return recommendation;
-    }
-
-
-// Put the hard coded info in here
-
-//    static {
-//        List<Content> content =
-//                List.of(
-//                        new MovieBuilder().genre(Genre.COMEDY).title("Ferris Bueller").rating(Rating.PG13).id("1").build(),
-//                        new MovieBuilder().genre(Genre.COMEDY).title("My Cousin Vinny").id("2").build(),
-//                        new MovieBuilder().genre(Genre.COMEDY).title("Pink Panther").id("3").build(),
-//                        new MovieBuilder().genre(Genre.HORROR).title("Scream").id("4").build(),
-//                        new MovieBuilder().genre(Genre.HORROR).title("Scream 2").id("5").build(),
-//                        new MovieBuilder().genre(Genre.HORROR).title("Scream 3").id("6").build(),
-//                        new MovieBuilder().genre(Genre.ACTION).title("Mission Impossible").id("7").build(),
-//                        new MovieBuilder().genre(Genre.ACTION).title("007").id("8").build(),
-//                        new MovieBuilder().genre(Genre.ACTION).title("Mad Max: Fury Road").id("9").build(),
-//                        new MovieBuilder()
-//                                .genre(Genre.MYSTERY)
-//                                .title("Scooby Doo: Escape from Island")
-//                                .id("10")
-//                                .build(),
-//                        new MovieBuilder().genre(Genre.MYSTERY).title("Wrath of Kahn").id("11").build(),
-//                        new MovieBuilder().genre(Genre.MYSTERY).title("Murder Mystery").id("12").build());
-//        contentMap = content.stream().collect(Collectors.toMap(Content::id, Function.identity()));
-//    }
 }
