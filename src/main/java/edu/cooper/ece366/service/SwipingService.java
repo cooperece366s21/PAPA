@@ -7,7 +7,7 @@ import edu.cooper.ece366.categories.Restaurant;
 public interface SwipingService {
 
 
-    public Integer swipeRight(User user, Restaurant restaurant, Lobby lobby);
-    public  Integer swipeLeft(User user, Restaurant restaurant, Lobby lobby);
+    public Integer like(User user, Restaurant restaurant, Lobby lobby);
+    public  Integer dislike(User user, Restaurant restaurant, Lobby lobby);
 
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class SwipingServiceImpl implements SwipingService {
 
     @Override
-    public Integer swipeLeft(User user, Restaurant restaurant, Lobby lobby){
+    public Integer dislike(User user, Restaurant restaurant, Lobby lobby){
 
         if(user.dislikes().contains(restaurant))
             user.dislikes().add(restaurant);
@@ -20,7 +20,7 @@ public class SwipingServiceImpl implements SwipingService {
     }
 
     @Override
-    public Integer swipeRight(User user, Restaurant restaurant, Lobby lobby){
+    public Integer like(User user, Restaurant restaurant, Lobby lobby){
         if(!user.likes().contains(restaurant))
             user.likes().add(restaurant);
 

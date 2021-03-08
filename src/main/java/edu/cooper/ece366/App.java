@@ -70,14 +70,14 @@ public class App
 
         get("/ping", (req, res) -> "OK");
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
-        get("/user/:lobbyId/", (req, res) -> handler.getLobby(req), gson::toJson);
+        get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
         //get("/me", (req, res) -> handler.me(req, res), gson::toJson);
 
         //get("/:lobbyId/start", (req, res) -> handler.start(req), gson::toJson);
         get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);
 
-        post("/:UserId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
+        post("/:userId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
         post("/restaurant/:UserId/dislike", (req, res) -> handler.dislike(req), gson::toJson);
 
 

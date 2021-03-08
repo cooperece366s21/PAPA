@@ -7,10 +7,8 @@ import edu.cooper.ece366.store.*;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.categories.Restaurant;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
-import java.util.UUID;
+
 import spark.Request;
 
 public class Handler {
@@ -85,7 +83,7 @@ public class Handler {
         String restID = req.params(":restID");
         Restaurant restaurant = restaurantStore.get(restID);
 
-        return swipingService.swipeLeft(user, restaurant, lobby);
+        return swipingService.like(user, restaurant, lobby);
     }
 
 
@@ -104,7 +102,7 @@ public class Handler {
         String restID1 = req.params(":restID");
         Restaurant restaurant1 = restaurantStore.get(restID1);
 
-        return swipingService.swipeRight(user1, restaurant1, lobby1);
+        return swipingService.dislike(user1, restaurant1, lobby1);
     }
 
 
