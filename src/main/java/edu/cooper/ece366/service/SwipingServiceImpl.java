@@ -26,8 +26,8 @@ public class SwipingServiceImpl implements SwipingService {
 
     @Override
     public Integer like(User user, Restaurant restaurant, Lobby lobby){
-        if(!user.likes().contains(restaurant)) {
-            User updatedUser = UserBuilder.from(user).addLike(restaurant).build();
+        if(!user.likaes().contains(restaurant)) {
+                User updatedUser = UserBuilder.from(user).addLike(resturant).build();
             userStore.update(updatedUser);
         }
 
