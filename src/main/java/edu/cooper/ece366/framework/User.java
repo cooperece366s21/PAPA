@@ -12,9 +12,5 @@ public interface User {
 
     String nickname();
 
-    List<Restaurant> likes();
-
-    List<Restaurant> dislikes();
-
 }
 
