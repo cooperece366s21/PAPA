@@ -23,7 +23,7 @@ public class UserStoreImpl implements UserStore {
                                 .nickname("KollKid")
                                 .addLike(RestaurantStoreImpl.RESTAURANT_MAP.get("smac's-american-new-york"))
                                 .addLike(RestaurantStoreImpl.RESTAURANT_MAP.get("mamoun's-halal-new-york"))
-                                .addDisLike(RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york"))
+                                .addDislike(RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york"))
                                 .build(),
                         new UserBuilder()
                                 .ID("Pablo")
@@ -36,8 +36,8 @@ public class UserStoreImpl implements UserStore {
                                 .ID("xXx_Sephiroth_xXx")
                                 .nickname("xXx_Sephiroth_xXx")
                                 .addLike(RestaurantStoreImpl.RESTAURANT_MAP.get("smac's-american-new-york"))
-                                .addDisLike(RestaurantStoreImpl.RESTAURANT_MAP.get("mamoun's-halal-new-york"))
-                                .addDisLike(RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york"))
+                                .addDislike(RestaurantStoreImpl.RESTAURANT_MAP.get("mamoun's-halal-new-york"))
+                                .addDislike(RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york"))
                                 .build()
                 ).stream()
                 .collect(Collectors.toMap(User::ID, Function.identity()));
