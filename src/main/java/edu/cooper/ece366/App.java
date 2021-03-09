@@ -70,6 +70,7 @@ public class App
         get("/ping", (req, res) -> "OK");
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
+        get("/restaurant/:restId", (req, res) -> handler.getRest(req), gson::toJson);
 
         //get("/me", (req, res) -> handler.me(req, res), gson::toJson);
 

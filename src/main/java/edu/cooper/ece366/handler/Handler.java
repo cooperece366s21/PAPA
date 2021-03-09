@@ -41,6 +41,11 @@ public class Handler {
         return lobbyStore.get(lobbyID);
     }
 
+    public Restaurant getRest(Request request) {
+        String restID = request.params(":restID");
+        return restaurantStore.get(restID);
+    }
+
     /*
     public List<Restaurant> getRestList(Request req){
 
