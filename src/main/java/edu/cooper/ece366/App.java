@@ -77,7 +77,7 @@ public class App
         get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);
 
         post("/:userId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
-        post("/restaurant/:UserId/dislike", (req, res) -> handler.dislike(req), gson::toJson);
+        post("/:userId/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);
 
 
         //get("/cookie-example", App::cookieExample, responseTransformer);
