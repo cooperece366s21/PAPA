@@ -11,10 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
-import edu.cooper.ece366.store.LobbyStoreImpl;
-import edu.cooper.ece366.store.RestaurantStoreImpl;
-import edu.cooper.ece366.store.UserStore;
-import edu.cooper.ece366.store.UserStoreImpl;
+import edu.cooper.ece366.store.*;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import spark.ResponseTransformer;
 
@@ -40,8 +37,12 @@ public class App
         initExceptionHandler(Throwable::printStackTrace);
 
       UserStore userStore = new UserStoreImpl();
+      ConnectStore connectStore = new ConnectStoreImpl();
+      LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
+      UserPreferences userPreferences = new UserPreferencesImpl();
       Handler handler = new Handler(
-          userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() , new SwipingServiceImpl(userStore), gson);
+          userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
+              new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), gson);
 
         options(
             "/*",

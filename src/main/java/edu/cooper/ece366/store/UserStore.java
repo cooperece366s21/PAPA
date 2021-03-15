@@ -7,4 +7,6 @@ public interface UserStore {
   User get(String id);
 
   void update(User user);
+
+  String getUserId(User user);
 }

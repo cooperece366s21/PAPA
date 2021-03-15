@@ -13,6 +13,9 @@ import spark.Request;
 
 public class Handler {
 
+//    private final ConnectStore connectStore;
+//    private final LobbyPreferences lobbyPreferences;
+//    private final UserPreferences userPreferences;
     private final UserStore userStore;
     private final LobbyStore lobbyStore;
     private final RestaurantStore restaurantStore;
@@ -20,7 +23,11 @@ public class Handler {
     private final Gson gson;
 
     public Handler(
+            //ConnectStore connectStore, LobbyPreferences lobbyPreferences, UserPreferences userPreferences,
             UserStore userStore, LobbyStore lobbyStore, RestaurantStore restaurantStore, SwipingService swipingService, final Gson gson) {
+//        this.connectStore = connectStore;
+//        this.lobbyPreferences = lobbyPreferences;
+//        this.userPreferences = userPreferences;
         this.userStore = userStore;
         this.lobbyStore = lobbyStore;
         this.restaurantStore = restaurantStore;
@@ -68,7 +75,6 @@ public class Handler {
     }
 
 
-
     public Integer like(Request req){
         //HTTP POST /:userID/:lobbyID/:restID/like
         //curl -s localhost:4567/user/1/feed
@@ -87,8 +93,6 @@ public class Handler {
     }
 
 
-
-
     public Integer dislike(Request req){
 
         //HTTP POST /:userID/:lobbyID/:restID/dislike
@@ -105,8 +109,22 @@ public class Handler {
         return swipingService.dislike(user1, restaurant1, lobby1);
     }
 
-
-
+//    public Map<String, UserPreferences> getConnectionMap(Request req){
+//
+//        String userID = req.params(":userID");
+//        User user = userStore.get(userID);
+//
+//        String lobbyID = req.params(":lobbyID");
+//        Lobby lobby = lobbyStore.get(lobbyID);
+//
+//        String restID = req.params(":restID");
+//        Restaurant restaurant = restaurantStore.get(restID);
+//
+//        String connectionKey = connectStore.getString(lobby, restaurant, user);
+//
+//        return connectStore.
+//
+//    }
 
     /*
     when working on front end add the following:

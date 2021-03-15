@@ -6,10 +6,26 @@ import java.util.List;
 import java.util.Map;
 
 public class UserPreferencesImpl implements UserPreferences {
-    public String ID(){
-        return USER_
-    }
-    public Map<String, Integer> likes();
 
-    public Map<String, Integer> dislikes();
+    @Override
+    public String getID(){
+        return null;
+    }
+
+    @Override
+    public Integer updatePreferences(String RestID, Enum preference){
+
+        preferences.replace(RestID, preference);
+
+        return 0;
+    }
+
+    @Override
+    public Integer putPreferences(String RestID, Enum preference){
+
+        preferences.put(RestID, preference);
+
+        return 0;
+    }
+
 }

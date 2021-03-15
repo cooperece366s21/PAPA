@@ -41,4 +41,9 @@ public class UserStoreImpl implements UserStore {
         USER_MAP.put(user.ID(), user);
     }
 
+    @Override
+    public String getUserId(User user){
+        return user.ID();
+    }
+
 }

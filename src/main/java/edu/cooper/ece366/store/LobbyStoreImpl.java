@@ -55,6 +55,12 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
+    public String getLobbyId(Lobby lobby) {
+
+        return lobby.ID();
+    }
+
+    @Override
     public List<User> getUsers(Lobby lobby) {
         return lobby.user_lists();
     }
@@ -105,5 +111,9 @@ public class LobbyStoreImpl implements LobbyStore {
         return null;
     }
 
+    @Override
+    Map<String, UserPreferences> getConnection(Lobby lobby){
+        return null;
+    }
 
 }

@@ -8,9 +8,12 @@ import java.util.Map;
 
 public interface UserPreferences {
 
-    public String ID();
-    public Map<String, Integer> likes();
+    public enum preference {dislike, like}
 
-    public Map<String, Integer> dislikes();
-//    public static Map<String, User> USER_MAP;
+    public String getID();
+    public Map<String, Enum> preferences = null;
+
+    public Integer updatePreferences(String RestID, Enum preference);
+
+    public Integer putPreferences(String RestID, Enum preference);
 }

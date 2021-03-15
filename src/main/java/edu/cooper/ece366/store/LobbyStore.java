@@ -14,6 +14,11 @@ public interface LobbyStore {
     Lobby get(String id);
     String getCode(Lobby lobby);
 
+    String getLobbyId(Lobby lobby);
+
+    Map<String, UserPreferences> getConnection(Lobby lobby);
+
+
     List<User> getUsers(Lobby lobby);
     // Function to get the list of Restaurants within a certain amount of miles
     List<Restaurant> getByLocation(Double miles);

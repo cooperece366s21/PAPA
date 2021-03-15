@@ -2,6 +2,7 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.categories.RestaurantBuilder;
+import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.model.Address;
 import edu.cooper.ece366.model.Cuisine;
@@ -99,5 +100,11 @@ public class RestaurantStoreImpl implements RestaurantStore{
     @Override
     public Restaurant get(final String id) {
         return RESTAURANT_MAP.get(id);
+    }
+
+    @Override
+    public String getRestId(Restaurant restaurant){
+
+        return restaurant.id();
     }
 }
