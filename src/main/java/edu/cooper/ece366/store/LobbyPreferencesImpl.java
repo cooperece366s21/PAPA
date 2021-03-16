@@ -27,7 +27,7 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
     public String parseRest(String string) {
         String[] parse = string.split(":");
 
-        return parse[0];
+        return parse[1];
     }
 
     @Override
@@ -46,7 +46,7 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
 
     @Override
     public Integer getNumOfLikes(String string){
-        Integer likeCount = (Integer) lobbyLikes.get(string);
+        Integer likeCount = lobbyLikes.get(string);
 
         return likeCount;
 

@@ -1,6 +1,7 @@
 package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.categories.Restaurant;
+import edu.cooper.ece366.framework.User;
 
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,14 @@ import java.util.Map;
 public class UserPreferencesImpl implements UserPreferences {
 
     @Override
-    public String getID(){
-        return null;
+    public String getUserID(User user){
+
+        return user.ID();
+    }
+
+    @Override
+    public String getRestID(Restaurant rest){
+        return rest.id();
     }
 
     @Override

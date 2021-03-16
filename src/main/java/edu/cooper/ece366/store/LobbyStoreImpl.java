@@ -112,7 +112,7 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    Map<String, UserPreferences> getConnection(Lobby lobby){
+    public Map<String, UserPreferences> getConnection(Lobby lobby){
         return null;
     }
 
