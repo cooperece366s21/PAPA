@@ -2,8 +2,13 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
+import edu.cooper.ece366.framework.User;
+
+import java.util.Map;
 
 public class LobbyPreferencesImpl implements LobbyPreferences {
+
+    public Map<String, Integer> lobbyLikes = null;
 
     @Override
     public String getString(Lobby lobby, Restaurant restaurant) {
@@ -50,6 +55,20 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
 
         return likeCount;
 
+    }
+
+    @Override
+    public Integer lobbyLike(Lobby lobby, Restaurant restaurant){
+        //update the lobby likes
+        String lobbyPreferenceKey = getString(lobby,restaurant);
+
+        //add to the like counter for the restaurant
+        Integer likeCount = getNumOfLikes(lobbyPreferenceKey);
+        likeCount++;
+
+        updateLobbyLikes(lobbyPreferenceKey, likeCount);
+
+        return 0;
     }
 
 }

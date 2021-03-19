@@ -20,9 +20,11 @@ public interface ConnectStore {
 
     public String parseUser(String string);
 
-    public Integer updateConnection(String key, UserPreferences userPreferences);
+    public Integer updateConnection(Lobby lobby, Restaurant restaurant, User user, UserPreferences userPreferences);
 
     public Integer putConnection(String key, UserPreferences userPreferences);
+
+
 
 
 }

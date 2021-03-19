@@ -8,8 +8,6 @@ import java.util.Map;
 
 public interface LobbyPreferences {
 
-    public Map<String, Integer> lobbyLikes = null;
-
     public String getString(Lobby lobby, Restaurant restaurant);
 
     public Integer getNumOfLikes(String string);
@@ -21,6 +19,9 @@ public interface LobbyPreferences {
     public Integer updateLobbyLikes(String key, Integer likes);
 
     public Integer putLobbyLikes(String key, Integer likes);
+
+    public Integer lobbyLike(Lobby lobby, Restaurant restaurant);
+
 
     //public Integer getRecommendation(Map<String, Integer> lobbyLikes);
 

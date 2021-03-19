@@ -43,8 +43,9 @@ public class ConnectStoreImpl implements ConnectStore {
     }
 
     @Override
-    public Integer updateConnection(String key, UserPreferences userPreferences){
+    public Integer updateConnection(Lobby lobby, Restaurant restaurant, User user, UserPreferences userPreferences){
 
+        String key = getString(lobby, restaurant, user);
         connection.replace(key, userPreferences);
         return 0;
     }

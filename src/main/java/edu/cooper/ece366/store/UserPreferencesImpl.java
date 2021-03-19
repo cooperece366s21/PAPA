@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class UserPreferencesImpl implements UserPreferences {
 
+    public Map<String, Enum> preferences = null;
+
     @Override
     public String getUserID(User user){
 

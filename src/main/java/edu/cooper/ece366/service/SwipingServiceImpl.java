@@ -24,16 +24,11 @@ public class SwipingServiceImpl implements SwipingService {
     @Override
     public Integer dislike(User user, Restaurant restaurant, Lobby lobby){
 
-        //get the connection key
-        String connectionKey = connectStore.getString(lobby,restaurant, user);
-
         //update the user preference
-        String restID = connectStore.parseRest(connectionKey);
-        userPreferences.updatePreferences(restID, UserPreferences.preference.dislike);
+        userPreferences.updatePreferences(restaurant.id(), UserPreferences.preference.dislike);
 
         //update the connection store
-        connectStore.updateConnection(connectionKey, userPreferences);
-
+        connectStore.updateConnection(lobby, restaurant, user, userPreferences);
 
         return 0;
     }
@@ -41,25 +36,15 @@ public class SwipingServiceImpl implements SwipingService {
     @Override
     public Integer like(User user, Restaurant restaurant, Lobby lobby){
 
-        //get the connection key
-        String connectionKey = connectStore.getString(lobby,restaurant, user);
 
         //update the user preference
-        String restID = connectStore.parseRest(connectionKey);
-        userPreferences.updatePreferences(restID, UserPreferences.preference.like);
+        userPreferences.updatePreferences(restaurant.id(), UserPreferences.preference.like);
 
         //update the connection store
-        connectStore.updateConnection(connectionKey, userPreferences);
-
+        connectStore.updateConnection(lobby, restaurant, user, userPreferences);
 
         //update the lobby likes
-        String lobbyPreferenceKey = lobbyPreferences.getString(lobby,restaurant);
-
-        //add to the like counter for the restaurant
-        Integer likeCount = lobbyPreferences.getNumOfLikes(lobbyPreferenceKey);
-        likeCount++;
-
-        lobbyPreferences.updateLobbyLikes(lobbyPreferenceKey, likeCount);
+        lobbyPreferences.lobbyLike(lobby, restaurant);
 
         return 0;
     }
