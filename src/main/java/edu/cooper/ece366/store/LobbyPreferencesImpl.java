@@ -6,12 +6,13 @@ import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.store.LobbyStore;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LobbyPreferencesImpl implements LobbyPreferences {
 
 
-    public Map<String, Integer> lobbyLikes = null;
+    public Map<String, Integer> lobbyLikes = new HashMap<>();
 
     @Override
     public String getString(Lobby lobby, Restaurant restaurant) {
@@ -39,19 +40,19 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
     }
 
     @Override
-    public Integer initLobbyLikes(LobbyStore lobbyStore, Lobby lobby){
+    public Map<String, Integer> initLobbyLikes(LobbyStore lobbyStore, Lobby lobby){
         lobbyLikes = lobbyStore.generateLobbyMap(lobby);
 
-        return 0;
+        return lobbyLikes;
     }
 
     @Override
-    public Integer updateLobbyLikes(Lobby lobby, Restaurant restaurant, Integer likes) {
+    public Map<String, Integer> updateLobbyLikes(Lobby lobby, Restaurant restaurant, Integer likes) {
 
         String key = getString(lobby, restaurant);
         lobbyLikes.put(key, likes);
 
-        return 0;
+        return lobbyLikes;
     }
 
 //    @Override

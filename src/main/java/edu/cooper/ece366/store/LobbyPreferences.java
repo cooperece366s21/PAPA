@@ -16,9 +16,9 @@ public interface LobbyPreferences {
 
     public String parseRest(String string);
 
-    public Integer initLobbyLikes(LobbyStore lobbyStore, Lobby lobby);
+    public Map<String, Integer> initLobbyLikes(LobbyStore lobbyStore, Lobby lobby);
 
-    public Integer updateLobbyLikes(Lobby lobby, Restaurant restaurant, Integer likes);
+    public Map<String, Integer> updateLobbyLikes(Lobby lobby, Restaurant restaurant, Integer likes);
 
     //public Integer putLobby(Lobby lobby, Restaurant restaurant);
 

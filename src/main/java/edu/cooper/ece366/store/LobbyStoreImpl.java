@@ -71,7 +71,7 @@ public class LobbyStoreImpl implements LobbyStore {
 
         List<String> restaurantList = lobby.restaurant_maps();
 
-        Map<String, Integer> lobbyMap = null;
+        Map<String, Integer> lobbyMap = new HashMap<>();
 
         for (String rest : restaurantList) {
             String key = lobby.ID() + ':' + rest;

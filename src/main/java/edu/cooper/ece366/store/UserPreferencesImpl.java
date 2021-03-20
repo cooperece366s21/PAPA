@@ -3,12 +3,13 @@ package edu.cooper.ece366.store;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserPreferencesImpl implements UserPreferences {
 
-    public Map<String, Enum> preferences = null;
+    public Map<String, Enum> preferences = new HashMap<>();
 
     @Override
     public String getUserID(User user){

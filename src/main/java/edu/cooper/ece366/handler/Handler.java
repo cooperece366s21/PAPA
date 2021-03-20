@@ -108,7 +108,7 @@ public class Handler {
         return swipingService.dislike(lobby1, restaurant1, user1);
     }
 
-    public Integer initLobbyMap(Request req){
+    public Map<String, Integer> initLobbyMap(Request req){
         String lobbyID = req.params(":lobbyID");
         Lobby lobby = lobbyStore.get(lobbyID);
 

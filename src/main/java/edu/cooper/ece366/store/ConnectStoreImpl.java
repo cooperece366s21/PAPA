@@ -4,12 +4,13 @@ import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ConnectStoreImpl implements ConnectStore {
     //might need to include @Override
 
-    public Map<String, UserPreferences> connection = null;
+    public Map<String, UserPreferences> connection = new HashMap<>();
 
     @Override
     public String getString(Lobby lobby, Restaurant restaurant, User user){
