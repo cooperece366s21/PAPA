@@ -23,21 +23,16 @@ public class LobbyStoreImpl implements LobbyStore {
                         new LobbyBuilder()
                                 .ID("code1")
                                 .code("code1")
-                                .addUser_list(UserStoreImpl.USER_MAP.get("KollKid"))
-                                .addUser_list(UserStoreImpl.USER_MAP.get("Pablo"))
-                                .addUser_list(UserStoreImpl.USER_MAP.get("xXx_Sephiroth_xXx"))
-                                .putRestaurant_map("panya-bakery-new-york", 0)
-                                .putRestaurant_map("mamoun's-halal-new-york", 0)
-                                .putRestaurant_map("smac's-american-new-york", 0)
+                                .addRestaurant_map("panya-bakery-new-york")
+                                .addRestaurant_map("mamoun's-halal-new-york")
+                                .addRestaurant_map("smac's-american-new-york")
                                 .build(),
                         new LobbyBuilder()
                                 .ID("code2")
                                 .code("code2")
-                                .addUser_list(UserStoreImpl.USER_MAP.get("KollKid"))
-                                .addUser_list(UserStoreImpl.USER_MAP.get("Pablo"))
-                                .putRestaurant_map("panya-bakery-new-york", 0)
-                                .putRestaurant_map("mamoun's-halal-new-york", 0)
-                                .putRestaurant_map("smac's-american-new-york", 0)
+                                .addRestaurant_map("panya-bakery-new-york")
+                                .addRestaurant_map("mamoun's-halal-new-york")
+                                .addRestaurant_map("smac's-american-new-york")
                                 .build())
                         .stream()
                         .collect(Collectors.toMap(Lobby::ID, Function.identity()));
@@ -55,15 +50,16 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
+    public List<String> getLobbyList(Lobby lobby){
+        return lobby.restaurant_maps();
+    }
+
+    @Override
     public String getLobbyId(Lobby lobby) {
 
         return lobby.ID();
     }
 
-    @Override
-    public List<User> getUsers(Lobby lobby) {
-        return lobby.user_lists();
-    }
 
     @Override
     public List<Restaurant> getByLocation(Double miles) {
@@ -71,16 +67,31 @@ public class LobbyStoreImpl implements LobbyStore {
         return null;
     }
 
-    @Override
-    public List<Restaurant> generateRestList(){
-        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+    public Map<String, Integer> generateLobbyMap(Lobby lobby){
 
-        for (Map.Entry<String, Restaurant> entry : RestaurantStoreImpl.RESTAURANT_MAP.entrySet()){
-            restaurants.add(entry.getValue());
+        List<String> restaurantList = lobby.restaurant_maps();
+
+        Map<String, Integer> lobbyMap = null;
+
+        for (String rest : restaurantList) {
+            String key = lobby.ID() + ':' + rest;
+            lobbyMap.put(key, 0);
         }
 
-        return restaurants;
+        return lobbyMap;
+
     }
+
+//    @Override
+//    public List<Restaurant> generateRestList(){
+//        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+//
+//        for (Map.Entry<String, Restaurant> entry : RestaurantStoreImpl.RESTAURANT_MAP.entrySet()){
+//            restaurants.add(entry.getValue());
+//        }
+//
+//        return restaurants;
+//    }
     /*
     @Override
     public Map<Restaurant, Integer> initializeLobby(List<Restaurant> restaurants, Lobby lobby) {
@@ -97,23 +108,19 @@ public class LobbyStoreImpl implements LobbyStore {
 
     */
 
-    @Override
-    public Restaurant getRecommendation(Map<String, Integer> restaurant_maps, RestaurantStore restaurantStore) {
+//    @Override
+//    public Restaurant getRecommendation(Map<String, Integer> restaurant_maps, RestaurantStore restaurantStore) {
+//
+//        Integer maxLikes = Collections.max(restaurant_maps.values());
+//
+//        for (Map.Entry<String, Integer> temp : restaurant_maps.entrySet()) {
+//            if (temp.getValue().equals(maxLikes)) {
+//
+//                return restaurantStore.get(temp.getKey());
+//            }
+//        }
+//        return null;
+//    }
 
-        Integer maxLikes = Collections.max(restaurant_maps.values());
-
-        for (Map.Entry<String, Integer> temp : restaurant_maps.entrySet()) {
-            if (temp.getValue().equals(maxLikes)) {
-
-                return restaurantStore.get(temp.getKey());
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Map<String, UserPreferences> getConnection(Lobby lobby){
-        return null;
-    }
 
 }

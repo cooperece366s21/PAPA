@@ -22,7 +22,7 @@ public class SwipingServiceImpl implements SwipingService {
     }
 
     @Override
-    public Integer dislike(User user, Restaurant restaurant, Lobby lobby){
+    public Integer dislike(Lobby lobby, Restaurant restaurant, User user){
 
         //update the user preference
         userPreferences.updatePreferences(restaurant.id(), UserPreferences.preference.dislike);
@@ -34,8 +34,7 @@ public class SwipingServiceImpl implements SwipingService {
     }
 
     @Override
-    public Integer like(User user, Restaurant restaurant, Lobby lobby){
-
+    public Integer like(Lobby lobby, Restaurant restaurant, User user){
 
         //update the user preference
         userPreferences.updatePreferences(restaurant.id(), UserPreferences.preference.like);

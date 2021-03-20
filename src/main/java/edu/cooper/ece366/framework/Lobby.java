@@ -14,8 +14,10 @@ public interface Lobby {
 
     String code();
 
-    List<User> user_lists();
+    //List<User> user_lists();
 
-    Map<String, Integer> restaurant_maps();    //contains all the likes from all the users
+    List<String> restaurant_maps(); //list of restaurants
+
+    //Map<String, Integer> restaurant_maps();    //contains all the likes from all the users
 
 }

@@ -13,7 +13,7 @@ public interface UserPreferences {
 
     public String getUserID(User user);
     public String getRestID(Restaurant rest);
-    public Map<String, Enum> preferences = null;
+    public Map<String, preference> preferences = null;
 
     public Integer updatePreferences(String RestID, Enum preference);
 

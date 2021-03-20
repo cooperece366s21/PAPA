@@ -9,6 +9,8 @@ import java.util.Map;
 public class ConnectStoreImpl implements ConnectStore {
     //might need to include @Override
 
+    public Map<String, UserPreferences> connection = null;
+
     @Override
     public String getString(Lobby lobby, Restaurant restaurant, User user){
         String lobbyID = lobby.ID();
@@ -21,26 +23,26 @@ public class ConnectStoreImpl implements ConnectStore {
 
     }
 
-    @Override
-    public String parseLobby(String string){
-        String[] parse = string.split(":");
-
-        return parse[0];
-    }
-
-    @Override
-    public String parseRest(String string){
-        String[] parse = string.split(":");
-
-        return parse[1];
-    }
-
-    @Override
-    public String parseUser(String string){
-        String[] parse = string.split(":");
-
-        return parse[2];
-    }
+//    @Override
+//    public String parseLobby(String string){
+//        String[] parse = string.split(":");
+//
+//        return parse[0];
+//    }
+//
+//    @Override
+//    public String parseRest(String string){
+//        String[] parse = string.split(":");
+//
+//        return parse[1];
+//    }
+//
+//    @Override
+//    public String parseUser(String string){
+//        String[] parse = string.split(":");
+//
+//        return parse[2];
+//    }
 
     @Override
     public Integer updateConnection(Lobby lobby, Restaurant restaurant, User user, UserPreferences userPreferences){

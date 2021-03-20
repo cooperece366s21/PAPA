@@ -13,6 +13,7 @@ import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
+import spark.Request;
 import spark.ResponseTransformer;
 
 
@@ -40,8 +41,8 @@ public class App
       ConnectStore connectStore = new ConnectStoreImpl();
       LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
       UserPreferences userPreferences = new UserPreferencesImpl();
-      Handler handler = new Handler(
-          userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
+      Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
+              userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
               new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), gson);
 
         options(
@@ -72,10 +73,10 @@ public class App
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
-        //get("/me", (req, res) -> handler.me(req, res), gson::toJson);
+        get("/getConnectionMap", (req, res) -> handler.getConnectionMap(), gson::toJson);
 
-        //get("/:lobbyId/start", (req, res) -> handler.start(req), gson::toJson);
-        get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);
+        get("/:lobbyId/init", (req, res) -> handler.initLobbyMap(req), gson::toJson);
+        //get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);
 
         post("/:userId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
         post("/:userId/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);

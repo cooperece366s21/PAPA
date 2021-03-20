@@ -16,21 +16,17 @@ public interface LobbyStore {
 
     String getLobbyId(Lobby lobby);
 
-    Map<String, UserPreferences> getConnection(Lobby lobby);
+    public List<String> getLobbyList(Lobby lobby);
 
-
-    List<User> getUsers(Lobby lobby);
     // Function to get the list of Restaurants within a certain amount of miles
     List<Restaurant> getByLocation(Double miles);
-    //List<Restaurant> like
 
-//    List<Content> getByRating(Rating rating);
+    //    List<Content> getByRating(Rating rating);
 
-
-    public List<Restaurant> generateRestList();
+    public Map<String, Integer> generateLobbyMap(Lobby lobby);
 
     //public Map<Restaurant, Integer> initializeLobby(List<Restaurant> restaurants, Lobby lobby);
 
-    public Restaurant getRecommendation(Map<String, Integer> restaurants_maps, RestaurantStore restaurantStore);
+    //public Restaurant getRecommendation(Map<String, Integer> restaurants_maps, RestaurantStore restaurantStore);
 
 }

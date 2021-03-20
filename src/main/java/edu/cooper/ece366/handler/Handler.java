@@ -13,9 +13,9 @@ import spark.Request;
 
 public class Handler {
 
-//    private final ConnectStore connectStore;
-//    private final LobbyPreferences lobbyPreferences;
-//    private final UserPreferences userPreferences;
+    private final ConnectStore connectStore;
+    private final LobbyPreferences lobbyPreferences;
+    private final UserPreferences userPreferences;
     private final UserStore userStore;
     private final LobbyStore lobbyStore;
     private final RestaurantStore restaurantStore;
@@ -23,11 +23,11 @@ public class Handler {
     private final Gson gson;
 
     public Handler(
-            //ConnectStore connectStore, LobbyPreferences lobbyPreferences, UserPreferences userPreferences,
+            ConnectStore connectStore, LobbyPreferences lobbyPreferences, UserPreferences userPreferences,
             UserStore userStore, LobbyStore lobbyStore, RestaurantStore restaurantStore, SwipingService swipingService, final Gson gson) {
-//        this.connectStore = connectStore;
-//        this.lobbyPreferences = lobbyPreferences;
-//        this.userPreferences = userPreferences;
+        this.connectStore = connectStore;
+        this.lobbyPreferences = lobbyPreferences;
+        this.userPreferences = userPreferences;
         this.userStore = userStore;
         this.lobbyStore = lobbyStore;
         this.restaurantStore = restaurantStore;
@@ -68,10 +68,9 @@ public class Handler {
     public Restaurant result(Request req){
 
         String lobbyID = req.params(":lobbyID");
+        Lobby lobby = lobbyStore.get(lobbyID);
 
-        Map<String, Integer> hashMap = LobbyStoreImpl.LOBBY_MAP.get(lobbyID).restaurant_maps();
-
-        return lobbyStore.getRecommendation(hashMap, restaurantStore);
+        return lobbyPreferences.getRecommendation(lobby, restaurantStore);
     }
 
 
@@ -89,7 +88,7 @@ public class Handler {
         String restID = req.params(":restID");
         Restaurant restaurant = restaurantStore.get(restID);
 
-        return swipingService.like(user, restaurant, lobby);
+        return swipingService.like(lobby, restaurant, user);
     }
 
 
@@ -106,25 +105,22 @@ public class Handler {
         String restID1 = req.params(":restID");
         Restaurant restaurant1 = restaurantStore.get(restID1);
 
-        return swipingService.dislike(user1, restaurant1, lobby1);
+        return swipingService.dislike(lobby1, restaurant1, user1);
     }
 
-//    public Map<String, UserPreferences> getConnectionMap(Request req){
-//
-//        String userID = req.params(":userID");
-//        User user = userStore.get(userID);
-//
-//        String lobbyID = req.params(":lobbyID");
-//        Lobby lobby = lobbyStore.get(lobbyID);
-//
-//        String restID = req.params(":restID");
-//        Restaurant restaurant = restaurantStore.get(restID);
-//
-//        String connectionKey = connectStore.getString(lobby, restaurant, user);
-//
-//        return connectStore.
-//
-//    }
+    public Integer initLobbyMap(Request req){
+        String lobbyID = req.params(":lobbyID");
+        Lobby lobby = lobbyStore.get(lobbyID);
+
+
+        return lobbyPreferences.initLobbyLikes(lobbyStore, lobby);
+    }
+
+    public Map<String, UserPreferences> getConnectionMap(){
+
+        return connectStore.getConnectionMap();
+
+    }
 
     /*
     when working on front end add the following:

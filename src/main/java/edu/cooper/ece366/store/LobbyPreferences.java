@@ -10,19 +10,28 @@ public interface LobbyPreferences {
 
     public String getString(Lobby lobby, Restaurant restaurant);
 
-    public Integer getNumOfLikes(String string);
+    public Integer getNumOfLikes(Lobby lobby, Restaurant restaurant);
 
     public String parseLobby(String string);
 
     public String parseRest(String string);
 
-    public Integer updateLobbyLikes(String key, Integer likes);
+    public Integer initLobbyLikes(LobbyStore lobbyStore, Lobby lobby);
 
-    public Integer putLobbyLikes(String key, Integer likes);
+    public Integer updateLobbyLikes(Lobby lobby, Restaurant restaurant, Integer likes);
+
+    //public Integer putLobby(Lobby lobby, Restaurant restaurant);
 
     public Integer lobbyLike(Lobby lobby, Restaurant restaurant);
 
+//    public Map<String, Integer> getLobbyMap(String lobbyId);
 
     //public Integer getRecommendation(Map<String, Integer> lobbyLikes);
+
+//    public Restaurant getRecommendation(Map<String, Integer> restaurant_maps, RestaurantStore restaurantStore);
+
+    public Restaurant getRecommendation(Lobby lobby, RestaurantStore restaurantStore);
+
+    //public Map<String, Integer> getLobbyMap(Lobby lobby);
 
 }
