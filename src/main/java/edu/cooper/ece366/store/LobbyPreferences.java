@@ -12,6 +12,8 @@ public interface LobbyPreferences {
 
     public Integer getNumOfLikes(Lobby lobby, Restaurant restaurant);
 
+    public Map<String, Integer> returnLobbyLikes();
+
     public String parseLobby(String string);
 
     public String parseRest(String string);
@@ -22,7 +24,8 @@ public interface LobbyPreferences {
 
     //public Integer putLobby(Lobby lobby, Restaurant restaurant);
 
-    public Integer lobbyLike(Lobby lobby, Restaurant restaurant);
+    public Map<String, Integer> lobbyLike(Lobby lobby, Restaurant restaurant);
+
 
 //    public Map<String, Integer> getLobbyMap(String lobbyId);
 

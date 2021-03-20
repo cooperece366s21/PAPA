@@ -73,15 +73,13 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
     }
 
     @Override
-    public Integer lobbyLike(Lobby lobby, Restaurant restaurant){
+    public Map<String, Integer> lobbyLike(Lobby lobby, Restaurant restaurant){
 
         //add to the like counter for the restaurant
         Integer likeCount = getNumOfLikes(lobby, restaurant);
         likeCount++;
 
-        updateLobbyLikes(lobby, restaurant, likeCount);
-
-        return 0;
+        return updateLobbyLikes(lobby, restaurant, likeCount);
     }
 
     @Override
@@ -99,6 +97,10 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
             }
         }
         return null;
+    }
+
+    public Map<String, Integer> returnLobbyLikes(){
+        return lobbyLikes;
     }
 
 //    @Override

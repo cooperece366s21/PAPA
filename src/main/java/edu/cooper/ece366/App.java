@@ -74,6 +74,7 @@ public class App
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
         get("/getConnectionMap", (req, res) -> handler.getConnectionMap(), gson::toJson);
+        get("/getLobbyLikes", (req, res) -> handler.getLobbyMap(), gson::toJson);
 
         get("/:lobbyId/init", (req, res) -> handler.initLobbyMap(req), gson::toJson);
         //get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);

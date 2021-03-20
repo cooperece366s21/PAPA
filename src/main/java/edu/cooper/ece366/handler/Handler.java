@@ -116,6 +116,12 @@ public class Handler {
         return lobbyPreferences.initLobbyLikes(lobbyStore, lobby);
     }
 
+    public Map<String, Integer> getLobbyMap(){
+
+        return lobbyPreferences.returnLobbyLikes();
+
+    }
+
     public Map<String, UserPreferences> getConnectionMap(){
 
         return connectStore.getConnectionMap();
