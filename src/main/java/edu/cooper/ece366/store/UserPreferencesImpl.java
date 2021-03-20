@@ -25,7 +25,7 @@ public class UserPreferencesImpl implements UserPreferences {
     @Override
     public Integer updatePreferences(String RestID, Enum preference){
 
-        preferences.replace(RestID, preference);
+        preferences.put(RestID, preference);
 
         return 0;
     }

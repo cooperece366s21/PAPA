@@ -35,6 +35,6 @@ public interface LobbyPreferences {
 
     public Restaurant getRecommendation(Lobby lobby, RestaurantStore restaurantStore);
 
-    //public Map<String, Integer> getLobbyMap(Lobby lobby);
+    public Map<String, Integer> getLobbyMap(Lobby lobby);
 
 }
