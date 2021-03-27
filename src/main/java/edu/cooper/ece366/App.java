@@ -10,12 +10,17 @@ import static spark.Spark.staticFiles;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cooper.ece366.auth.AuthStoreImpl;
+import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
+import io.norberg.automatter.AutoMatter;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import spark.Request;
 import spark.ResponseTransformer;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 
 public class App 
@@ -72,6 +77,8 @@ public class App
 
         get("/ping", (req, res) -> "OK");
         get("/me", (req, res) -> handler.me(req, res), gson::toJson);
+        get("/cookie-example", App::cookieExample, responseTransformer);
+        get("/header-example", App::headerExample, responseTransformer);
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
@@ -94,52 +101,50 @@ public class App
         post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
 
 
-        /*
-        COOKIE STUFF IDK IF WE NEED THIS RN
 
         private static HeaderExample headerExample(final Request request, final Response response) {
-    String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
-    response.header("current-time", "now");
-    response.header("my-app-header", "yeet");
-    return new HeaderExampleBuilder().build();
-  }
+            String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
+            response.header("current-time", "now");
+            response.header("my-app-header", "yeet");
+            return new HeaderExampleBuilder().build();
+        }
+        
+        @AutoMatter
+        interface CookieExample {
+            String requestCookie();
 
-  @AutoMatter
-  interface CookieExample {
-    String requestCookie();
+            String responseCookie();
+        }
 
-    String responseCookie();
-  }
+        @AutoMatter
+        interface HeaderExample {
+            Optional<String> request();
 
-  @AutoMatter
-  interface HeaderExample {
-    Optional<String> request();
+            Optional<String> response();
+        }
 
-    Optional<String> response();
-  }
+        private static final Map<String, User> cookieMap = new HashMap<>();
 
-  private static final Map<String, User> cookieMap = new HashMap<>();
+        static { 
+            cookieMap.put("decafbad", new UserBuilder().ID("Pablo").nickname("Pablo").build());
+        }
 
-  static {
-    cookieMap.put("decafbad", new UserBuilder().id("1").name("ethan").build());
-  }
+          // "me" endpoint
+          private static User cookieExample(final Request request, final Response response) {
+            String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
 
-  // "me" endpoint
-  private static User cookieExample(final Request request, final Response response) {
-    String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
+            User user = cookieMap.get(msg);
+            if (user == null) {
+              response.status(401);
+              return null;
+            }
 
-    User user = cookieMap.get(msg);
-    if (user == null) {
-      response.status(401);
-      return null;
-    }
+            //    response.cookie("server-msg", "yeet");
 
-    //    response.cookie("server-msg", "yeet");
+            //    return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
+            return user;
+          }
 
-    //    return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
-    return user;
-  }
-     */
 
     }
 }
