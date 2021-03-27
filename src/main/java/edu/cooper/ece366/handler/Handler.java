@@ -1,6 +1,8 @@
 package edu.cooper.ece366.handler;
 
 import com.google.gson.Gson;
+import edu.cooper.ece366.auth.Auth;
+import edu.cooper.ece366.auth.AuthStore;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.service.SwipingService;
 import edu.cooper.ece366.store.*;
@@ -8,8 +10,10 @@ import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.categories.Restaurant;
 
 import java.util.Map;
+import java.util.Optional;
 
 import spark.Request;
+import spark.Response;
 
 public class Handler {
 
@@ -20,11 +24,13 @@ public class Handler {
     private final LobbyStore lobbyStore;
     private final RestaurantStore restaurantStore;
     private final SwipingService swipingService;
+    private final AuthStore authStore;
     private final Gson gson;
 
     public Handler(
             ConnectStore connectStore, LobbyPreferences lobbyPreferences, UserPreferences userPreferences,
-            UserStore userStore, LobbyStore lobbyStore, RestaurantStore restaurantStore, SwipingService swipingService, final Gson gson) {
+            UserStore userStore, LobbyStore lobbyStore, RestaurantStore restaurantStore, SwipingService swipingService,
+            final AuthStore authStore, final Gson gson) {
         this.connectStore = connectStore;
         this.lobbyPreferences = lobbyPreferences;
         this.userPreferences = userPreferences;
@@ -32,6 +38,7 @@ public class Handler {
         this.lobbyStore = lobbyStore;
         this.restaurantStore = restaurantStore;
         this.swipingService = swipingService;
+        this.authStore = authStore;
         this.gson = gson;
     }
 
@@ -64,7 +71,6 @@ public class Handler {
 
  */
 
-
     public Restaurant result(Request req){
 
         String lobbyID = req.params(":lobbyID");
@@ -72,7 +78,6 @@ public class Handler {
 
         return lobbyPreferences.getRecommendation(lobby, restaurantStore);
     }
-
 
     public Integer like(Request req){
         //HTTP POST /:userID/:lobbyID/:restID/like
@@ -126,6 +131,44 @@ public class Handler {
 
         return connectStore.getConnectionMap();
 
+    }
+
+    public User login(final Request request, final Response response) {
+        Auth auth = gson.fromJson(request.body(), Auth.class);
+        User user = userStore.get(auth.username());
+        if ("password".equals(auth.password())) {
+            // authorized
+            String token = authStore.setUser(user);
+            response.header("papauser", token);
+            response.status(200);
+            return user;
+        }
+        // unauthorized
+        response.status(401);
+
+        return null;
+    }
+
+    public Object logout(final Request req, final Response res) {
+        authStore.invalidate(req.headers("papauser"));
+        res.status(200);
+
+        return null;
+    }
+
+    public User me(final Request req, final Response res) {
+        String token = req.headers("papauser");
+        if (token == null) {
+            res.status(401);
+            return null;
+        }
+        Optional<User> user = authStore.getUser(token);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            res.status(401);
+            return null;
+        }
     }
 
     /*

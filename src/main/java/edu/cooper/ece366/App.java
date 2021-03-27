@@ -9,6 +9,7 @@ import static spark.Spark.staticFiles;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import edu.cooper.ece366.auth.AuthStoreImpl;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
@@ -43,7 +44,7 @@ public class App
       UserPreferences userPreferences = new UserPreferencesImpl();
       Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
               userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
-              new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), gson);
+              new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthStoreImpl(), gson);
 
         options(
             "/*",
@@ -70,6 +71,7 @@ public class App
             });
 
         get("/ping", (req, res) -> "OK");
+        get("/me", (req, res) -> handler.me(req, res), gson::toJson);
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
@@ -86,35 +88,56 @@ public class App
         //get("/cookie-example", App::cookieExample, responseTransformer);
         //get("/header-example", App::headerExample, responseTransformer);
 
-        //post("/login", (req, res) -> handler.login(req, res), gson::toJson);
-        //post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
+
+        post("/login", (req, res) -> handler.login(req, res), gson::toJson);
+        post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
 
 
         /*
-        curl lobby/generateRestList
-        curl lobby/begin
+        COOKIE STUFF IDK IF WE NEED THIS RN
 
-        users in the lobby
-        restaurants in the lobby
+        private static HeaderExample headerExample(final Request request, final Response response) {
+    String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
+    response.header("current-time", "now");
+    response.header("my-app-header", "yeet");
+    return new HeaderExampleBuilder().build();
+  }
 
-        optional:
-        curl restaurant/getInfo
+  @AutoMatter
+  interface CookieExample {
+    String requestCookie();
 
-        display first option
-        curl user1/rest1/like
-        curl user2/rest1/dislike
-        curl user3/rest1/like
+    String responseCookie();
+  }
 
+  @AutoMatter
+  interface HeaderExample {
+    Optional<String> request();
 
-        curl user1/rest2/like
-        curl user2/rest2/dislike
-        curl user3/rest2/like
+    Optional<String> response();
+  }
 
-        curl user1/rest3/like
-        curl user2/rest3/dislike
-        curl user3/rest3/like
+  private static final Map<String, User> cookieMap = new HashMap<>();
 
-        curl lobby/getRecommendation
+  static {
+    cookieMap.put("decafbad", new UserBuilder().id("1").name("ethan").build());
+  }
+
+  // "me" endpoint
+  private static User cookieExample(final Request request, final Response response) {
+    String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
+
+    User user = cookieMap.get(msg);
+    if (user == null) {
+      response.status(401);
+      return null;
+    }
+
+    //    response.cookie("server-msg", "yeet");
+
+    //    return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
+    return user;
+  }
      */
 
     }
