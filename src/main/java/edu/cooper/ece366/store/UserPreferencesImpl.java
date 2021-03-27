@@ -38,4 +38,7 @@ public class UserPreferencesImpl implements UserPreferences {
         return 0;
     }
 
+    @Override
+    public Map<String, Enum> getPreferencesMap(){ return preferences; }
+
 }

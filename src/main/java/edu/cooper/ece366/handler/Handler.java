@@ -133,6 +133,12 @@ public class Handler {
 
     }
 
+    public Map<String, Enum> getPreferenceMap(){
+
+        return userPreferences.getPreferencesMap();
+
+    }
+
     public User login(final Request request, final Response response) {
         Auth auth = gson.fromJson(request.body(), Auth.class);
         User user = userStore.get(auth.username());

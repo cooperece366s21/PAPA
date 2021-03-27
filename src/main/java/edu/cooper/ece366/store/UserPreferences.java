@@ -18,4 +18,6 @@ public interface UserPreferences {
     public Integer updatePreferences(String RestID, Enum preference);
 
     public Integer putPreferences(String RestID, Enum preference);
+
+    public Map<String, Enum> getPreferencesMap();
 }
