@@ -11,16 +11,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cooper.ece366.auth.AuthStoreImpl;
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.framework.UserBuilder;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
 import io.norberg.automatter.AutoMatter;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import spark.Request;
+import spark.Response;
 import spark.ResponseTransformer;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Map;
 
 
 public class App 
@@ -77,8 +80,8 @@ public class App
 
         get("/ping", (req, res) -> "OK");
         get("/me", (req, res) -> handler.me(req, res), gson::toJson);
-        get("/cookie-example", App::cookieExample, responseTransformer);
-        get("/header-example", App::headerExample, responseTransformer);
+        //get("/cookie-example", App::cookieExample, responseTransformer);
+        //get("/header-example", App::headerExample, responseTransformer);
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
@@ -102,48 +105,48 @@ public class App
 
 
 
-        private static HeaderExample headerExample(final Request request, final Response response) {
-            String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
-            response.header("current-time", "now");
-            response.header("my-app-header", "yeet");
-            return new HeaderExampleBuilder().build();
-        }
+//        private static HeaderExample headerExample(final Request request, final Response response) {
+//            String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
+//            response.header("current-time", "now");
+//            response.header("my-app-header", "yeet");
+//            return new HeaderExampleBuilder().build();
+//        }
         
-        @AutoMatter
-        interface CookieExample {
-            String requestCookie();
+//        @AutoMatter
+//        interface CookieExample {
+//            String requestCookie();
+//
+//            String responseCookie();
+//        }
 
-            String responseCookie();
-        }
+//        @AutoMatter
+//        interface HeaderExample {
+//            Optional<String> request();
+//
+//            Optional<String> response();
+//        }
 
-        @AutoMatter
-        interface HeaderExample {
-            Optional<String> request();
-
-            Optional<String> response();
-        }
-
-        private static final Map<String, User> cookieMap = new HashMap<>();
-
-        static { 
-            cookieMap.put("decafbad", new UserBuilder().ID("Pablo").nickname("Pablo").build());
-        }
-
-          // "me" endpoint
-          private static User cookieExample(final Request request, final Response response) {
-            String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
-
-            User user = cookieMap.get(msg);
-            if (user == null) {
-              response.status(401);
-              return null;
-            }
-
-            //    response.cookie("server-msg", "yeet");
-
-            //    return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
-            return user;
-          }
+//        private static final Map<String, User> cookieMap = new HashMap<>();
+//
+//        static {
+//            cookieMap.put("decafbad", new UserBuilder().ID("Pablo").nickname("Pablo").build());
+//        }
+//
+//        // "me" endpoint
+//        private static User cookieExample(final Request request, final Response response) {
+//            String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
+//
+//            User user = cookieMap.get(msg);
+//            if (user == null) {
+//              response.status(401);
+//              return null;
+//            }
+//
+//            //    response.cookie("server-msg", "yeet");
+//
+//            //    return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
+//            return user;
+//          }
 
 
     }
