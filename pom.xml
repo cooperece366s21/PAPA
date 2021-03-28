@@ -77,11 +77,6 @@
       <artifactId>auto-matter-gson</artifactId>
       <version>0.13.3</version>
     </dependency>
-    <dependency>
-      <groupId>com.github.scribejava</groupId>
-      <artifactId>scribejava-apis</artifactId>
-      <version>4.0.0</version>
-    </dependency>
 
     <dependency>
       <groupId>com.googlecode.json-simple</groupId>
@@ -112,6 +107,21 @@
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>13.0</version>
+    </dependency>
+
+    <!-- Pull in as a traditional dependency -->
+    <dependency>
+      <groupId>com.konghq</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>3.11.09</version>
+    </dependency>
+
+    <!-- OR as a snazzy new standalone jar with shaded dependencies -->
+    <dependency>
+      <groupId>com.konghq</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>3.11.09</version>
+      <classifier>standalone</classifier>
     </dependency>
   </dependencies>
 
