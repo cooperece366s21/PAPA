@@ -18,7 +18,7 @@ public class UserStoreMySQL implements UserStore {
     // for testing purposes
     @Override
     public User get(String id) {
-        return null;
+        return null; //jdbi.withHandle(handle -> handle.attach(UserDao.class).getUser(id));
     }
 
     @Override

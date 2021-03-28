@@ -7,20 +7,76 @@ What we want to add:
  */
 package edu.cooper.ece366;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.*;
+import static spark.Spark.before;
+import static spark.Spark.get;
+import static spark.Spark.initExceptionHandler;
+import static spark.Spark.options;
+import static spark.Spark.post;
+import static spark.Spark.staticFiles;
 
-import edu.cooper.ece366.categories.Restaurant;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import edu.cooper.ece366.auth.AuthStoreImpl;
 import edu.cooper.ece366.framework.User;
-import edu.cooper.ece366.framework.Lobby;
+import edu.cooper.ece366.handler.Handler;
+import edu.cooper.ece366.service.SwipingServiceImpl;
+import edu.cooper.ece366.store.*;
+import io.norberg.automatter.AutoMatter;
+import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
+import org.jdbi.v3.core.Jdbi;
+import spark.Request;
+import spark.ResponseTransformer;
+
+import java.util.HashMap;
+import java.util.Optional;
+
 
 public class main
 {
     public static void main( String[] args )
     {
+//        UserStore userStore = new UserStoreImpl();
+        //    UserStore userStore = new UserStoreImpl();
+//        String jdbcUrl = "jdbc:mysql://localhost:3306/coopflix?serverTimezone=UTC";
+        // jdbi is the "database client," which all re-implemented stores should accept as a dependency
+//        Jdbi jdbi = CoopflixJdbi.create(jdbcUrl);
+
+//        UserStore userStore = new UserStoreMySQL(jdbi.create("jdbc:mysql://localhost:3306/PAPA"));
+                //    UserStore userStore = new UserStoreImpl();
+//                String jdbcUrl = "jdbc:mysql://localhost:3306/coopflix?serverTimezone=UTC";
+        // jdbi is the "database client," which all re-implemented stores should accept as a dependency
+//        Jdbi jdbi = CoopflixJdbi.create(jdbcUrl);
+
+//        UserStore userStore = new UserStoreMysql(jdbi);
+//        ContentStore contentStore = new ContentStoreImpl();));
+//        ContentStore contentStore = new ContentStoreImpl();
+
+        staticFiles.location("/public"); // Static files
+
+        Gson gson =
+                new GsonBuilder().registerTypeAdapterFactory(new AutoMatterTypeAdapterFactory()).create();
+
+        ResponseTransformer responseTransformer =
+                model -> {
+                    if (model == null){
+                        return "";
+                    }
+                    return gson.toJson(model);
+                };
+
+        initExceptionHandler(Throwable::printStackTrace);
+
+//        UserStore userStore = new UserStoreImpl();
+        ConnectStore connectStore = new ConnectStoreImpl();
+        LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
+        UserPreferences userPreferences = new UserPreferencesImpl();
+        UserStore userStore = new UserStoreMySQL(Jdbi.create("jdbc:mysql://localhost:3306/PAPA"));
+        Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
+                userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
+                new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthStoreImpl(), gson);
+
+
+
         /*
         //generate the user
         User user1 = new User();
