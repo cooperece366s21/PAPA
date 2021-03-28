@@ -46,11 +46,11 @@ public class App
 
         initExceptionHandler(Throwable::printStackTrace);
 
-      UserStore userStore = new UserStoreImpl();
-      ConnectStore connectStore = new ConnectStoreImpl();
-      LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
-      UserPreferences userPreferences = new UserPreferencesImpl();
-      Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
+        UserStore userStore = new UserStoreImpl();
+        ConnectStore connectStore = new ConnectStoreImpl();
+        LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
+        UserPreferences userPreferences = new UserPreferencesImpl();
+        Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
               userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
               new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthStoreImpl(), gson);
 
@@ -80,8 +80,9 @@ public class App
 
         get("/ping", (req, res) -> "OK");
         get("/me", (req, res) -> handler.me(req, res), gson::toJson);
-        //get("/cookie-example", App::cookieExample, responseTransformer);
-        //get("/header-example", App::headerExample, responseTransformer);
+
+        get("/cookie-example", App::cookieExample, responseTransformer);
+        get("/header-example", App::headerExample, responseTransformer);
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
 
@@ -95,59 +96,55 @@ public class App
         post("/:userId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
         post("/:userId/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);
 
-
-        //get("/cookie-example", App::cookieExample, responseTransformer);
-        //get("/header-example", App::headerExample, responseTransformer);
-
-
         post("/login", (req, res) -> handler.login(req, res), gson::toJson);
         post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
-
-
-
-//        private static HeaderExample headerExample(final Request request, final Response response) {
-//            String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
-//            response.header("current-time", "now");
-//            response.header("my-app-header", "yeet");
-//            return new HeaderExampleBuilder().build();
-//        }
-        
-//        @AutoMatter
-//        interface CookieExample {
-//            String requestCookie();
-//
-//            String responseCookie();
-//        }
-
-//        @AutoMatter
-//        interface HeaderExample {
-//            Optional<String> request();
-//
-//            Optional<String> response();
-//        }
-
-//        private static final Map<String, User> cookieMap = new HashMap<>();
-//
-//        static {
-//            cookieMap.put("decafbad", new UserBuilder().ID("Pablo").nickname("Pablo").build());
-//        }
-//
-//        // "me" endpoint
-//        private static User cookieExample(final Request request, final Response response) {
-//            String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
-//
-//            User user = cookieMap.get(msg);
-//            if (user == null) {
-//              response.status(401);
-//              return null;
-//            }
-//
-//            //    response.cookie("server-msg", "yeet");
-//
-//            //    return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
-//            return user;
-//          }
-
-
     }
+
+
+    private static HeaderExample headerExample(final Request request, final Response response) {
+        String accessToken = Optional.ofNullable(request.headers("access-token")).orElseThrow();
+        response.header("current-time", "now");
+        response.header("my-app-header", "yeet");
+        return new HeaderExampleBuilder().build();
+    }
+
+    @AutoMatter
+    interface CookieExample {
+        String requestCookie();
+
+        String responseCookie();
+    }
+
+    @AutoMatter
+    interface HeaderExample {
+        Optional<String> request();
+
+        Optional<String> response();
+    }
+
+    private static final Map<String, User> cookieMap = new HashMap<>();
+
+    static {
+        cookieMap.put("decafbad", new UserBuilder().ID("Pablo").nickname("Pablo").build());
+    }
+
+    // "me" endpoint
+
+    private static User cookieExample(final Request request, final Response response) {
+        String msg = Optional.ofNullable(request.cookie("user")).orElseThrow();
+        //String msg = Optional.ofNullable(request.cookie("msg")).orElse("default-msg");
+
+        User user = cookieMap.get(msg);
+//
+        if (user == null) {
+          response.status(401);
+          return null;
+        }
+
+            //response.cookie("server-msg", "yeet");
+
+            //return new CookieExampleBuilder().requestCookie(msg).responseCookie("yeet").build();
+        return user;
+      }
+
 }
