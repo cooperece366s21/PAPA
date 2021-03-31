@@ -18,7 +18,7 @@ public class YelpApiTest {
     public void getByLatLong() throws IOException{
 
         YelpApi yelpApi = new YelpApi();
-        JSONArray response = yelpApi.searchForBusinessesByGeo(null, 49.33, -0.39);
+        JSONArray response = yelpApi.searchForBusinessesByGeo(null, 49.33, -0.39, 3);
 
         JSONObject firstBusiness = (JSONObject) response.get(0);
         String firstBusinessID = firstBusiness.get("id").toString();
@@ -33,7 +33,7 @@ public class YelpApiTest {
         String businessAlias = "levain-bakery-new-york";
 
         YelpApi yelpApi = new YelpApi();
-        kong.unirest.json.JSONArray response = yelpApi.searchForBusinessesByLocation(null, "NYC");
+        kong.unirest.json.JSONArray response = yelpApi.searchForBusinessesByLocation(null, "NYC", null);
 
         JSONObject firstBusiness = (JSONObject) response.get(0);
 

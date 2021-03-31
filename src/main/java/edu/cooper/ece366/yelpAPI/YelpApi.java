@@ -15,9 +15,9 @@ import java.nio.file.Path;
 
 public class YelpApi {
 
-    private static final String API_HOST = "api.yelp.com";
+    private static final String API_HOST = "https://api.yelp.com";
 
-    private static final int SEARCH_LIMIT = 8;
+    private static final int SEARCH_LIMIT = 3;      //set to 3 by default
     private static final String SEARCH_PATH = "/v3/businesses/search";
     private static final String BUSINESS_PATH = "/v3/businesses";
 
@@ -28,25 +28,27 @@ public class YelpApi {
     }
 
 
-    public JSONArray searchForBusinessesByLocation(@Nullable String term, String location) {
-        term = term == null ? "" : term;
-        HttpResponse<JsonNode> response = Unirest.get("https://api.yelp.com/v3/businesses/search")
+    public JSONArray searchForBusinessesByLocation(@Nullable String term, String location, @Nullable Integer limit) {
+        String searchTerm = term == null ? "" : term;
+        int searchLimit = limit == null ? SEARCH_LIMIT : limit;
+        HttpResponse<JsonNode> response = Unirest.get(API_HOST + SEARCH_PATH)
                 .header("Authorization", "Bearer " + APIkey)
-                .queryString("term", term)
-                .queryString("location", "NYC")
-                .queryString("limit", 3)
+                .queryString("term", searchTerm)
+                .queryString("location", location)
+                .queryString("limit", searchLimit)
                 .asJson();
         return response.getBody().getObject().getJSONArray("businesses");
     }
 
-    public JSONArray searchForBusinessesByGeo(@Nullable String term, double lat, double lng) {
-        term = term == null ? "" : term;
-        HttpResponse<JsonNode> response = Unirest.get("https://api.yelp.com/v3/businesses/search")
+    public JSONArray searchForBusinessesByGeo(@Nullable String term, double lat, double lng, @Nullable Integer limit) {
+        String searchTerm = term == null ? "" : term;
+        int searchLimit = limit == null ? SEARCH_LIMIT : limit;
+        HttpResponse<JsonNode> response = Unirest.get(API_HOST + SEARCH_PATH)
                 .header("Authorization", "Bearer " + APIkey)
-                .queryString("term", term)
+                .queryString("term", searchTerm)
                 .queryString("latitude", lat)
                 .queryString("longitude", lng)
-                .queryString("limit", 3)
+                .queryString("limit", searchLimit)
                 .asJson();
         return response.getBody().getObject().getJSONArray("businesses");
 
@@ -54,9 +56,9 @@ public class YelpApi {
 
 
     public JSONObject searchByBusinessId(String businessID) {
-        HttpResponse<JsonNode> response = Unirest.get("https://api.yelp.com/v3/businesses/" + businessID)
+        HttpResponse<JsonNode> response = Unirest.get(API_HOST + BUSINESS_PATH +"/" + businessID)
                 .header("Authorization", "Bearer " + APIkey)
-                .queryString("limit", 1)
+                .queryString("limit", SEARCH_LIMIT)
                 .asJson();
         return response.getBody().getObject();
     }
