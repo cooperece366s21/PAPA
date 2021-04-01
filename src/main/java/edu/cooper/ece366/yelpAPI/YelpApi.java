@@ -37,6 +37,7 @@ public class YelpApi {
                 .queryString("location", location)
                 .queryString("limit", searchLimit)
                 .asJson();
+        //System.out.println(response.getBody().toString());
         return response.getBody().getObject().getJSONArray("businesses");
     }
 
