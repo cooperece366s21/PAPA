@@ -30,6 +30,24 @@ public class PAPAJdbi {
         return jdbi;
     }
 
+
+//    List<User> userNames = jdbi.withExtension(UserDao.class, dao -> {
+//        dao.createTable();
+//
+//        dao.insertPositional(0, "Alice");
+//        dao.insertPositional(1, "Bob");
+//        dao.insertNamed(2, "Clarice");
+//        dao.insertBean(new User(3, "David"));
+//
+//        return dao.listUsers();
+//    });
+//
+//    assertThat(userNames).containsExactly(
+//        new User(0, "Alice"),
+//        new User(1, "Bob"),
+//        new User(2, "Clarice"),
+//        new User(3, "David"));
+
 //    public static class UserRowMapper implements RowMapper<User> {
 //        @Override
 //        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {

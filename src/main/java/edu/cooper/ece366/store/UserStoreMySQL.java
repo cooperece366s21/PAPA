@@ -18,7 +18,7 @@ public class UserStoreMySQL implements UserStore {
     // for testing purposes
     @Override
     public User get(String id) {
-        return null; //jdbi.withHandle(handle -> handle.attach(UserDao.class).getUser(id));
+        return jdbi.withHandle(handle -> handle.attach(UserDao.class).getUser(id));
     }
 
     @Override
@@ -26,6 +26,16 @@ public class UserStoreMySQL implements UserStore {
 
     @Override
     public String getUserId(User user) { return null;};
+
+//    @Override
+//    public User add(final String name, final Subscription subscription) {
+//        String id = UUID.randomUUID().toString();
+//        jdbi.useHandle(
+//                handle -> {
+//                    handle.attach(UserDao.class).insertUser(id, name, subscription);
+//                });
+//        return get(id);
+//    }
 //    public static void main(String[] args) {
 //        UserStoreMysql userStoreMysql =
 //                new UserStoreMysql(

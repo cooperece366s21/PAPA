@@ -21,6 +21,7 @@ import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
+import edu.cooper.ece366.store.PAPAJdbi;
 import io.norberg.automatter.AutoMatter;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import org.jdbi.v3.core.Jdbi;
@@ -66,7 +67,11 @@ public class main
 
         initExceptionHandler(Throwable::printStackTrace);
 
-//        UserStore userStore = new UserStoreImpl();
+        String jdbcUrl = "jdbc:mysql://localhost:3306/PAPA";
+        // jdbi is the "database client," which all re-implemented stores should accept as a dependency
+        Jdbi jdbi = PAPAJdbi.create(jdbcUrl);
+
+
         ConnectStore connectStore = new ConnectStoreImpl();
         LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
         UserPreferences userPreferences = new UserPreferencesImpl();

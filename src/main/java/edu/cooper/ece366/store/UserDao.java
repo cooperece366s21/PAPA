@@ -29,15 +29,33 @@ public interface UserDao {
      */
 
     // mysql
-//    @SqlQuery(
-//            "select id, name, subscription, group_concat(genre) genres "
-//                    + "from users u "
-//                    + "left join user_preferred_genres upg "
-//                    + "on u.id = upg.user_id "
-//                    + "where u.id = :id "
-//                    + "group by id, name, subscription")
-//    @RegisterRowMapper(UserRowMapper.class)
-//    User getUser(@Bind("id") String id);
+    @SqlQuery(
+            "select id, name, subscription, group_concat(genre) genres "
+                    + "from users u "
+                    + "left join user_preferred_genres upg "
+                    + "on u.id = upg.user_id "
+                    + "where u.id = :id "
+                    + "group by id, name, subscription")
+    @RegisterRowMapper(UserRowMapper.class)
+    User getUser(@Bind("id") String id);
+
+//    @SqlUpdate("CREATE TABLE user (id INTEGER PRIMARY KEY, name VARCHAR)")
+//    void createTable();
+//
+//    @SqlUpdate("INSERT INTO user(id, name) VALUES (?, ?)")
+//    void insertPositional(int id, String name);
+//
+//    @SqlUpdate("INSERT INTO user(id, name) VALUES (:id, :name)")
+//    void insertNamed(@Bind("id") int id, @Bind("name") String name);
+//
+//    @SqlUpdate("INSERT INTO user(id, name) VALUES (:id, :name)")
+//    void insertBean(@BindBean User user);
+//
+//    @SqlQuery("SELECT * FROM user ORDER BY name")
+//    @RegisterBeanMapper(User.class)
+//    List<User> listUsers();
+
+
 
     // "returning *" only works in postgres :(
     //  @SqlQuery(
