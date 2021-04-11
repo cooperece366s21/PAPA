@@ -1,6 +1,5 @@
 package edu.cooper.ece366.auth.authUser;
 
-import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 import java.util.Map;
 import java.util.Optional;
