@@ -2,10 +2,11 @@ package edu.cooper.ece366.DBconnection;
 
 import edu.cooper.ece366.framework.User;
 //import edu.cooper.ece366.model.User.Subscription;
-//import edu.cooper.ece366.store.CoopflixJdbi.UserRowMapper;
+import edu.cooper.ece366.DBconnection.PAPAJdbi.UserRowMapper;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 public interface UserDao {
 
@@ -31,23 +32,22 @@ public interface UserDao {
 //    @SqlQuery("SELECT * FROM user ORDER BY name")
 //    @RegisterBeanMapper(User.class)
 //    List<User> listUsers();
-//    @SqlQuery(
-//            "select id, name, subscription, group_concat(genre) genres "
-//                    + "from users u "
-//                    + "left join user_preferred_genres upg "
-//                    + "on u.id = upg.user_id "
-//                    + "where u.id = :id "
-//                    + "group by id, name, subscription")
-//    @RegisterRowMapper(UserRowMapper.class)
-//    User getUser(@Bind("id") String id);
-
-   // @RegisterRowMapper(UserMapper.class)
+    @SqlQuery(
+            "select id, name "
+                    + "from users u "
+            // change this line  + "left join user_preferred_genres upg "
+            // this one too      + "on u.id = upg.user_id "
+                    + "where u.id = :id "
+                    + "group by id, name, subscription")
+    @RegisterRowMapper(UserRowMapper.class)
     User getUser(@Bind("id") String id);
 
-    //@SqlUpdate("insert into users (id, name) values (:id, :name)")
+    @SqlUpdate("insert into users (id, name) values (:id, :name)")
     void insertUser(
             @Bind("id") String id,
             @Bind("name") String name);
+
+
 //    @SqlUpdate("CREATE TABLE user (id INTEGER PRIMARY KEY, name VARCHAR)")
 //    void createTable();
 //

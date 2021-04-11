@@ -2,7 +2,7 @@ package edu.cooper.ece366.DBconnection;
 
 //import edu.cooper.ece366.model.Content.Genre;
 import edu.cooper.ece366.framework.User;
-//import edu.cooper.ece366.model.UserBuilder;
+import edu.cooper.ece366.framework.UserBuilder;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.jdbi.v3.core.argument.AbstractArgumentFactory;
@@ -11,18 +11,20 @@ import org.jdbi.v3.core.config.ConfigRegistry;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class PAPAJdbi {
 
-//    public static Jdbi create(String jdbcUrl) {
-//        Jdbi jdbi = Jdbi.create(jdbcUrl, "root", "password");
-//        jdbi.installPlugin(new SqlObjectPlugin());
-//        // you can register row mappers here or you can use @RegisterRowMapper annotation on each Dao
-//        // method
-//        jdbi.registerRowMapper(new UserMapper());
-//        return jdbi;
-//    }
+    public static Jdbi create(String jdbcUrl) {
+        Jdbi jdbi = Jdbi.create(jdbcUrl, "root", "password");
+        jdbi.installPlugin(new SqlObjectPlugin());
+        // you can register row mappers here or you can use @RegisterRowMapper annotation on each Dao
+        // method
+        jdbi.registerRowMapper(new UserRowMapper());
+        return jdbi;
+    }
 
 
 //    List<User> userNames = jdbi.withExtension(UserDao.class, dao -> {
@@ -42,17 +44,16 @@ public class PAPAJdbi {
 //        new User(2, "Clarice"),
 //        new User(3, "David"));
 
-//    public class UserMapper implements RowMapper<User> {
-//        @Override
-//        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {
-//            String id = rs.getString("id");
-//            String nickname = rs.getString("name");
-////        @Override
-////        public User map(ResultSet rs, StatementContext ctx) throws SQLException {
-////            return new User(rs.getInt("id"), rs.getString("name"));
-//            return null;
-//        }
-//    }
+    public static class UserRowMapper implements RowMapper<User> {
+        @Override
+        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {
+            String id = rs.getString("id");
+            String nickname = rs.getString("name");
+            return null;//new UserBuilder()
+//                    .id(id)
+//                    .name(name)
+//                    .build();        }
+    }
 //    public static class UserRowMapper implements RowMapper<User> {
 //        @Override
 //        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {
@@ -80,7 +81,9 @@ public class PAPAJdbi {
 //                    .build();
 //        }
 //    }
-
+//List<User> users = handle.createQuery("SELECT id, name FROM user ORDER BY id ASC")
+//        .map(new UserMapper())
+//        .list();
     /*
     You don't need to use this for simple enums, which will use Enum.name() to grab the db value
      */

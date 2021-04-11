@@ -22,6 +22,7 @@ import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
 import edu.cooper.ece366.store.PAPAJdbi;
+import edu.cooper.ece366.store.UserStoreMySQL;
 import io.norberg.automatter.AutoMatter;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import org.jdbi.v3.core.Jdbi;
