@@ -25,7 +25,7 @@ public class AuthLobbyStoreImpl implements AuthLobbyStore {
 
     @Override
     public String setLobby(final Lobby lobby) {
-        String token = String.valueOf(lobbsy.ID());
+        String token = String.valueOf(lobby.ID());
         tokenMapLobby.put(lobby, token);
         reverseMapLobby.put(token, lobby);
         return token;
