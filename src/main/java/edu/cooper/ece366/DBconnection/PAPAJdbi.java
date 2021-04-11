@@ -53,6 +53,7 @@ public class PAPAJdbi {
 //                    .id(id)
 //                    .name(name)
 //                    .build();        }
+        }
     }
 //    public static class UserRowMapper implements RowMapper<User> {
 //        @Override
