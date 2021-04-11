@@ -156,7 +156,7 @@ public class Handler {
     }
 
     public Object logout(final Request req, final Response res) {
-        authStore.invalidate(req.headers("papauser"));
+        authStore.invalidateUser(req.headers("papauser"));
         res.status(200);
 
         return null;
