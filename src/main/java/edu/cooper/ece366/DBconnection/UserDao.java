@@ -41,10 +41,10 @@ public interface UserDao {
 //    @RegisterRowMapper(UserRowMapper.class)
 //    User getUser(@Bind("id") String id);
 
-    @RegisterRowMapper(UserMapper.class)
+   // @RegisterRowMapper(UserMapper.class)
     User getUser(@Bind("id") String id);
 
-    @SqlUpdate("insert into users (id, name) values (:id, :name)")
+    //@SqlUpdate("insert into users (id, name) values (:id, :name)")
     void insertUser(
             @Bind("id") String id,
             @Bind("name") String name);

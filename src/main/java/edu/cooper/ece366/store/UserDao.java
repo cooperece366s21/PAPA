@@ -1,6 +1,6 @@
 package edu.cooper.ece366.store;
 
-//import edu.cooper.ece366.model.User;
+import edu.cooper.ece366.framework.User;
 //import edu.cooper.ece366.model.User.Subscription;
 //import edu.cooper.ece366.store.CoopflixJdbi.UserRowMapper;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
@@ -36,7 +36,7 @@ public interface UserDao {
                     + "on u.id = upg.user_id "
                     + "where u.id = :id "
                     + "group by id, name, subscription")
-    @RegisterRowMapper(UserRowMapper.class)
+    //@RegisterRowMapper(UserRowMapper.class)
     User getUser(@Bind("id") String id);
 
 //    @SqlUpdate("CREATE TABLE user (id INTEGER PRIMARY KEY, name VARCHAR)")

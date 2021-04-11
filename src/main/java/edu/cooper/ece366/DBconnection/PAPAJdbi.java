@@ -15,14 +15,14 @@ import org.jdbi.v3.core.statement.StatementContext;
 
 public class PAPAJdbi {
 
-    public static Jdbi create(String jdbcUrl) {
-        Jdbi jdbi = Jdbi.create(jdbcUrl, "root", "password");
-        jdbi.installPlugin(new SqlObjectPlugin());
-        // you can register row mappers here or you can use @RegisterRowMapper annotation on each Dao
-        // method
-        jdbi.registerRowMapper(new UserMapper());
-        return jdbi;
-    }
+//    public static Jdbi create(String jdbcUrl) {
+//        Jdbi jdbi = Jdbi.create(jdbcUrl, "root", "password");
+//        jdbi.installPlugin(new SqlObjectPlugin());
+//        // you can register row mappers here or you can use @RegisterRowMapper annotation on each Dao
+//        // method
+//        jdbi.registerRowMapper(new UserMapper());
+//        return jdbi;
+//    }
 
 
 //    List<User> userNames = jdbi.withExtension(UserDao.class, dao -> {
@@ -42,17 +42,17 @@ public class PAPAJdbi {
 //        new User(2, "Clarice"),
 //        new User(3, "David"));
 
-    public class UserMapper implements RowMapper<User> {
-        @Override
-        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {
-            String id = rs.getString("id");
-            String nickname = rs.getString("name");
+//    public class UserMapper implements RowMapper<User> {
 //        @Override
-//        public User map(ResultSet rs, StatementContext ctx) throws SQLException {
-//            return new User(rs.getInt("id"), rs.getString("name"));
-            return null;
-        }
-    }
+//        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {
+//            String id = rs.getString("id");
+//            String nickname = rs.getString("name");
+////        @Override
+////        public User map(ResultSet rs, StatementContext ctx) throws SQLException {
+////            return new User(rs.getInt("id"), rs.getString("name"));
+//            return null;
+//        }
+//    }
 //    public static class UserRowMapper implements RowMapper<User> {
 //        @Override
 //        public User map(final ResultSet rs, final StatementContext ctx) throws SQLException {

@@ -4,6 +4,7 @@ package edu.cooper.ece366.DBconnection;
 import java.util.UUID;
 
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.store.UserStore;
 import edu.cooper.ece366.DBconnection.PAPAJdbi;
 import edu.cooper.ece366.DBconnection.UserDao;
 import org.jdbi.v3.core.Jdbi;
