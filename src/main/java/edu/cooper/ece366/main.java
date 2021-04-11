@@ -16,21 +16,16 @@ import static spark.Spark.staticFiles;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import edu.cooper.ece366.auth.AuthStoreImpl;
-import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.auth.authLobby.AuthLobbyStoreImpl;
+import edu.cooper.ece366.auth.authUser.AuthUserStoreImpl;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
 import edu.cooper.ece366.store.PAPAJdbi;
 import edu.cooper.ece366.store.UserStoreMySQL;
-import io.norberg.automatter.AutoMatter;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import org.jdbi.v3.core.Jdbi;
-import spark.Request;
 import spark.ResponseTransformer;
-
-import java.util.HashMap;
-import java.util.Optional;
 
 
 public class main
@@ -79,7 +74,7 @@ public class main
         UserStore userStore = new UserStoreMySQL(Jdbi.create("jdbc:mysql://localhost:3306/PAPA"));
         Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
                 userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
-                new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthStoreImpl(), gson);
+                new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthUserStoreImpl(), new AuthLobbyStoreImpl(), gson);
 
 
 

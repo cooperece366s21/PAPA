@@ -1,45 +1,11 @@
-package edu.cooper.ece366.auth;
+package edu.cooper.ece366.auth.authLobby;
 
 import edu.cooper.ece366.framework.Lobby;
-import edu.cooper.ece366.framework.User;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AuthStoreImpl implements AuthStore {
-
-    // these should probably have an expiry time
-    private static final Map<User, String> tokenMapUser = new ConcurrentHashMap<>();
-    private static final Map<String, User> reverseMapUser = new ConcurrentHashMap<>();
-
-
-    @Override
-    public Boolean validateUser(final User user, final String cookie) {
-        return tokenMapUser.get(user).equals(cookie);
-    }
-
-    @Override
-    public Optional<User> getUser(final String cookie) {
-        return Optional.ofNullable(reverseMapUser.get(cookie));
-    }
-
-    @Override
-    public String setUser(final User user) {
-        String token = String.valueOf(user.ID());
-        tokenMapUser.put(user, token);
-        reverseMapUser.put(token, user);
-        return token;
-    }
-
-    @Override
-    public void invalidateUser(final String token) {
-        User user = reverseMapUser.getOrDefault(token, null);
-        if (user == null) {
-            return;
-        }
-        tokenMapUser.remove(user);
-        reverseMapUser.remove(token);
-    }
+public class AuthLobbyStoreImpl implements AuthLobbyStore {
 
     //SAME BUT NOW FOR LOBBY
     // these should probably have an expiry time
@@ -74,5 +40,4 @@ public class AuthStoreImpl implements AuthStore {
         tokenMapLobby.remove(lobby);
         reverseMapLobby.remove(token);
     }
-
 }

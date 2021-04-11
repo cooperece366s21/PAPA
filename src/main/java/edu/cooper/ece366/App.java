@@ -9,7 +9,8 @@ import static spark.Spark.staticFiles;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import edu.cooper.ece366.auth.AuthStoreImpl;
+import edu.cooper.ece366.auth.authLobby.AuthLobbyStoreImpl;
+import edu.cooper.ece366.auth.authUser.AuthUserStoreImpl;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.framework.UserBuilder;
 import edu.cooper.ece366.handler.Handler;
@@ -52,7 +53,7 @@ public class App
         UserPreferences userPreferences = new UserPreferencesImpl();
         Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
               userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
-              new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthStoreImpl(), gson);
+              new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthUserStoreImpl(), new AuthLobbyStoreImpl(), gson);
 
         options(
             "/*",
@@ -98,6 +99,9 @@ public class App
 
         post("/login", (req, res) -> handler.login(req, res), gson::toJson);
         post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
+
+        post("/joinLobby", (req, res) -> handler.joinLobby(req, res), gson::toJson);
+        post("/leaveLobby", (req, res) -> handler.leaveLobby(req, res), gson::toJson);
     }
 
 

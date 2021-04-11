@@ -1,8 +1,10 @@
 package edu.cooper.ece366.handler;
 
 import com.google.gson.Gson;
-import edu.cooper.ece366.auth.Auth;
-import edu.cooper.ece366.auth.AuthStore;
+import edu.cooper.ece366.auth.authLobby.AuthLobby;
+import edu.cooper.ece366.auth.authLobby.AuthLobbyStore;
+import edu.cooper.ece366.auth.authUser.AuthUser;
+import edu.cooper.ece366.auth.authUser.AuthUserStore;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.service.SwipingService;
 import edu.cooper.ece366.store.*;
@@ -24,13 +26,14 @@ public class Handler {
     private final LobbyStore lobbyStore;
     private final RestaurantStore restaurantStore;
     private final SwipingService swipingService;
-    private final AuthStore authStore;
+    private final AuthUserStore authUserStore;
+    private final AuthLobbyStore authLobbyStore;
     private final Gson gson;
 
     public Handler(
             ConnectStore connectStore, LobbyPreferences lobbyPreferences, UserPreferences userPreferences,
             UserStore userStore, LobbyStore lobbyStore, RestaurantStore restaurantStore, SwipingService swipingService,
-            final AuthStore authStore, final Gson gson) {
+            final AuthUserStore authUserStore, final AuthLobbyStore authLobbyStore, final Gson gson) {
         this.connectStore = connectStore;
         this.lobbyPreferences = lobbyPreferences;
         this.userPreferences = userPreferences;
@@ -38,7 +41,8 @@ public class Handler {
         this.lobbyStore = lobbyStore;
         this.restaurantStore = restaurantStore;
         this.swipingService = swipingService;
-        this.authStore = authStore;
+        this.authUserStore = authUserStore;
+        this.authLobbyStore = authLobbyStore;
         this.gson = gson;
     }
 
@@ -140,11 +144,11 @@ public class Handler {
     }
 
     public User login(final Request request, final Response response) {
-        Auth auth = gson.fromJson(request.body(), Auth.class);
+        AuthUser auth = gson.fromJson(request.body(), AuthUser.class);
         User user = userStore.get(auth.username());
         if ("password".equals(auth.password())) {
             // authorized
-            String token = authStore.setUser(user);
+            String token = authUserStore.setUser(user);
             response.header("papauser", token);
             response.status(200);
             return user;
@@ -156,7 +160,30 @@ public class Handler {
     }
 
     public Object logout(final Request req, final Response res) {
-        authStore.invalidateUser(req.headers("papauser"));
+        authUserStore.invalidateUser(req.headers("papauser"));
+        res.status(200);
+
+        return null;
+    }
+
+    public Lobby joinLobby(final Request request, final Response response) {
+        AuthLobby auth = gson.fromJson(request.body(), AuthLobby.class);
+        Lobby lobby = lobbyStore.get(auth.code());
+        if ("code".equals(auth.code())) {
+            // authorized
+            String token = authLobbyStore.setLobby(lobby);
+            response.header("papalobby", token);
+            response.status(200);
+            return lobby;
+        }
+        // unauthorized
+        response.status(401);
+
+        return null;
+    }
+
+    public Object leaveLobby(final Request req, final Response res) {
+        authLobbyStore.invalidateLobby(req.headers("papalobby"));
         res.status(200);
 
         return null;
@@ -168,7 +195,7 @@ public class Handler {
             res.status(401);
             return null;
         }
-        Optional<User> user = authStore.getUser(token);
+        Optional<User> user = authUserStore.getUser(token);
         if (user.isPresent()) {
             return user.get();
         } else {
