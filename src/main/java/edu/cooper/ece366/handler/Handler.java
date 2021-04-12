@@ -169,21 +169,21 @@ public class Handler {
     public Lobby joinLobby(final Request request, final Response response) {
         AuthLobby auth = gson.fromJson(request.body(), AuthLobby.class);
         Lobby lobby = lobbyStore.get(auth.code());
-        if (lobby.equals(auth.code())) {
+/*        if (lobby.equals(auth.code())) {
             // authorized
             String token = authLobbyStore.setLobby(lobby);
             response.header("papalobby", token);
             response.status(200);
             return lobby;
-        }
+        }*/
 //        // unauthorized
-        response.status(401);
-//        String token = authLobbyStore.setLobby(lobby);
-//        response.header("papalobby", token);
-//        response.status(200);
-//        return lobby;
+//        response.status(401);
+        String token = authLobbyStore.setLobby(lobby);
+        response.header("papalobby", token);
+        response.status(200);
+        return lobby;
 
-        return null;
+ //       return null;
     }
 
     public Object leaveLobby(final Request req, final Response res) {
