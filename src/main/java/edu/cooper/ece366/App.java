@@ -86,6 +86,7 @@ public class App
         get("/header-example", App::headerExample, responseTransformer);
         get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
+        get("/:lobbyID/getList", (req, res) -> handler.getRestaurantList(req), gson::toJson);
 
         get("/getConnectionMap", (req, res) -> handler.getConnectionMap(), gson::toJson);
         get("/getLobbyLikes", (req, res) -> handler.getLobbyMap(), gson::toJson);

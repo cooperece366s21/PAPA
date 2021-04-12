@@ -13,6 +13,7 @@ import edu.cooper.ece366.categories.Restaurant;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.List;
 
 import spark.Request;
 import spark.Response;
@@ -115,6 +116,13 @@ public class Handler {
         Restaurant restaurant1 = restaurantStore.get(restID1);
 
         return swipingService.dislike(lobby1, restaurant1, user1);
+    }
+
+    public List<String> getRestaurantList(Request req){
+        String lobbyID = req.params(":lobbyID");
+        Lobby lobby = lobbyStore.get(lobbyID);
+
+        return lobbyStore.getLobbyList(lobby);
     }
 
     public Map<String, Integer> initLobbyMap(Request req){
