@@ -121,6 +121,7 @@ public class Handler {
 
     public List<String> getRestaurantList(Request req){
         String lobbyID = req.params(":lobbyID");
+        //String lobbyID = req.headers("papalobby");
         Lobby lobby = lobbyStore.get(lobbyID);
 
         return lobbyStore.getLobbyList(lobby);
@@ -128,6 +129,7 @@ public class Handler {
 
     public List<Restaurant> getLobbyFeed(Request req){
         String lobbyID = req.params(":lobbyID");
+        //String lobbyID = req.headers("papalobby");
         Lobby lobby = lobbyStore.get(lobbyID);
 
         List<String> lobbyListString = lobbyStore.getLobbyList(lobby);
