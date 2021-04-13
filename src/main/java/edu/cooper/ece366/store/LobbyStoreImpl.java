@@ -82,6 +82,16 @@ public class LobbyStoreImpl implements LobbyStore {
 
     }
 
+//    public List<Restaurant> getLobbyFeed(Lobby lobby){
+//        List<String> restaurantStringList = lobby.restaurant_maps();
+//
+//        List<Restaurant> restaurantList = null;
+//
+//        for (String restString : restaurantStringList) {
+//            Restaurant rest =
+//        }
+//    }
+
 //    @Override
 //    public List<Restaurant> generateRestList(){
 //        List<Restaurant> restaurants = new ArrayList<Restaurant>();

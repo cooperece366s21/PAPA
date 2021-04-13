@@ -10,6 +10,7 @@ import edu.cooper.ece366.model.OperatingHours;
 import edu.cooper.ece366.model.PhoneNumber;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -106,5 +107,15 @@ public class RestaurantStoreImpl implements RestaurantStore{
     public String getRestId(Restaurant restaurant){
 
         return restaurant.id();
+    }
+
+    @Override
+    public List<Restaurant> getListRest(List<String> restStringList){
+        List<Restaurant> restList = new ArrayList<Restaurant>();
+        for(String restString : restStringList){
+            Restaurant rest = get(restString);
+            restList.add(rest);
+        }
+        return restList;
     }
 }

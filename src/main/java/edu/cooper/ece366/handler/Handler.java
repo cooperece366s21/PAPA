@@ -10,6 +10,7 @@ import edu.cooper.ece366.service.SwipingService;
 import edu.cooper.ece366.store.*;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.categories.Restaurant;
+import edu.cooper.ece366.store.RestaurantStore;
 
 import java.util.Map;
 import java.util.Optional;
@@ -123,6 +124,14 @@ public class Handler {
         Lobby lobby = lobbyStore.get(lobbyID);
 
         return lobbyStore.getLobbyList(lobby);
+    }
+
+    public List<Restaurant> getLobbyFeed(Request req){
+        String lobbyID = req.params(":lobbyID");
+        Lobby lobby = lobbyStore.get(lobbyID);
+
+        List<String> lobbyListString = lobbyStore.getLobbyList(lobby);
+        return restaurantStore.getListRest(lobbyListString);
     }
 
     public Map<String, Integer> initLobbyMap(Request req){

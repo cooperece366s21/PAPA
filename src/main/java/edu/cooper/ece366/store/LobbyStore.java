@@ -25,6 +25,8 @@ public interface LobbyStore {
 
     public Map<String, Integer> generateLobbyMap(Lobby lobby);
 
+//    public List<Restaurant> getLobbyFeed(Lobby lobby);
+
     //public Map<Restaurant, Integer> initializeLobby(List<Restaurant> restaurants, Lobby lobby);
 
     //public Restaurant getRecommendation(Map<String, Integer> restaurants_maps, RestaurantStore restaurantStore);
