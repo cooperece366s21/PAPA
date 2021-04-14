@@ -1,6 +1,7 @@
 package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.categories.Restaurant;
+import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
 import java.util.HashMap;
@@ -18,14 +19,26 @@ public class UserPreferencesImpl implements UserPreferences {
     }
 
     @Override
+    public String getString(User user, Restaurant restaurant) {
+        String userID = user.ID();
+        String restID = restaurant.id();
+
+        String output = userID + ':' + restID;
+
+        return output;
+
+    }
+
+    @Override
     public String getRestID(Restaurant rest){
         return rest.id();
     }
 
     @Override
-    public Integer updatePreferences(String RestID, Enum preference){
+    public Integer updatePreferences(User user, Restaurant restaurant, Enum preference){
 
-        preferences.put(RestID, preference);
+        String key = getString(user, restaurant);
+        preferences.put(key, preference);
 
         return 0;
     }

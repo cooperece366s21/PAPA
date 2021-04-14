@@ -25,7 +25,7 @@ public class SwipingServiceImpl implements SwipingService {
     public Integer dislike(Lobby lobby, Restaurant restaurant, User user){
 
         //update the user preference
-        userPreferences.updatePreferences(restaurant.id(), UserPreferences.preference.dislike);
+        userPreferences.updatePreferences(user, restaurant, UserPreferences.preference.dislike);
 
         //update the connection store
         connectStore.updateConnection(lobby, restaurant, user, userPreferences);
@@ -37,7 +37,7 @@ public class SwipingServiceImpl implements SwipingService {
     public Integer like(Lobby lobby, Restaurant restaurant, User user){
 
         //update the user preference
-        userPreferences.updatePreferences(restaurant.id(), UserPreferences.preference.like);
+        userPreferences.updatePreferences(user, restaurant, UserPreferences.preference.like);
 
         //update the connection store
         connectStore.updateConnection(lobby, restaurant, user, userPreferences);
