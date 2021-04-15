@@ -1,9 +1,11 @@
 package edu.cooper.ece366.store;
 
+import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,4 +22,6 @@ public interface UserPreferences {
     public Integer putPreferences(String RestID, Enum preference);
 
     public Map<String, Enum> getPreferencesMap();
+
+    public int storeToDB(DBconnection con_in, User user, Restaurant rest, UserPreferences.preference preference) throws SQLException;
 }

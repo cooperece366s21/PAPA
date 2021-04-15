@@ -18,12 +18,13 @@ public class Cuisine{
         dim_sum("Dim Sum"),
         cantonese("Cantonese"),
         halal("Halal"),
-        bakeries("Bakeries");
-        private final String cuisineT;
+        bakeries("Bakeries"),
+        delis("Delis"),
+        ramen("Ramen"),
+        sandwiches("Sancwiches");
+        private String cuisineT;
 
-        private cuisineType(String s){
-            cuisineT = s;
-        }
+        cuisineType(String s){ cuisineT = s;}
 
         public String toString(){
             return this.cuisineT;

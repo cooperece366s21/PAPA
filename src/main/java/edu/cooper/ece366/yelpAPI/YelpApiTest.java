@@ -1,5 +1,6 @@
 package edu.cooper.ece366.yelpAPI;
 
+import edu.cooper.ece366.model.Cuisine;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import org.junit.Test;
@@ -69,12 +70,13 @@ public class YelpApiTest {
         }
 
         for(Object r : res){
+            Cuisine cui = new Cuisine();
             JSONObject rs = (JSONObject) r;
-            System.out.println(rs.get("name").toString());
-            //System.out.println(rs.get("region"));
             JSONObject rd = yelpApi.searchByBusinessId(rs.get("id").toString());
-            //System.out.println(rd.toString());
+            JSONArray cuisineObj = (JSONArray) rd.get("categories");
+
         }
+
     }
 
     public static void main(String[] args) throws IOException {

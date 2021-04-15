@@ -1,10 +1,12 @@
 package edu.cooper.ece366.store;
 
 
+import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -20,6 +22,8 @@ public interface LobbyStore {
 
     // Function to get the list of Restaurants within a certain amount of miles
     List<Restaurant> getByLocation(Double miles);
+
+    public int storeToDB(DBconnection con_in, Lobby lobby) throws SQLException;
 
     //    List<Content> getByRating(Rating rating);
 

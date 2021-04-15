@@ -1,9 +1,11 @@
 package edu.cooper.ece366.store;
 
+import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 public interface LobbyPreferences {
@@ -36,5 +38,9 @@ public interface LobbyPreferences {
     public Restaurant getRecommendation(Lobby lobby, RestaurantStore restaurantStore);
 
     public Map<String, Integer> getLobbyMap(Lobby lobby);
+
+    public int storeToDB(DBconnection con_in, Lobby lobby, Restaurant rest) throws SQLException;
+
+    public int incrementDB(DBconnection con_in, Lobby lobby, Restaurant rest) throws SQLException;
 
 }

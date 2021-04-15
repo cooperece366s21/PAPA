@@ -30,7 +30,7 @@ create table if not exists lobby_preferred_restaurants
 (
     lobby_id varchar(36) not null,
     rest_id varchar(36) not null,
-    votes varchar(36) not null,
+    votes varchar(36) not null DEFAULT 0,
     primary key (lobby_id, rest_id),
     foreign key (lobby_id) references users (id)
     );

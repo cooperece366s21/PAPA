@@ -2,12 +2,16 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.categories.RestaurantBuilder;
-import edu.cooper.ece366.framework.Lobby;
-import edu.cooper.ece366.framework.User;
+import javax.sql.DataSource;
 import edu.cooper.ece366.model.Address;
 import edu.cooper.ece366.model.Cuisine;
 import edu.cooper.ece366.model.OperatingHours;
 import edu.cooper.ece366.model.PhoneNumber;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import edu.cooper.ece366.DBconnection.DBconnection;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,7 +21,10 @@ import java.util.stream.Collectors;
 
 public class RestaurantStoreImpl implements RestaurantStore{
 
+    DataSource dbcp;
+    Connection conn = null;
     public static final Map<String, Restaurant> RESTAURANT_MAP;
+
 
     static {
         RESTAURANT_MAP =
@@ -107,6 +114,31 @@ public class RestaurantStoreImpl implements RestaurantStore{
     public String getRestId(Restaurant restaurant){
 
         return restaurant.id();
+    }
+
+    @Override
+    public int storeToDB(DBconnection con_in, Restaurant restaurant) throws SQLException {
+        this.dbcp = DBconnection.getDataSource();
+        try{
+            conn = dbcp.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO restaurants (id, name) VALUES (?, ?);");
+            stmt.setString(1, restaurant.id());
+            stmt.setString(2, restaurant.name());
+            try{
+                stmt.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+            return -1;
+        }
+        finally {
+            conn.close();
+        }
+        return  0;
     }
 
     @Override

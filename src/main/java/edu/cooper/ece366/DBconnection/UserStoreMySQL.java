@@ -1,6 +1,7 @@
 package edu.cooper.ece366.DBconnection;
 
 //import edu.cooper.ece366.model.User;
+import java.sql.SQLException;
 import java.util.UUID;
 
 import edu.cooper.ece366.framework.User;
@@ -38,7 +39,14 @@ public class UserStoreMySQL implements UserStore {
     }
 
     @Override
-    public String getUserId(User user) { return null;};
+    public String getUserId(User user) { return null;}
+
+    @Override
+    public int storeToDB(DBconnection com_in, User user) throws SQLException {
+        return 0;
+    }
+
+    ;
 
 //    @Override
 //    public User add(final String name, final Subscription subscription) {

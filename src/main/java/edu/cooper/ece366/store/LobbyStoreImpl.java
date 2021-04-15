@@ -1,6 +1,7 @@
 package edu.cooper.ece366.store;
 
 
+import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
@@ -8,6 +9,11 @@ import edu.cooper.ece366.framework.LobbyBuilder;
 import edu.cooper.ece366.store.RestaurantStoreImpl;
 import edu.cooper.ece366.store.UserStoreImpl;
 import edu.cooper.ece366.restaurantTest;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -15,6 +21,9 @@ import java.util.stream.Collectors;
 import java.util.*;
 
 public class LobbyStoreImpl implements LobbyStore {
+
+    DataSource dbcp;
+    Connection conn = null;
 
     public static final Map<String, Lobby> LOBBY_MAP;
     static {
@@ -80,6 +89,31 @@ public class LobbyStoreImpl implements LobbyStore {
 
         return lobbyMap;
 
+    }
+
+    @Override
+    public int storeToDB(DBconnection con_in, Lobby lobby) throws SQLException {
+        this.dbcp = DBconnection.getDataSource();
+        try{
+            conn = dbcp.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO lobbies (id, code) VALUES (?, ?);");
+            stmt.setString(1, lobby.ID());
+            stmt.setString(2, lobby.code());
+            try{
+                stmt.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+            return -1;
+        }
+        finally {
+            conn.close();
+        }
+        return  0;
     }
 
 //    public List<Restaurant> getLobbyFeed(Lobby lobby){
