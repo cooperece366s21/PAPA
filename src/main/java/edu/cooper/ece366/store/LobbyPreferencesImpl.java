@@ -156,7 +156,7 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE lobby_preferred_restaurants SET votes = votes+1;");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE lobby_preferred_restaurants SET votes = votes+1 WHERE lobby.ID=lobby_id AND rest.id = rest_id;");
             try{
                 stmt.executeUpdate();
             } catch (SQLException throwables) {

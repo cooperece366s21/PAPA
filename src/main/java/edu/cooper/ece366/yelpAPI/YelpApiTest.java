@@ -47,10 +47,11 @@ public class YelpApiTest {
     }
 
     //@Test
-    public void getByID() throws IOException{
+    public static void getByID() throws IOException{
         YelpApi yelpApi = new YelpApi();
         JSONObject response = yelpApi.searchByBusinessId("V7lXZKBDzScDeGB8JmnzSA");
-        assertEquals("V7lXZKBDzScDeGB8JmnzSA",response.get("id"));
+        //assertEquals("V7lXZKBDzScDeGB8JmnzSA",response.get("id"));
+        System.out.println(response.toString());
     }
 
     //@Test
@@ -70,10 +71,13 @@ public class YelpApiTest {
         }
 
         for(Object r : res){
-            Cuisine cui = new Cuisine();
             JSONObject rs = (JSONObject) r;
             JSONObject rd = yelpApi.searchByBusinessId(rs.get("id").toString());
-            JSONArray cuisineObj = (JSONArray) rd.get("categories");
+
+            JSONArray hou = rd.getJSONArray("hours");
+            JSONObject jsonObject = hou.getJSONObject(0);
+            JSONArray js = (JSONArray) jsonObject.get("open");
+            System.out.println(js.length());
 
         }
 

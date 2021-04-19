@@ -23,7 +23,7 @@ public interface LobbyStore {
     // Function to get the list of Restaurants within a certain amount of miles
     List<Restaurant> getByLocation(Double miles);
 
-    public int storeToDB(DBconnection con_in, Lobby lobby) throws SQLException;
+    public int storeToDB(DBconnection con_in, String lobbyID, String lobbyCode) throws SQLException;
 
     //    List<Content> getByRating(Rating rating);
 

@@ -16,4 +16,5 @@ public interface Restaurant {
     Address address();
     PhoneNumber phoneNumber();
     OperatingHours operatingHours();
+
 }

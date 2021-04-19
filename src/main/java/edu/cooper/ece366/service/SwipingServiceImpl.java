@@ -6,7 +6,6 @@ import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.store.ConnectStore;
 import edu.cooper.ece366.store.LobbyPreferences;
 import edu.cooper.ece366.store.UserPreferences;
-import edu.cooper.ece366.store.UserStore;
 
 public class SwipingServiceImpl implements SwipingService {
 

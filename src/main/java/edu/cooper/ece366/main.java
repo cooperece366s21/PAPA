@@ -21,8 +21,6 @@ import edu.cooper.ece366.auth.authUser.AuthUserStoreImpl;
 import edu.cooper.ece366.handler.Handler;
 import edu.cooper.ece366.service.SwipingServiceImpl;
 import edu.cooper.ece366.store.*;
-import edu.cooper.ece366.store.PAPAJdbi;
-import edu.cooper.ece366.store.UserStoreMySQL;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import org.jdbi.v3.core.Jdbi;
 import spark.ResponseTransformer;
@@ -63,18 +61,13 @@ public class main
 
         initExceptionHandler(Throwable::printStackTrace);
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/PAPA";
-        // jdbi is the "database client," which all re-implemented stores should accept as a dependency
-        Jdbi jdbi = PAPAJdbi.create(jdbcUrl);
-
-
         ConnectStore connectStore = new ConnectStoreImpl();
         LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
         UserPreferences userPreferences = new UserPreferencesImpl();
-        UserStore userStore = new UserStoreMySQL(Jdbi.create("jdbc:mysql://localhost:3306/PAPA"));
-        Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
-                userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
-                new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthUserStoreImpl(), new AuthLobbyStoreImpl(), gson);
+
+        //Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
+                //userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
+                //new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthUserStoreImpl(), new AuthLobbyStoreImpl(), gson);
 
 
 

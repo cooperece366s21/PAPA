@@ -14,7 +14,9 @@ public interface UserPreferences {
     public enum preference {dislike, like}
 
     public String getUserID(User user);
+
     public String getRestID(Restaurant rest);
+
     public Map<String, preference> preferences = null;
 
     public Integer updatePreferences(User user, Restaurant restaurant, Enum preference);
@@ -26,3 +28,4 @@ public interface UserPreferences {
     public int storeToDB(DBconnection con_in, User user, Restaurant rest, UserPreferences.preference preference) throws SQLException;
 
     public String getString(User user, Restaurant restaurant);
+}

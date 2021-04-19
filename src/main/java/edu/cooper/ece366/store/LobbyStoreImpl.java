@@ -92,13 +92,13 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public int storeToDB(DBconnection con_in, Lobby lobby) throws SQLException {
+    public int storeToDB(DBconnection con_in, String lobbyID, String lobbyCode) throws SQLException {
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO lobbies (id, code) VALUES (?, ?);");
-            stmt.setString(1, lobby.ID());
-            stmt.setString(2, lobby.code());
+            stmt.setString(1, lobbyID);
+            stmt.setString(2, lobbyCode);
             try{
                 stmt.executeUpdate();
             } catch (SQLException throwables) {
