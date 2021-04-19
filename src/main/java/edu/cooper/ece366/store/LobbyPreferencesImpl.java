@@ -92,9 +92,9 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
     @Override
     public Restaurant getRecommendation(Lobby lobby, RestaurantStore restaurantStore) {
         // If we cant parse due to inefficiencies we can change the Int to another object with the  lobby and restaurant in it
-        Map<String, Integer> lobbyMap = new HashMap <>();
+        //Map<String, Integer> lobbyMap = new HashMap <>();
 
-        lobbyMap = getLobbyMap(lobby);
+        //lobbyMap = getLobbyMap(lobby);
 
         Integer maxLikes = Collections.max(lobbyLikes.values());
 
