@@ -131,22 +131,23 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public Lobby initLobby(String ownerID, String lobbyID, String location) throws SQLException, IOException {
+    public Lobby initLobby(String ownerID, String location) throws SQLException, IOException {
         DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
         this.conn = dbcp.getConnection();
 
+        String lobbyID = UUID.randomUUID().toString();
         String lobbyCode = UUID.randomUUID().toString();
 
         try{
             PreparedStatement insertLobby = conn.prepareStatement(
                     "INSERT INTO lobbies (ID, code, owner) " +
                             "VALUES (?, ?, ?)" +
-                            "ON DUPLICATE KEY UPDATE ID = ?, owner = ?");
+                            "ON DUPLICATE KEY UPDATE code = ?, owner = ?");
             insertLobby.setString(1, lobbyID);
             insertLobby.setString(2, lobbyCode);
             insertLobby.setString(3, ownerID);
-            insertLobby.setString(4, lobbyID);
+            insertLobby.setString(4, lobbyCode);
             insertLobby.setString(5, ownerID);
 
             try{
@@ -333,5 +334,30 @@ public class LobbyStoreImpl implements LobbyStore {
                 .isOpenNow(returnIsOpenNow)
                 .rating(returnRating)
                 .build();
+    }
+
+    @Override
+    public Lobby getCurrentLobbyByCode(String lobbyCode) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
+        String returnLobbyID = null, returnLobbyCode = null, returnLobbyOwner = null;
+        try {
+            PreparedStatement getCuisineID = conn.prepareStatement(
+                    "SELECT * FROM lobbies WHERE code=?");
+            getCuisineID.setString(1, lobbyCode);
+            ResultSet rs = getCuisineID.executeQuery();
+            while(rs.next()){
+                returnLobbyID = rs.getString("ID");
+                returnLobbyCode = rs.getString("code");
+                returnLobbyOwner = rs.getString("owner");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+        return new LobbyBuilder().ID(returnLobbyID).code(returnLobbyCode).ownerID(returnLobbyOwner).build();
     }
 }

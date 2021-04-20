@@ -51,9 +51,7 @@ public class App
         ConnectStore connectStore = new ConnectStoreImpl();
         LobbyPreferences lobbyPreferences = new LobbyPreferencesImpl();
         UserPreferences userPreferences = new UserPreferencesImpl();
-        Handler handler = new Handler(connectStore, lobbyPreferences, userPreferences,
-              userStore, new LobbyStoreImpl(), new RestaurantStoreImpl() ,
-              new SwipingServiceImpl(connectStore, lobbyPreferences, userPreferences), new AuthUserStoreImpl(), new AuthLobbyStoreImpl(), gson);
+        Handler handler = new Handler(gson);
 
         options(
             "/*",
@@ -80,30 +78,34 @@ public class App
             });
 
         get("/ping", (req, res) -> "OK");
-        get("/me", (req, res) -> handler.me(req, res), gson::toJson);
+        get("/me", handler::getCurrentUser, gson::toJson);
 
         get("/cookie-example", App::cookieExample, responseTransformer);
         get("/header-example", App::headerExample, responseTransformer);
-        get("/user/:userId", (req, res) -> handler.getUser(req), gson::toJson);
-        get("/lobby/:lobbyId", (req, res) -> handler.getLobby(req), gson::toJson);
+
+      //  get("/user/:userId", (req, res) -> handler.getCurrentUser(req), gson::toJson);
+        get("/lobby/:lobbyId", (req, res) -> handler.getCurrentLobby(req), gson::toJson);
         get("/:lobbyID/getList", (req, res) -> handler.getRestaurantList(req), gson::toJson);
-        get("/:lobbyID/getLobbyFeed", (req, res) -> handler.getLobbyFeed(req), gson::toJson);
 
-        get("/getConnectionMap", (req, res) -> handler.getConnectionMap(), gson::toJson);
-        get("/getLobbyLikes", (req, res) -> handler.getLobbyMap(), gson::toJson);
-        get("/getPreferenceMap", (req, res) -> handler.getPreferenceMap(), gson::toJson);
+        //get("/:lobbyID/getLobbyFeed", (req, res) -> handler.getLobbyFeed(req), gson::toJson);
 
-        get("/:lobbyId/init", (req, res) -> handler.initLobbyMap(req), gson::toJson);
-        get("/:lobbyId/recommendation", (req, res) -> handler.result(req), gson::toJson);
+        //get("/getConnectionMap", (req, res) -> handler.getConnectionMap(), gson::toJson);
+        //get("/getLobbyLikes", (req, res) -> handler.getLobbyMap(), gson::toJson);
+        //get("/getPreferenceMap", (req, res) -> handler.getPreferenceMap(), gson::toJson);
+
+        //get("/:lobbyId/init", (req, res) -> handler.initLobbyMap(req), gson::toJson);
+        get("/:lobbyId/recommendation", (req, res) -> handler.getRecommendation(req), gson::toJson);
 
         post("/:userId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
         post("/:userId/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);
 
-        post("/login", (req, res) -> handler.login(req, res), gson::toJson);
-        post("/logout", (req, res) -> handler.logout(req, res), gson::toJson);
+        post("/:username/:password/signUp", (req, res) -> handler.signUp(req), gson::toJson);
+        post("/login", handler::login, gson::toJson);
+        post("/logout", handler::logout, gson::toJson);
 
-        post("/joinLobby", (req, res) -> handler.joinLobby(req, res), gson::toJson);
-        post("/leaveLobby", (req, res) -> handler.leaveLobby(req, res), gson::toJson);
+        post("/:location/createLobby", (req, res) -> handler.createLobby(req), gson::toJson);
+        post("/joinLobby", handler::joinLobby, gson::toJson);
+        post("/leaveLobby", handler::leaveLobby, gson::toJson);
     }
 
 
@@ -131,7 +133,7 @@ public class App
     private static final Map<String, User> cookieMap = new HashMap<>();
 
     static {
-        cookieMap.put("decafbad", new UserBuilder().ID("Pablo").name("Pablo").build());
+        cookieMap.put("decafbad", new UserBuilder().ID("Pablo").name("Pablo").password("password").build());
     }
 
     // "me" endpoint

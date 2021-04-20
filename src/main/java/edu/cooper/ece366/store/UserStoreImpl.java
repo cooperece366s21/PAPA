@@ -3,10 +3,12 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
+import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.framework.UserBuilder;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,17 +26,19 @@ public class UserStoreImpl implements UserStore {
     // Update with user builder
     @Override
     public User get(final String ID) throws SQLException{
+        DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
         String returnUserID = null, returnUsername = null, returnUserpassword = null;
         try{
-            conn = dbcp.getConnection();
+            //conn = dbcp.getConnection();
             PreparedStatement getUsername = conn.prepareStatement("SELECT * FROM users WHERE ID=?;");
             getUsername.setString(1, ID);
             try {
                 ResultSet rs = getUsername.executeQuery();
                 while(rs.next()){
                     returnUserID = rs.getString("ID");
-                    returnUsername = rs.getString("code");
+                    returnUsername = rs.getString("name");
                     returnUserpassword = rs.getString("password");
                 }
             } catch (SQLException throwables) {

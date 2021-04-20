@@ -18,7 +18,7 @@ public interface LobbyStore {
 
     List<Restaurant> getRestaurantList(String lobbyID) throws SQLException;
 
-    Lobby initLobby(String ownerID, String lobbyID, String location) throws SQLException, IOException; // insert into lobbies and setup lobbypreference
+    Lobby initLobby(String ownerID, String location) throws SQLException, IOException; // insert into lobbies and setup lobbypreference
 
     Lobby joinLobby(String userID, String lobbyID) throws SQLException;
 
@@ -26,4 +26,5 @@ public interface LobbyStore {
 
     Restaurant getRecommendation(String lobbyID) throws SQLException;
 
+    Lobby getCurrentLobbyByCode(String lobbyCode) throws SQLException;
 }

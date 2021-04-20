@@ -39,9 +39,9 @@ public interface LobbyPreferences {
 //
 //    public Map<String, Integer> getLobbyMap(Lobby lobby);
 //
-    public int storeToDB(DBconnection con_in, Lobby lobby, Restaurant rest) throws SQLException;
+    public int storeToDB(String lobbyID, String restaurantID) throws SQLException;
 
-    public int incrementDB(DBconnection con_in, Lobby lobby, Restaurant rest) throws SQLException;
+    public int incrementDB(String lobbyID, String restaurantID) throws SQLException;
 
 
 }

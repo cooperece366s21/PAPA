@@ -41,7 +41,7 @@ public class jdbitest {
 
     public static void initLobby() throws IOException, SQLException {
         LobbyStoreImpl lobbyStore = new LobbyStoreImpl();
-        Lobby lobby = lobbyStore.initLobby("owner", "lobby", "10003");
+        Lobby lobby = lobbyStore.initLobby("owner",  "10003");
     }
 
     public static void getRestList() throws SQLException {

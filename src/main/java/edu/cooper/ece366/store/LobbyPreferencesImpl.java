@@ -127,13 +127,13 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
 //    }
 //
     @Override
-    public int storeToDB(DBconnection con_in, Lobby lobby, Restaurant rest) throws SQLException {
+    public int storeToDB(String lobbyID, String restID) throws SQLException {
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO lobby_preferred_restaurants (lobby_id, rest_id) VALUES (?, ?);");
-            stmt.setString(1, lobby.ID());
-            stmt.setString(2, rest.ID());
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO lobby_preferred_restaurants (lobbyID, restID, votes) VALUES (?, ?, 0);");
+            stmt.setString(1, lobbyID);
+            stmt.setString(2, restID);
             try{
                 stmt.executeUpdate();
             } catch (SQLException throwables) {
@@ -152,11 +152,16 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
     }
 
     @Override
-    public int incrementDB(DBconnection con_in, Lobby lobby, Restaurant rest) throws SQLException {
+    public int incrementDB(String lobbyID, String restaurantID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
         try{
-            conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("UPDATE lobby_preferred_restaurants SET vote = vote+1 WHERE lobby.ID=lobby_id AND rest.id = rest_id;");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE lobby_preferred_restaurants " +
+                    "SET vote = vote+1 " +
+                    "WHERE lobbyID = ? AND restaurantID = ?;");
+            stmt.setString(1, lobbyID);
+            stmt.setString(2, restaurantID);
             try{
                 stmt.executeUpdate();
             } catch (SQLException throwables) {

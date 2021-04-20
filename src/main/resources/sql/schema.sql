@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users
 (
     ID              VARCHAR(256)    PRIMARY KEY NOT NULL,
     name            VARCHAR(36)     NOT NULL,
-    password        VARCHAR(64)     NOT NULL
+    password        VARCHAR(64)     NOT NULL,
+    UNIQUE (name)
 );
 
 CREATE TABLE IF NOT EXISTS lobbies
@@ -81,18 +82,18 @@ CREATE TABLE IF NOT EXISTS hours
 CREATE TABLE IF NOT EXISTS user_preferred_restaurants
 (
     userID          VARCHAR(256)    NOT NULL,
-    restaurantID    VARCHAR(256)    NOT NULL,
+    restID          VARCHAR(256)    NOT NULL,
     preference      ENUM('dislike', 'like'),
-    PRIMARY KEY (userID, restaurantID),
+    PRIMARY KEY (userID, restID),
     FOREIGN KEY (userID) references users (ID)
 );
 
 CREATE TABLE IF NOT EXISTS lobby_preferred_restaurants
 (
     lobbyID         VARCHAR(256)     NOT NULL,
-    restaurantID    VARCHAR(256)     NOT NULL,
-    vote            INTEGER          not null DEFAULT 0,
-    PRIMARY KEY (lobbyID, restaurantID),
+    restID          VARCHAR(256)     NOT NULL,
+    vote            INTEGER          NOT NULL DEFAULT 0,
+    PRIMARY KEY (lobbyID, restID),
     FOREIGN KEY (lobbyID) REFERENCES lobbies (ID),
-    FOREIGN KEY (restaurantID) REFERENCES restaurants(ID)
+    FOREIGN KEY (restID) REFERENCES restaurants(ID)
 );
