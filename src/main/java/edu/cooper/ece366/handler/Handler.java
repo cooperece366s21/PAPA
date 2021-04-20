@@ -99,7 +99,7 @@ public class Handler {
     }
 
     public Lobby createLobby(final Request request) throws IOException, SQLException {
-        String ownerID = request.headers("papauser");
+        String ownerID = request.params(":userID");
         String location = request.params(":location");
         return lobbyStore.initLobby(ownerID, location);
     }

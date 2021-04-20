@@ -179,6 +179,10 @@ public class LobbyStoreImpl implements LobbyStore {
             JSONObject loc = (JSONObject) restaurantDetail.get("location");
             JSONObject coordinates = (JSONObject) restaurantDetail.get("coordinates");
             JSONArray hour = (JSONArray) restaurantDetail.get("hours");
+            String price = "$$";
+            //if(restaurantDetail.get("price") != null) {
+                //price = restaurantDetail.getString("price");
+            //}
             restaurantstoreimpl.storeToDB(dBconnection,
                     restaurantDetail.toString(),
                     restaurantDetail.getString("id"),
@@ -190,7 +194,7 @@ public class LobbyStoreImpl implements LobbyStore {
                     restaurantDetail.getDouble("rating"),
                     loc,
                     coordinates,
-                    restaurantDetail.getString("price"),
+                    price,
                     hour);
 
             // put restaurant into lobbyPreference

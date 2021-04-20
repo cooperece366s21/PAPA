@@ -95,10 +95,11 @@ public class UserPreferencesImpl implements UserPreferences {
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (userID, restaurantID, preference) VALUES (?, ?, ?);");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (userID, restaurantID, preference) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE preference = ?;");
             stmt.setString(1, userID);
             stmt.setString(2, restID);
             stmt.setString(3, preference.toString());
+            stmt.setString(4, preference.toString());
             try{
                 stmt.executeUpdate();
             } catch (SQLException throwables) {

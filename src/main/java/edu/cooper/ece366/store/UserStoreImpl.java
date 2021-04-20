@@ -26,15 +26,15 @@ public class UserStoreImpl implements UserStore {
 
     // Update with user builder
     @Override
-    public User get(final String ID) throws SQLException{
+    public User get(final String name) throws SQLException{
         DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
         this.conn = dbcp.getConnection();
         String returnUserID = null, returnUsername = null, returnUserpassword = null;
         try{
             //conn = dbcp.getConnection();
-            PreparedStatement getUsername = conn.prepareStatement("SELECT * FROM users WHERE ID=?;");
-            getUsername.setString(1, ID);
+            PreparedStatement getUsername = conn.prepareStatement("SELECT * FROM users WHERE name=?;");
+            getUsername.setString(1, name);
             try {
                 ResultSet rs = getUsername.executeQuery();
                 while(rs.next()){

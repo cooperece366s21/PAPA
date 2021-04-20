@@ -103,7 +103,7 @@ public class App
         post("/login", handler::login, gson::toJson);
         post("/logout", handler::logout, gson::toJson);
 
-        post("/:location/createLobby", (req, res) -> handler.createLobby(req), gson::toJson);
+        post("/:userID/:location/createLobby", (req, res) -> handler.createLobby(req), gson::toJson);
         post("/joinLobby", handler::joinLobby, gson::toJson);
         post("/leaveLobby", handler::leaveLobby, gson::toJson);
     }
