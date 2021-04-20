@@ -139,7 +139,7 @@ public class Handler {
     }
 
     public Restaurant getRecommendation(Request request) throws SQLException {
-        String lobbyID = request.headers("papalobby");
+        String lobbyID = request.params("lobbyID");
 
         return lobbyStore.getRecommendation(lobbyID);
     }
