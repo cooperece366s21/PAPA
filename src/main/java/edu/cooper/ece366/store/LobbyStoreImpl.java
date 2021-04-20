@@ -14,6 +14,7 @@ import edu.cooper.ece366.restaurantTest;
 import edu.cooper.ece366.yelpAPI.YelpApi;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+import org.sqlite.core.DB;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -33,9 +34,8 @@ public class LobbyStoreImpl implements LobbyStore {
     Connection conn = null;
 
     @Override
-    public Lobby getCurrentLobby(String lobbyID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public Lobby getCurrentLobby(DBconnection com_in, String lobbyID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         String returnLobbyID = null, returnLobbyCode = null, returnLobbyOwner = null;
         try {
@@ -58,9 +58,8 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public List<Restaurant> getRestaurantList(String lobbyID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public List<Restaurant> getRestaurantList(DBconnection com_in, String lobbyID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
 
         List<String> restaurantIDList = new ArrayList<>();
@@ -131,9 +130,8 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public Lobby initLobby(String ownerID, String location) throws SQLException, IOException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public Lobby initLobby(DBconnection com_in, String ownerID, String location) throws SQLException, IOException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
 
         String lobbyID = UUID.randomUUID().toString();
@@ -183,7 +181,7 @@ public class LobbyStoreImpl implements LobbyStore {
             //if(restaurantDetail.get("price") != null) {
                 //price = restaurantDetail.getString("price");
             //}
-            restaurantstoreimpl.storeToDB(dBconnection,
+            restaurantstoreimpl.storeToDB(com_in,
                     restaurantDetail.toString(),
                     restaurantDetail.getString("id"),
                     restaurantDetail.getString("alias"),
@@ -218,14 +216,15 @@ public class LobbyStoreImpl implements LobbyStore {
                 throwables.printStackTrace();
             }
         }
+
+        joinLobby(com_in, ownerID, lobbyID);
         conn.close();
         return new LobbyBuilder().ID(lobbyID).code(lobbyCode).ownerID(ownerID).build();
     }
 
     @Override
-    public Lobby joinLobby(String userID, String lobbyID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public Lobby joinLobby(DBconnection com_in, String userID, String lobbyID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         try{
             PreparedStatement insertUsertoLobby = conn.prepareStatement(
@@ -248,13 +247,12 @@ public class LobbyStoreImpl implements LobbyStore {
         finally {
             conn.close();
         }
-        return getCurrentLobby(lobbyID);
+        return getCurrentLobby(com_in, lobbyID);
     }
 
     @Override
-    public void leaveLobby(String lobbyID, String userID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public void leaveLobby(DBconnection com_in, String lobbyID, String userID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         try{
             PreparedStatement deleteUser = conn.prepareStatement(
@@ -276,9 +274,8 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public Restaurant getRecommendation(String lobbyID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public Restaurant getRecommendation(DBconnection com_in, String lobbyID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         String returnID = null, returnAlias = null, returnName = null, returnDisplayPhone = null, returnPrice = null;
         String returnCuisine = null, returnAddress = null, returnPhoneNumber = null, returnOperatingHours = null;
@@ -341,9 +338,8 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public Lobby getCurrentLobbyByCode(String lobbyCode) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public Lobby getCurrentLobbyByCode(DBconnection com_in, String lobbyCode) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         String returnLobbyID = null, returnLobbyCode = null, returnLobbyOwner = null;
         try {

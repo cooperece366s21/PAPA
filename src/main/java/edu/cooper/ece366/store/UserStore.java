@@ -9,14 +9,14 @@ import java.sql.SQLException;
 
 public interface UserStore {
 
-  User get(String ID) throws SQLException;
+  User get(DBconnection com_in, String ID) throws SQLException;
 
-  int updateDB (final String ID,  final String name) throws SQLException;
+  int updateDB (DBconnection com_in, final String ID,  final String name) throws SQLException;
 
   //String getUserId(User user);
 
-  int storeToDB(String userID, String username, String password) throws SQLException;
+  int storeToDB(DBconnection com_in, String userID, String username, String password) throws SQLException;
 
-  User newUser(String name, String password) throws SQLException;
+  User newUser(DBconnection com_in, String name, String password) throws SQLException;
 
 }

@@ -128,9 +128,8 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
 //    }
 //
     @Override
-    public int storeToDB(String lobbyID, String restID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public int storeToDB(DBconnection com_in, String lobbyID, String restID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         try{
             PreparedStatement stmt = conn.prepareStatement(
@@ -156,9 +155,8 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
     }
 
     @Override
-    public int incrementDB(String lobbyID, String restaurantID) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public int incrementDB(DBconnection com_in, String lobbyID, String restaurantID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         try{
             PreparedStatement stmt = conn.prepareStatement("UPDATE lobby_preferred_restaurants " +

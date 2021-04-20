@@ -25,9 +25,9 @@ public interface UserPreferences {
 
     public Map<String, Enum> getPreferencesMap();
 
-    public int storeToDB(String userID, String restID, UserPreferences.preference preference) throws SQLException;
+    public int storeToDB(DBconnection com_in, String userID, String restID, UserPreferences.preference preference) throws SQLException;
 
-    public int updateDB(String userID, String restID, UserPreferences.preference preference) throws SQLException;
+    public int updateDB(DBconnection com_in, String userID, String restID, UserPreferences.preference preference) throws SQLException;
 
 //    public preference get(String userID, String restID) throws SQLException
 

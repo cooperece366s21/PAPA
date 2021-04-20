@@ -26,22 +26,22 @@ public class RestaurantStoreImpl implements RestaurantStore{
     DataSource dbcp;
     Connection conn = null;
 
-    @Override
-    public Restaurant get(final String id) {
-        return null;
-    }
-
-    @Override
-    public String getRestId(Restaurant restaurant){
-
-        return null;
-    }
+//    @Override
+//    public Restaurant get(final String id) {
+//        return null;
+//    }
+//
+//    @Override
+//    public String getRestId(Restaurant restaurant){
+//
+//        return null;
+//    }
 
     @Override
     public int storeToDB(DBconnection con_in, String response, String ID, String alias, String name, String phone,
                          String displayPhone, JSONArray cuisine, double rating, JSONObject location,
                          JSONObject coordinates, String price, JSONArray hour) throws SQLException {
-        this.dbcp = DBconnection.getDataSource();
+        this.dbcp = con_in.getDataSource();
         conn = dbcp.getConnection();
 
         JSONObject jsOpen = hour.getJSONObject(0);
@@ -282,14 +282,14 @@ public class RestaurantStoreImpl implements RestaurantStore{
         }
         return  0;
     }
-
-    @Override
-    public List<Restaurant> getListRest(List<String> restStringList){
-        List<Restaurant> restList = new ArrayList<Restaurant>();
-        for(String restString : restStringList){
-            Restaurant rest = get(restString);
-            restList.add(rest);
-        }
-        return restList;
-    }
+//
+//    @Override
+//    public List<Restaurant> getListRest(List<String> restStringList){
+//        List<Restaurant> restList = new ArrayList<Restaurant>();
+//        for(String restString : restStringList){
+//            Restaurant rest = get(restString);
+//            restList.add(rest);
+//        }
+//        return restList;
+//    }
 }

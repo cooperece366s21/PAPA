@@ -26,9 +26,8 @@ public class UserStoreImpl implements UserStore {
 
     // Update with user builder
     @Override
-    public User get(final String name) throws SQLException{
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public User get(DBconnection com_in, final String name) throws SQLException{
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         String returnUserID = null, returnUsername = null, returnUserpassword = null;
         try{
@@ -62,10 +61,10 @@ public class UserStoreImpl implements UserStore {
     }
 
     @Override
-    public int updateDB(final String ID,  final String name) throws SQLException{
-        this.dbcp = DBconnection.getDataSource();
+    public int updateDB(DBconnection com_in, final String ID,  final String name) throws SQLException{
+        this.dbcp = com_in.getDataSource();
+        this.conn = dbcp.getConnection();
         try{
-            conn = dbcp.getConnection();
             PreparedStatement getUsername = conn.prepareStatement("UPDATE users SET name=? WHERE ID=?;");
             getUsername.setString(1, name);
             getUsername.setString(2, ID);
@@ -123,9 +122,8 @@ public class UserStoreImpl implements UserStore {
     //}
 
     @Override
-    public int storeToDB(String userID, String username, String password) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public int storeToDB(DBconnection com_in, String userID, String username, String password) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
         try{
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (id, name, password) VALUES (?, ?, ?);");
@@ -150,9 +148,8 @@ public class UserStoreImpl implements UserStore {
     }
 
     @Override
-    public User newUser(String name, String password) throws SQLException {
-        DBconnection dBconnection = new DBconnection();
-        this.dbcp = DBconnection.getDataSource();
+    public User newUser(DBconnection com_in, String name, String password) throws SQLException {
+        this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
 
         String userID = UUID.randomUUID().toString();

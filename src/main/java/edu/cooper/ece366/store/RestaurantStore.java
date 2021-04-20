@@ -11,11 +11,11 @@ import java.util.List;
 public interface RestaurantStore {
 
 
-    Restaurant get(String id);
-
-    List<Restaurant> getListRest(List<String> restStringList);
-
-    String getRestId(Restaurant restaurant);
+//    Restaurant get(String id);
+//
+//    List<Restaurant> getListRest(List<String> restStringList);
+//
+//    String getRestId(Restaurant restaurant);
 
     int storeToDB(DBconnection con_in, String response, String ID, String alias, String name, String phone,
                   String displayPhone, JSONArray cuisine, double rating, JSONObject location, JSONObject coordinates,

@@ -14,17 +14,17 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LobbyStore {
-    Lobby getCurrentLobby(String lobbyID) throws SQLException;
+    Lobby getCurrentLobby(DBconnection com_in, String lobbyID) throws SQLException;
 
-    List<Restaurant> getRestaurantList(String lobbyID) throws SQLException;
+    List<Restaurant> getRestaurantList(DBconnection com_in, String lobbyID) throws SQLException;
 
-    Lobby initLobby(String ownerID, String location) throws SQLException, IOException; // insert into lobbies and setup lobbypreference
+    Lobby initLobby(DBconnection com_in, String ownerID, String location) throws SQLException, IOException; // insert into lobbies and setup lobbypreference
 
-    Lobby joinLobby(String userID, String lobbyID) throws SQLException;
+    Lobby joinLobby(DBconnection com_in, String userID, String lobbyID) throws SQLException;
 
-    void leaveLobby(String lobbyID, String userID) throws SQLException;
+    void leaveLobby(DBconnection com_in, String lobbyID, String userID) throws SQLException;
 
-    Restaurant getRecommendation(String lobbyID) throws SQLException;
+    Restaurant getRecommendation(DBconnection com_in, String lobbyID) throws SQLException;
 
-    Lobby getCurrentLobbyByCode(String lobbyCode) throws SQLException;
+    Lobby getCurrentLobbyByCode(DBconnection com_in, String lobbyCode) throws SQLException;
 }

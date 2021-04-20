@@ -39,6 +39,7 @@ public class Handler {
     private final AuthUserStore authUserStore;
     private final AuthLobbyStore authLobbyStore;
     private final Gson gson;
+    private final DBconnection com_in;
 
     public Handler(final Gson gson){
         this.userStore = new UserStoreImpl();
@@ -50,26 +51,27 @@ public class Handler {
         this.authUserStore = new AuthUserStoreImpl();
         this.authLobbyStore = new AuthLobbyStoreImpl();
         this.gson = gson;
+        this.com_in = new DBconnection();
     }
 
     public User getCurrentUser(final Request request, final Response res) throws SQLException {
         String userID = request.params(":userID");
-        return userStore.get(userID);
+        return userStore.get(com_in, userID);
     }
 
     public Lobby getCurrentLobby(final Request request) throws SQLException {
         String lobbyID = request.params(":lobbyID");
 
-        return lobbyStore.getCurrentLobby(lobbyID);
+        return lobbyStore.getCurrentLobby(com_in, lobbyID);
     }
 
     public User signUp(final Request request) throws SQLException {
         String username = request.params(":username");
         String password = request.params(":password");
         String userID = UUID.randomUUID().toString();
-        userStore.storeToDB(userID,username,password);
+        userStore.storeToDB(com_in, userID,username,password);
 
-        return userStore.get(userID);
+        return userStore.get(com_in, userID);
     }
 
 //    copy and paste these for updating user preference
@@ -83,7 +85,7 @@ public class Handler {
 
     public User login(final Request request, final Response response) throws SQLException {
         AuthUser auth = gson.fromJson(request.body(), AuthUser.class);
-        User user = userStore.get(auth.username());
+        User user = userStore.get(com_in, auth.username());
         //DOUBLE CHECK TO MAKE SURE USER.PASSWORD() WILL GET YOU THE PASSWORD STRING
         if ((user.password()).equals(auth.password())) {
             // authorized
@@ -101,53 +103,53 @@ public class Handler {
     public Lobby createLobby(final Request request) throws IOException, SQLException {
         String ownerID = request.params(":userID");
         String location = request.params(":location");
-        return lobbyStore.initLobby(ownerID, location);
+        return lobbyStore.initLobby(com_in, ownerID, location);
     }
 
     public Lobby joinLobby(final Request request, final Response response) throws SQLException {
         String userID = request.headers("papauser");
         AuthLobby auth = gson.fromJson(request.body(), AuthLobby.class);
-        Lobby lobby = lobbyStore.getCurrentLobbyByCode(auth.code());
+        Lobby lobby = lobbyStore.getCurrentLobbyByCode(com_in, auth.code());
         String token = authLobbyStore.setLobby(lobby);
         response.header("papalobby", token);
         response.status(200);
 
-        return lobbyStore.joinLobby(userID, lobby.ID());
+        return lobbyStore.joinLobby(com_in, userID, lobby.ID());
     }
 
     public List<Restaurant> getRestaurantList(final Request request) throws SQLException {
         String lobbyID = request.headers("papalobby");
 
-        return lobbyStore.getRestaurantList(lobbyID);
+        return lobbyStore.getRestaurantList(com_in, lobbyID);
     }
 
     public Integer like(Request request) throws SQLException {
         String lobbyID = request.params(":lobbyID");
         String userID = request.params(":userID");
         String restaurantID = request.params(":restID");
-        lobbyPreferences.incrementDB(lobbyID, restaurantID);
+        lobbyPreferences.incrementDB(com_in, lobbyID, restaurantID);
 
-        userPreferences.storeToDB(userID, restaurantID, UserPreferences.preference.like);
+        userPreferences.storeToDB(com_in, userID, restaurantID, UserPreferences.preference.like);
         return null;
     }
 
     public Integer dislike(Request request) throws SQLException {
         String userID = request.params(":userID");
         String restaurantID = request.params("restID");
-        userPreferences.storeToDB(userID, restaurantID, UserPreferences.preference.dislike);
+        userPreferences.storeToDB(com_in, userID, restaurantID, UserPreferences.preference.dislike);
         return null;
     }
 
     public Restaurant getRecommendation(Request request) throws SQLException {
         String lobbyID = request.params("lobbyID");
 
-        return lobbyStore.getRecommendation(lobbyID);
+        return lobbyStore.getRecommendation(com_in, lobbyID);
     }
 
     public Object leaveLobby(Request request, final Response response) throws SQLException {
         String userID = request.headers("papauser");
         String lobbyID = request.headers("papalobby");
-        lobbyStore.leaveLobby(lobbyID, userID);
+        lobbyStore.leaveLobby(com_in, lobbyID, userID);
         authLobbyStore.invalidateLobby(lobbyID);
         response.status(200);
         return null;

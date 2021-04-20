@@ -41,21 +41,21 @@ public class jdbitest {
 
     public static void initLobby() throws IOException, SQLException {
         LobbyStoreImpl lobbyStore = new LobbyStoreImpl();
-        Lobby lobby = lobbyStore.initLobby("owner",  "10003");
+        //Lobby lobby = lobbyStore.initLobby("owner",  "10003");
     }
 
     public static void getRestList() throws SQLException {
         LobbyStoreImpl lobbyStore = new LobbyStoreImpl();
-        List<Restaurant> rList = lobbyStore.getRestaurantList("lobby");
-        for (Restaurant r:rList) {
-            System.out.println(r.toString());
-        }
+        //List<Restaurant> rList = lobbyStore.getRestaurantList("lobby");
+//        for (Restaurant r:rList) {
+//            System.out.println(r.toString());
+//        }
     }
 
     public static void getRec() throws SQLException {
         LobbyStoreImpl lobbyStore = new LobbyStoreImpl();
-        Restaurant res = lobbyStore.getRecommendation("lobby");
-        System.out.println(res.toString());
+//        Restaurant res = lobbyStore.getRecommendation("lobby");
+//        System.out.println(res.toString());
     }
 
     public static void main(String[] args) throws SQLException, IOException {

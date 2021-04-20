@@ -65,10 +65,10 @@ public class UserPreferencesImpl implements UserPreferences {
     public Map<String, Enum> getPreferencesMap(){ return null; }
 
     @Override
-    public int updateDB(String userID, String restID, UserPreferences.preference preference) throws SQLException{
-        this.dbcp = DBconnection.getDataSource();
+    public int updateDB(DBconnection com_in, String userID, String restID, UserPreferences.preference preference) throws SQLException{
+        this.dbcp = com_in.getDataSource();
+        conn = dbcp.getConnection();
         try{
-            conn = dbcp.getConnection();
             PreparedStatement getUsername = conn.prepareStatement("UPDATE user_preferred_restaurants SET preference=? WHERE userID=? AND restaurantID=?;");
             getUsername.setString(1, preference.name());
             getUsername.setString(2, userID);
@@ -91,10 +91,10 @@ public class UserPreferencesImpl implements UserPreferences {
     }
 
     @Override
-    public int storeToDB(String userID, String restID, UserPreferences.preference preference) throws SQLException {
-        this.dbcp = DBconnection.getDataSource();
+    public int storeToDB(DBconnection com_in, String userID, String restID, UserPreferences.preference preference) throws SQLException {
+        this.dbcp = com_in.getDataSource();
+        conn = dbcp.getConnection();
         try{
-            conn = dbcp.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (userID, restaurantID, preference) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE preference = ?;");
             stmt.setString(1, userID);
             stmt.setString(2, restID);
