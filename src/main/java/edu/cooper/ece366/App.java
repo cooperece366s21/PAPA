@@ -94,10 +94,10 @@ public class App
         //get("/getPreferenceMap", (req, res) -> handler.getPreferenceMap(), gson::toJson);
 
         //get("/:lobbyId/init", (req, res) -> handler.initLobbyMap(req), gson::toJson);
-        get("/:lobbyId/recommendation", (req, res) -> handler.getRecommendation(req), gson::toJson);
+        get("/:lobbyID/recommendation", (req, res) -> handler.getRecommendation(req), gson::toJson);
 
-        post("/:userId/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
-        post("/:userId/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);
+        post("/:userID/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
+        post("/:userID/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);
 
         post("/:username/:password/signUp", (req, res) -> handler.signUp(req), gson::toJson);
         post("/login", handler::login, gson::toJson);

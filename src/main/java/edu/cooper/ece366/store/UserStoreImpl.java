@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -85,8 +86,8 @@ public class UserStoreImpl implements UserStore {
         return 0;
     }
 
-    @Override
-    public String getUserId(User user){
+    //@Override
+    //public String getUserId(User user){
 //        username = user.ID();
 //        this.dbcp = DBconnection.getDataSource();
 //        String returnUserID = null, returnUsername = null, returnUserpassword = null;
@@ -118,14 +119,15 @@ public class UserStoreImpl implements UserStore {
 //                .password("returnUserpassword")
 //                .build();
 //        return user;
-        return user.ID();
-    }
+        //return user.ID();
+    //}
 
     @Override
     public int storeToDB(String userID, String username, String password) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
         try{
-            conn = dbcp.getConnection();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (id, name, password) VALUES (?, ?, ?);");
             stmt.setString(1, userID);
             stmt.setString(2, username);
@@ -145,6 +147,36 @@ public class UserStoreImpl implements UserStore {
             conn.close();
         }
         return  0;
+    }
+
+    @Override
+    public User newUser(String name, String password) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
+
+        String userID = UUID.randomUUID().toString();
+
+        try{
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (ID, name, password) VALUES (?, ?, ?);");
+            stmt.setString(1, userID);
+            stmt.setString(2, name);
+            stmt.setString(3, password);
+            try{
+                stmt.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+
+        return new UserBuilder().ID(userID).name(name).password(password).build();
     }
 
 }

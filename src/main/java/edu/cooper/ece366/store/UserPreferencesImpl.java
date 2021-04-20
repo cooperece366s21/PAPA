@@ -95,7 +95,7 @@ public class UserPreferencesImpl implements UserPreferences {
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (userID, restID, preference) VALUES (?, ?, ?);");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (userID, restaurantID, preference) VALUES (?, ?, ?);");
             stmt.setString(1, userID);
             stmt.setString(2, restID);
             stmt.setString(3, preference.toString());

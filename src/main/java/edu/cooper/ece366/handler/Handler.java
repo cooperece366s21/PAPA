@@ -64,8 +64,8 @@ public class Handler {
     }
 
     public User signUp(final Request request) throws SQLException {
-        String username = request.params(":userName");
-        String password = request.params(":userPassword");
+        String username = request.params(":username");
+        String password = request.params(":password");
         String userID = UUID.randomUUID().toString();
         userStore.storeToDB(userID,username,password);
 
@@ -77,8 +77,8 @@ public class Handler {
 //    userPreferences.storeToDB(userID,restID,preference);
 
 //    copy and paste these for updating lobby preference
-//    lobbyPreferences.incrementDB(lobbyID,restID,preference); take in enum of preference type
-//    lobbyPreferences.storeToDB(userID,restID,preference);
+//    lobbyPreferences.incrementDB(lobbyID,restID);
+//    lobbyPreferences.storeToDB(lobbyID,restID);
 
 
     public User login(final Request request, final Response response) throws SQLException {
@@ -121,11 +121,20 @@ public class Handler {
         return lobbyStore.getRestaurantList(lobbyID);
     }
 
-    public Integer like(Request request){
+    public Integer like(Request request) throws SQLException {
+        String lobbyID = request.params(":lobbyID");
+        String userID = request.params(":userID");
+        String restaurantID = request.params(":restID");
+        lobbyPreferences.incrementDB(lobbyID, restaurantID);
+
+        userPreferences.storeToDB(userID, restaurantID, UserPreferences.preference.like);
         return null;
     }
 
-    public Integer dislike(Request request){
+    public Integer dislike(Request request) throws SQLException {
+        String userID = request.params(":userID");
+        String restaurantID = request.params("restID");
+        userPreferences.storeToDB(userID, restaurantID, UserPreferences.preference.dislike);
         return null;
     }
 

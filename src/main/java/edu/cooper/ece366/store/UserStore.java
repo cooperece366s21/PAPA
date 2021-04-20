@@ -13,8 +13,10 @@ public interface UserStore {
 
   int updateDB (final String ID,  final String name) throws SQLException;
 
-  String getUserId(User user);
+  //String getUserId(User user);
 
   int storeToDB(String userID, String username, String password) throws SQLException;
+
+  User newUser(String name, String password) throws SQLException;
 
 }

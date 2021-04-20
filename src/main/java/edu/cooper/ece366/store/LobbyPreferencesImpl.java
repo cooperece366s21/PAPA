@@ -5,6 +5,7 @@ import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.store.LobbyStore;
+import org.sqlite.core.DB;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -128,10 +129,13 @@ public class LobbyPreferencesImpl implements LobbyPreferences {
 //
     @Override
     public int storeToDB(String lobbyID, String restID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
         try{
-            conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO lobby_preferred_restaurants (lobbyID, restID, votes) VALUES (?, ?, 0);");
+            PreparedStatement stmt = conn.prepareStatement(
+                    "INSERT INTO lobby_preferred_restaurants (lobbyID, restaurantID, vote) " +
+                            "VALUES (?, ?, 0);");
             stmt.setString(1, lobbyID);
             stmt.setString(2, restID);
             try{
