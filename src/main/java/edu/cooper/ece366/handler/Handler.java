@@ -6,18 +6,23 @@ import edu.cooper.ece366.auth.authLobby.AuthLobbyStore;
 import edu.cooper.ece366.auth.authUser.AuthUser;
 import edu.cooper.ece366.auth.authUser.AuthUserStore;
 import edu.cooper.ece366.framework.Lobby;
+import edu.cooper.ece366.framework.UserBuilder;
 import edu.cooper.ece366.service.SwipingService;
 import edu.cooper.ece366.store.*;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.store.RestaurantStore;
+import edu.cooper.ece366.DBconnection.DBconnection;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.List;
 
 import spark.Request;
 import spark.Response;
+
 
 public class Handler {
 
@@ -51,15 +56,59 @@ public class Handler {
 
     //need to figure out issue with the type - request.params works with string but not UUID
 
-    public User getUser(Request request) {
+    // User
+    public int addUser(Request request) throws SQLException {
+        String userID = request.params(":userID");
+        String username = request.params(":userName");
+        String password = request.params(":userPassword");
+//        User user = new UserBuilder().ID(userID)
+//                .name(username)
+//                .password(password)
+//                .build();
+        return userStore.storeToDB(userID,username,password);
+    }
+
+    public User getUser(Request request) throws SQLException {
         String userID = request.params(":userID");
         return userStore.get(userID);
     }
 
-    public Lobby getLobby(Request request) {
-        String lobbyID = request.params(":lobbyID");
-        return lobbyStore.get(lobbyID);
+    public int updateUser(Request request) throws SQLException {
+        String userID = request.params(":userID");
+        String newname = request.params(":newname");
+        return userStore.updateDB(userID, newname);
     }
+
+    // Lobby
+    public Lobby getLobby(Request request) throws SQLException {
+        String lobbyID = request.params(":lobbyID");
+        return lobbyStore.getCurrentLobby(lobbyID);
+    }
+
+    public Lobby getCurrentLobby(Request request) throws IOException, SQLException {
+        String ownerID = request.params(":ownerID");
+        String lobbyID = request.params(":lobbyID");
+        String location = request.params(":location");
+        return lobbyStore.initLobby(ownerID, lobbyID, location);
+    }
+
+    // User Preferences
+    public int addUserPreference(Request request) throws SQLException {
+        String userID = request.params(":userID");
+        String restID = request.params(":restID");
+        UserPreferences.preference preference = Enum.valueOf(UserPreferences.preference.class, request.params(":userPassword"));
+
+        return userPreferences.storeToDB(userID, restID, preference);
+    }
+
+    public int updateUserPreference(Request request) throws SQLException {
+        String userID = request.params(":userID");
+        String restID = request.params(":restID");
+        UserPreferences.preference preference = Enum.valueOf(UserPreferences.preference.class, request.params(":userPassword"));
+
+        return userPreferences.updateDB(userID, restID, preference);
+    }
+
 
     /*
     public List<Restaurant> getRestList(Request req){
@@ -77,15 +126,15 @@ public class Handler {
 
  */
 
-    public Restaurant result(Request req){
+    public Restaurant result(Request req) throws SQLException {
 
         String lobbyID = req.params(":lobbyID");
-        Lobby lobby = lobbyStore.get(lobbyID);
+        Lobby lobby = lobbyStore.getCurrentLobby(lobbyID);
 
-        return lobbyPreferences.getRecommendation(lobby, restaurantStore);
+        return null;
     }
 
-    public Integer like(Request req){
+    public Integer like(Request req) throws SQLException {
         //HTTP POST /:userID/:lobbyID/:restID/like
         //curl -s localhost:4567/user/1/feed
         //curl -s localhost:number/user/:userID/lobby/:lobbyID/restaurant/:restID/like
@@ -94,7 +143,7 @@ public class Handler {
         User user = userStore.get(userID);
 
         String lobbyID = req.params(":lobbyID");
-        Lobby lobby = lobbyStore.get(lobbyID);
+        Lobby lobby = lobbyStore.getCurrentLobby(lobbyID);
 
         String restID = req.params(":restID");
         Restaurant restaurant = restaurantStore.get(restID);
@@ -103,7 +152,7 @@ public class Handler {
     }
 
 
-    public Integer dislike(Request req){
+    public Integer dislike(Request req) throws SQLException {
 
         //HTTP POST /:userID/:lobbyID/:restID/dislike
 
@@ -111,7 +160,7 @@ public class Handler {
         User user1 = userStore.get(userID1);
 
         String lobbyID1 = req.params(":lobbyID");
-        Lobby lobby1 = lobbyStore.get(lobbyID1);
+        Lobby lobby1 = lobbyStore.getCurrentLobby(lobbyID1);
 
         String restID1 = req.params(":restID");
         Restaurant restaurant1 = restaurantStore.get(restID1);
@@ -119,34 +168,33 @@ public class Handler {
         return swipingService.dislike(lobby1, restaurant1, user1);
     }
 
-    public List<String> getRestaurantList(Request req){
+    public List<Restaurant> getRestaurantList(Request req) throws SQLException {
         String lobbyID = req.params(":lobbyID");
         //String lobbyID = req.headers("papalobby");
-        Lobby lobby = lobbyStore.get(lobbyID);
 
-        return lobbyStore.getLobbyList(lobby);
+        return lobbyStore.getRestaurantList(lobbyID);
     }
 
-    public List<Restaurant> getLobbyFeed(Request req){
+    public List<Restaurant> getLobbyFeed(Request req) throws SQLException {
         String lobbyID = req.params(":lobbyID");
         //String lobbyID = req.headers("papalobby");
-        Lobby lobby = lobbyStore.get(lobbyID);
+        Lobby lobby = lobbyStore.getCurrentLobby(lobbyID);
 
-        List<String> lobbyListString = lobbyStore.getLobbyList(lobby);
-        return restaurantStore.getListRest(lobbyListString);
+        //List<String> lobbyListString = lobbyStore.getLobbyList(lobby);
+        return null;
     }
 
-    public Map<String, Integer> initLobbyMap(Request req){
+    public Map<String, Integer> initLobbyMap(Request req) throws SQLException {
         String lobbyID = req.params(":lobbyID");
-        Lobby lobby = lobbyStore.get(lobbyID);
+        Lobby lobby = lobbyStore.getCurrentLobby(lobbyID);
 
 
-        return lobbyPreferences.initLobbyLikes(lobbyStore, lobby);
+        return null;
     }
 
     public Map<String, Integer> getLobbyMap(){
 
-        return lobbyPreferences.returnLobbyLikes();
+        return null;
 
     }
 
@@ -162,7 +210,7 @@ public class Handler {
 
     }
 
-    public User login(final Request request, final Response response) {
+    public User login(final Request request, final Response response) throws SQLException {
         AuthUser auth = gson.fromJson(request.body(), AuthUser.class);
         User user = userStore.get(auth.username());
         if ("password".equals(auth.password())) {
@@ -185,9 +233,9 @@ public class Handler {
         return null;
     }
 
-    public Lobby joinLobby(final Request request, final Response response) {
+    public Lobby joinLobby(final Request request, final Response response) throws SQLException {
         AuthLobby auth = gson.fromJson(request.body(), AuthLobby.class);
-        Lobby lobby = lobbyStore.get(auth.code());
+        Lobby lobby = lobbyStore.getCurrentLobby(auth.code());
 /*        if (lobby.equals(auth.code())) {
             // authorized
             String token = authLobbyStore.setLobby(lobby);

@@ -14,10 +14,6 @@ public interface Lobby {
 
     String code();
 
-    //List<User> user_lists();
-
-    List<String> restaurant_maps(); //list of restaurants
-
-    //Map<String, Integer> restaurant_maps();    //contains all the likes from all the users
+    String ownerID();
 
 }

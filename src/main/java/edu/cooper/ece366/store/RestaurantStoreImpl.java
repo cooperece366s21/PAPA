@@ -1,5 +1,6 @@
 package edu.cooper.ece366.store;
 
+import com.google.gson.JsonNull;
 import edu.cooper.ece366.categories.Restaurant;
 import javax.sql.DataSource;
 import edu.cooper.ece366.model.Address;
@@ -144,7 +145,11 @@ public class RestaurantStoreImpl implements RestaurantStore{
                             "latitude = ?, longitude = ?");
             insertLocation.setString(1, ID);
             insertLocation.setString(2, location.get("address1").toString());
-            insertLocation.setString(3, location.get("address2").toString());
+            if(location.get("address2") == null){
+                insertLocation.setString(3, "");
+            } else {
+                insertLocation.setString(3, location.getString("address2"));
+            }
             insertLocation.setString(4, location.get("address3").toString());
             insertLocation.setString(5, location.get("city").toString());
             insertLocation.setString(6, location.get("zip_code").toString());
@@ -155,7 +160,12 @@ public class RestaurantStoreImpl implements RestaurantStore{
             insertLocation.setDouble(11, coordinates.getDouble("longitude"));
             insertLocation.setString(12, ID);
             insertLocation.setString(13, location.get("address1").toString());
-            insertLocation.setString(14, location.get("address2").toString());
+            if(location.get("address2") == null){
+                insertLocation.setString(14, "");
+            } else {
+                insertLocation.setString(14, location.getString("address2"));
+            }
+            //insertLocation.setString(14, location.get("address2").toString());
             insertLocation.setString(15, location.get("address3").toString());
             insertLocation.setString(16, location.get("city").toString());
             insertLocation.setString(17, location.get("zip_code").toString());

@@ -131,7 +131,7 @@ public class App
     private static final Map<String, User> cookieMap = new HashMap<>();
 
     static {
-        cookieMap.put("decafbad", new UserBuilder().ID("Pablo").nickname("Pablo").build());
+        cookieMap.put("decafbad", new UserBuilder().ID("Pablo").name("Pablo").build());
     }
 
     // "me" endpoint

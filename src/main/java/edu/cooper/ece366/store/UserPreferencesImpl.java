@@ -4,10 +4,12 @@ import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
+import edu.cooper.ece366.framework.UserBuilder;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,7 @@ public class UserPreferencesImpl implements UserPreferences {
     Connection conn = null;
 
     @Override
-    public String getUserID(User user){
+    public String getUserID(User user) {
 
         return user.ID();
     }
@@ -29,7 +31,7 @@ public class UserPreferencesImpl implements UserPreferences {
     @Override
     public String getString(User user, Restaurant restaurant) {
         String userID = user.ID();
-        String restID = restaurant.id();
+        String restID = restaurant.ID();
 
         String output = userID + ':' + restID;
 
@@ -39,7 +41,7 @@ public class UserPreferencesImpl implements UserPreferences {
 
     @Override
     public String getRestID(Restaurant rest){
-        return rest.id();
+        return rest.ID();
     }
 
     @Override
@@ -60,16 +62,42 @@ public class UserPreferencesImpl implements UserPreferences {
     }
 
     @Override
-    public Map<String, Enum> getPreferencesMap(){ return preferences; }
+    public Map<String, Enum> getPreferencesMap(){ return null; }
 
     @Override
-    public int storeToDB(DBconnection con_in, User user, Restaurant rest, UserPreferences.preference preference) throws SQLException {
+    public int updateDB(String userID, String restID, UserPreferences.preference preference) throws SQLException{
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (user_id, rest_id, preference) VALUES (?, ?, ?);");
-            stmt.setString(1, user.ID());
-            stmt.setString(2, rest.id());
+            PreparedStatement getUsername = conn.prepareStatement("UPDATE user_preferred_restaurants SET preference=? WHERE userID=? AND restaurantID=?;");
+            getUsername.setString(1, preference.name());
+            getUsername.setString(2, userID);
+            getUsername.setString(3, restID);
+            try {
+                ResultSet rs = getUsername.executeQuery();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+            return -1;
+        }
+        finally {
+            conn.close();
+        }
+        return 0;
+    }
+
+    @Override
+    public int storeToDB(String userID, String restID, UserPreferences.preference preference) throws SQLException {
+        this.dbcp = DBconnection.getDataSource();
+        try{
+            conn = dbcp.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO user_preferred_restaurants (userID, restaurantID, preference) VALUES (?, ?, ?);");
+            stmt.setString(1, userID);
+            stmt.setString(2, restID);
             stmt.setString(3, preference.toString());
             try{
                 stmt.executeUpdate();

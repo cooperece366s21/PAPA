@@ -42,7 +42,7 @@ public class SwipingServiceImpl implements SwipingService {
         connectStore.updateConnection(lobby, restaurant, user, userPreferences);
 
         //update the lobby likes
-        lobbyPreferences.lobbyLike(lobby, restaurant);
+        //lobbyPreferences.lobbyLike(lobby, restaurant);
 
         return 0;
     }

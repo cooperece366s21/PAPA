@@ -1,18 +1,25 @@
 package edu.cooper.ece366.store;
 
 
+import com.google.common.base.Splitter;
 import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
+import edu.cooper.ece366.categories.RestaurantBuilder;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.framework.LobbyBuilder;
 import edu.cooper.ece366.store.RestaurantStoreImpl;
 import edu.cooper.ece366.store.UserStoreImpl;
 import edu.cooper.ece366.restaurantTest;
+import edu.cooper.ece366.yelpAPI.YelpApi;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.function.Function;
@@ -25,146 +32,306 @@ public class LobbyStoreImpl implements LobbyStore {
     DataSource dbcp;
     Connection conn = null;
 
-    public static final Map<String, Lobby> LOBBY_MAP;
-    static {
-        LOBBY_MAP =
-                List.of(
-                        new LobbyBuilder()
-                                .ID("code1")
-                                .code("code1")
-                                .addRestaurant_map("panya-bakery-new-york")
-                                .addRestaurant_map("mamoun's-halal-new-york")
-                                .addRestaurant_map("smac's-american-new-york")
-                                .build(),
-                        new LobbyBuilder()
-                                .ID("code2")
-                                .code("code2")
-                                .addRestaurant_map("panya-bakery-new-york")
-                                .addRestaurant_map("mamoun's-halal-new-york")
-                                .addRestaurant_map("smac's-american-new-york")
-                                .build())
-                        .stream()
-                        .collect(Collectors.toMap(Lobby::ID, Function.identity()));
-    }
-
     @Override
-    public Lobby get(String id) {
-        return LOBBY_MAP.get(id);
-    }
-
-    @Override
-    public String getCode(Lobby lobby) {
-
-        return lobby.code();
-    }
-
-    @Override
-    public List<String> getLobbyList(Lobby lobby){
-        return lobby.restaurant_maps();
-    }
-
-    @Override
-    public String getLobbyId(Lobby lobby) {
-
-        return lobby.ID();
-    }
-
-
-    @Override
-    public List<Restaurant> getByLocation(Double miles) {
-
-        return null;
-    }
-
-    public Map<String, Integer> generateLobbyMap(Lobby lobby){
-
-        List<String> restaurantList = lobby.restaurant_maps();
-
-        Map<String, Integer> lobbyMap = new HashMap<>();
-
-        for (String rest : restaurantList) {
-            String key = lobby.ID() + ':' + rest;
-            lobbyMap.put(key, 0);
-        }
-
-        return lobbyMap;
-
-    }
-
-    @Override
-    public int storeToDB(DBconnection con_in, String lobbyID, String lobbyCode) throws SQLException {
+    public Lobby getCurrentLobby(String lobbyID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
         this.dbcp = DBconnection.getDataSource();
-        try{
-            conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO lobbies (id, code) VALUES (?, ?);");
-            stmt.setString(1, lobbyID);
-            stmt.setString(2, lobbyCode);
-            try{
-                stmt.executeUpdate();
-            } catch (SQLException throwables) {
-                System.err.println("Error when executing SQL command.");
-                throwables.printStackTrace();
+        this.conn = dbcp.getConnection();
+        String returnLobbyID = null, returnLobbyCode = null, returnLobbyOwner = null;
+        try {
+            PreparedStatement getCuisineID = conn.prepareStatement(
+                    "SELECT * FROM lobbies WHERE ID=?");
+            getCuisineID.setString(1, lobbyID);
+            ResultSet rs = getCuisineID.executeQuery();
+            while(rs.next()){
+                returnLobbyID = rs.getString("ID");
+                returnLobbyCode = rs.getString("code");
+                returnLobbyOwner = rs.getString("owner");
             }
-        } catch (SQLException err) {
-            System.err.println("Error when connecting to database.");
-            err.printStackTrace();
-            return -1;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         finally {
             conn.close();
         }
-        return  0;
+        return new LobbyBuilder().ID(returnLobbyID).code(returnLobbyCode).ownerID(returnLobbyOwner).build();
     }
 
-//    public List<Restaurant> getLobbyFeed(Lobby lobby){
-//        List<String> restaurantStringList = lobby.restaurant_maps();
-//
-//        List<Restaurant> restaurantList = null;
-//
-//        for (String restString : restaurantStringList) {
-//            Restaurant rest =
-//        }
-//    }
-
-//    @Override
-//    public List<Restaurant> generateRestList(){
-//        List<Restaurant> restaurants = new ArrayList<Restaurant>();
-//
-//        for (Map.Entry<String, Restaurant> entry : RestaurantStoreImpl.RESTAURANT_MAP.entrySet()){
-//            restaurants.add(entry.getValue());
-//        }
-//
-//        return restaurants;
-//    }
-    /*
     @Override
-    public Map<Restaurant, Integer> initializeLobby(List<Restaurant> restaurants, Lobby lobby) {
-        //ArrayList<Restaurant> restaurantsList;
-        //restaurants = RestaurantStoreImpl.RESTAURANT_MAP
-        //Restaurant recommendation = RestaurantStoreImpl.RESTAURANT_MAP.get("panya-bakery-new-york")
+    public List<Restaurant> getRestaurantList(String lobbyID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
 
-        for(Restaurant option: restaurants){
-            lobby.restaurant_maps().put(option, 0);
+        List<String> restaurantIDList = new ArrayList<>();
+        List<Restaurant> returnList = new ArrayList<>();
+
+        String returnID = null, returnAlias = null, returnName = null, returnDisplayPhone = null, returnPrice = null;
+        String returnCuisine = null, returnAddress = null, returnPhoneNumber = null, returnOperatingHours = null;
+        String returnYelpInfo = null;
+        Boolean returnIsOpenNow = null;
+        Double returnRating = null;
+        try{
+            PreparedStatement getRestaurantID = conn.prepareStatement(
+                    "SELECT restaurantID FROM lobby_preferred_restaurants WHERE lobbyID=?");
+            getRestaurantID.setString(1, lobbyID);
+            ResultSet rs = getRestaurantID.executeQuery();
+            while(rs.next()){
+                restaurantIDList.add(rs.getString("restaurantID"));
+            }
+        } catch(SQLException throwables){
+            throwables.printStackTrace();
         }
-        //return null;
-        return lobby.restaurant_maps();
+
+        for (String restID : restaurantIDList) {
+
+            // get restaurant
+            try{
+                PreparedStatement getRestaurant = conn.prepareStatement(
+                        "SELECT * FROM restaurants WHERE ID=?");
+                getRestaurant.setString(1, restID);
+                ResultSet rs1 = getRestaurant.executeQuery();
+                while(rs1.next()){
+                    returnID = rs1.getString("ID");
+                    returnAlias = rs1.getString("alias");
+                    returnName = rs1.getString("name");
+                    returnDisplayPhone = rs1.getString("displayPhone");
+                    returnPrice = rs1.getString("price");
+                    returnPhoneNumber = rs1.getString("phone");
+                    returnIsOpenNow = rs1.getBoolean("isOpenNow");
+                    returnRating = rs1.getDouble("rating");
+
+                    returnYelpInfo = rs1.getString("yelpInfo");
+                    JSONObject yelpInfo = new JSONObject(returnYelpInfo);
+
+                    returnCuisine = yelpInfo.get("categories").toString();
+                    returnAddress = yelpInfo.get("location").toString();
+                    returnOperatingHours = yelpInfo.get("hours").toString();
+                }
+            } catch(SQLException throwables){
+                throwables.printStackTrace();
+            }
+
+            // create restaurant object and append to list
+            returnList.add(new RestaurantBuilder().ID(returnID)
+                    .alias(returnAlias)
+                    .name(returnName)
+                    .phoneNumber(returnPhoneNumber)
+                    .displayPhone(returnDisplayPhone)
+                    .price(returnPrice)
+                    .cuisine(returnCuisine)
+                    .address(returnAddress)
+                    .operatingHours(returnOperatingHours)
+                    .isOpenNow(returnIsOpenNow)
+                    .rating(returnRating)
+                    .build());
+        }
+        conn.close();
+        return returnList;
     }
 
-    */
+    @Override
+    public Lobby initLobby(String ownerID, String lobbyID, String location) throws SQLException, IOException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
 
-//    @Override
-//    public Restaurant getRecommendation(Map<String, Integer> restaurant_maps, RestaurantStore restaurantStore) {
-//
-//        Integer maxLikes = Collections.max(restaurant_maps.values());
-//
-//        for (Map.Entry<String, Integer> temp : restaurant_maps.entrySet()) {
-//            if (temp.getValue().equals(maxLikes)) {
-//
-//                return restaurantStore.get(temp.getKey());
-//            }
-//        }
-//        return null;
-//    }
+        String lobbyCode = UUID.randomUUID().toString();
 
+        try{
+            PreparedStatement insertLobby = conn.prepareStatement(
+                    "INSERT INTO lobbies (ID, code, owner) " +
+                            "VALUES (?, ?, ?)" +
+                            "ON DUPLICATE KEY UPDATE ID = ?, owner = ?");
+            insertLobby.setString(1, lobbyID);
+            insertLobby.setString(2, lobbyCode);
+            insertLobby.setString(3, ownerID);
+            insertLobby.setString(4, lobbyID);
+            insertLobby.setString(5, ownerID);
 
+            try{
+                insertLobby.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        YelpApi yelpApi = new YelpApi();
+        JSONArray response = yelpApi.searchForBusinessesByLocation(null, location, 10);
+
+        ArrayList<Object> res = new ArrayList<>();
+
+        for(Object object : response){
+            res.add(object);
+        }
+        RestaurantStoreImpl restaurantstoreimpl = new RestaurantStoreImpl();
+        for(Object r : res){
+            JSONObject jsonObject = (JSONObject) r;
+            String restaurantID = jsonObject.getString("id");
+            JSONObject restaurantDetail = yelpApi.searchByBusinessId(jsonObject.getString("id"));
+            System.out.println(restaurantDetail.toString());
+            // put restaurant into restaurants
+            JSONArray cuisine = (JSONArray) restaurantDetail.get("categories");
+            JSONObject loc = (JSONObject) restaurantDetail.get("location");
+            JSONObject coordinates = (JSONObject) restaurantDetail.get("coordinates");
+            JSONArray hour = (JSONArray) restaurantDetail.get("hours");
+            restaurantstoreimpl.storeToDB(dBconnection,
+                    restaurantDetail.toString(),
+                    restaurantDetail.getString("id"),
+                    restaurantDetail.getString("alias"),
+                    restaurantDetail.getString("name"),
+                    restaurantDetail.getString("phone"),
+                    restaurantDetail.getString("display_phone"),
+                    cuisine,
+                    restaurantDetail.getDouble("rating"),
+                    loc,
+                    coordinates,
+                    restaurantDetail.getString("price"),
+                    hour);
+
+            // put restaurant into lobbyPreference
+
+            try{
+                PreparedStatement insertLobby = conn.prepareStatement(
+                        "INSERT INTO lobby_preferred_restaurants (lobbyID, restaurantID, vote)" +
+                                " VALUES (?, ?, 0)" +
+                                "ON DUPLICATE KEY UPDATE lobbyID = ?, restaurantID = ?");
+                insertLobby.setString(1, lobbyID);
+                insertLobby.setString(2, restaurantID);
+                insertLobby.setString(3, lobbyID);
+                insertLobby.setString(4, restaurantID);
+                try{
+                    insertLobby.executeUpdate();
+                } catch (SQLException throwables) {
+                    System.err.println("Error when executing SQL command.");
+                    throwables.printStackTrace();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        conn.close();
+        return new LobbyBuilder().ID(lobbyID).code(lobbyCode).ownerID(ownerID).build();
+    }
+
+    @Override
+    public Lobby joinLobby(String userID, String lobbyID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
+        try{
+            PreparedStatement insertUsertoLobby = conn.prepareStatement(
+                    "INSERT INTO lobbyusers (lobbyID, userID)" +
+                            " VALUES (?, ?)" +
+                            "ON DUPLICATE KEY UPDATE lobbyID = ?, userID = ?");
+            insertUsertoLobby.setString(1, lobbyID);
+            insertUsertoLobby.setString(2, userID);
+            insertUsertoLobby.setString(3, lobbyID);
+            insertUsertoLobby.setString(4, userID);
+            try{
+                insertUsertoLobby.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+        return getCurrentLobby(lobbyID);
+    }
+
+    @Override
+    public void leaveLobby(String lobbyID, String userID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
+        try{
+            PreparedStatement deleteUser = conn.prepareStatement(
+                    "DELETE FROM lobbyusers WHERE lobbyID = ? AND userID = ?");
+            deleteUser.setString(1, lobbyID);
+            deleteUser.setString(2, userID);
+            try{
+                deleteUser.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+    }
+
+    @Override
+    public Restaurant getRecommendation(String lobbyID) throws SQLException {
+        DBconnection dBconnection = new DBconnection();
+        this.dbcp = DBconnection.getDataSource();
+        this.conn = dbcp.getConnection();
+        String returnID = null, returnAlias = null, returnName = null, returnDisplayPhone = null, returnPrice = null;
+        String returnCuisine = null, returnAddress = null, returnPhoneNumber = null, returnOperatingHours = null;
+        String returnYelpInfo = null;
+        Boolean returnIsOpenNow = null;
+        Double returnRating = null;
+        try{
+            PreparedStatement getRestaurantID = conn.prepareStatement(
+                    "SELECT restaurantID " +
+                            "FROM lobby_preferred_restaurants " +
+                            "WHERE lobbyID = ? AND vote = " +
+                            "(SELECT MAX(vote) FROM lobby_preferred_restaurants)");
+            getRestaurantID.setString(1, lobbyID);
+            ResultSet rs = getRestaurantID.executeQuery();
+            if(rs.next()){
+                try{
+                    PreparedStatement getRestaurant = conn.prepareStatement(
+                            "SELECT * FROM restaurants WHERE ID=?");
+                    getRestaurant.setString(1, rs.getString("restaurantID"));
+                    ResultSet rs1 = getRestaurant.executeQuery();
+                    while(rs1.next()){
+                        returnID = rs1.getString("ID");
+                        returnAlias = rs1.getString("alias");
+                        returnName = rs1.getString("name");
+                        returnDisplayPhone = rs1.getString("displayPhone");
+                        returnPrice = rs1.getString("price");
+                        returnPhoneNumber = rs1.getString("phone");
+                        returnIsOpenNow = rs1.getBoolean("isOpenNow");
+                        returnRating = rs1.getDouble("rating");
+
+                        returnYelpInfo = rs1.getString("yelpInfo");
+                        JSONObject yelpInfo = new JSONObject(returnYelpInfo);
+
+                        returnCuisine = yelpInfo.get("categories").toString();
+                        returnAddress = yelpInfo.get("location").toString();
+                        returnOperatingHours = yelpInfo.get("hours").toString();
+                    }
+                } catch(SQLException throwables){
+                    throwables.printStackTrace();
+                }
+            }
+        } catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+        return new RestaurantBuilder().ID(returnID)
+                .alias(returnAlias)
+                .name(returnName)
+                .phoneNumber(returnPhoneNumber)
+                .displayPhone(returnDisplayPhone)
+                .price(returnPrice)
+                .cuisine(returnCuisine)
+                .address(returnAddress)
+                .operatingHours(returnOperatingHours)
+                .isOpenNow(returnIsOpenNow)
+                .rating(returnRating)
+                .build();
+    }
 }

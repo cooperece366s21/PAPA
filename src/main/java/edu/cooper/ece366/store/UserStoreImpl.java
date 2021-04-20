@@ -9,6 +9,7 @@ import edu.cooper.ece366.framework.UserBuilder;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -17,53 +18,114 @@ import java.util.stream.Collectors;
 
 public class UserStoreImpl implements UserStore {
 
-    public static final Map<String, User> USER_MAP;
-
     DataSource dbcp;
     Connection conn = null;
 
-    static {
-        USER_MAP =
-                List.of(
-                        new UserBuilder()
-                                .ID("KollKid")
-                                .nickname("KollKid")
-                                .build(),
-                        new UserBuilder()
-                                .ID("Pablo")
-                                .nickname("Pablo")
-                                .build(),
-                        new UserBuilder()
-                                .ID("xXx_Sephiroth_xXx")
-                                .nickname("xXx_Sephiroth_xXx")
-                                .build()
-                ).stream()
-                .collect(Collectors.toMap(User::ID, Function.identity()));
+    // Update with user builder
+    @Override
+    public User get(final String ID) throws SQLException{
+        this.dbcp = DBconnection.getDataSource();
+        String returnUserID = null, returnUsername = null, returnUserpassword = null;
+        try{
+            conn = dbcp.getConnection();
+            PreparedStatement getUsername = conn.prepareStatement("SELECT * FROM users WHERE ID=?;");
+            getUsername.setString(1, ID);
+            try {
+                ResultSet rs = getUsername.executeQuery();
+                while(rs.next()){
+                    returnUserID = rs.getString("ID");
+                    returnUsername = rs.getString("code");
+                    returnUserpassword = rs.getString("password");
+                }
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+            return null;
+        }
+        finally {
+            conn.close();
+        }
+        User user = new UserBuilder().ID(returnUserID)
+                .name(returnUsername)
+                .password(returnUserpassword)
+                .build();
+        return user;
     }
 
     @Override
-    public User get(final String id) {
-        return USER_MAP.get(id);
-    }
-
-    @Override
-    public void update(final User user) {
-        USER_MAP.put(user.ID(), user);
+    public int updateDB(final String ID,  final String name) throws SQLException{
+        this.dbcp = DBconnection.getDataSource();
+        try{
+            conn = dbcp.getConnection();
+            PreparedStatement getUsername = conn.prepareStatement("UPDATE users SET name=? WHERE ID=?;");
+            getUsername.setString(1, name);
+            getUsername.setString(2, ID);
+            try {
+                ResultSet rs = getUsername.executeQuery();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+            return -1;
+        }
+        finally {
+            conn.close();
+        }
+        return 0;
     }
 
     @Override
     public String getUserId(User user){
+//        username = user.ID();
+//        this.dbcp = DBconnection.getDataSource();
+//        String returnUserID = null, returnUsername = null, returnUserpassword = null;
+//        try{
+//            conn = dbcp.getConnection();
+//            PreparedStatement getUsername = conn.prepareStatement("SELECT * FROM users WHERE ID=?;");
+//            getUsername.setString(1, id);
+//            try {
+//                ResultSet rs = getUsername.executeQuery();
+//                while(rs.next()){
+//                    returnUserID = rs.getString("ID");
+//                    returnUsername = rs.getString("code");
+//                    returnUserpassword = rs.getString("owner");
+//                }
+//            } catch (SQLException throwables) {
+//                System.err.println("Error when executing SQL command.");
+//                throwables.printStackTrace();
+//            }
+//        } catch (SQLException err) {
+//            System.err.println("Error when connecting to database.");
+//            err.printStackTrace();
+//            return null;
+//        }
+//        finally {
+//            conn.close();
+//        }
+//        User user = new UserBuilder().ID("returnUserID")
+//                .name("returnUsername")
+//                .password("returnUserpassword")
+//                .build();
+//        return user;
         return user.ID();
     }
 
     @Override
-    public int storeToDB(DBconnection con_in, User user) throws SQLException {
+    public int storeToDB(String userID, String username, String password) throws SQLException {
         this.dbcp = DBconnection.getDataSource();
         try{
             conn = dbcp.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (id, name) VALUES (?, ?);");
-            stmt.setString(1, user.ID());
-            stmt.setString(2, user.nickname());
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (id, name, password) VALUES (?, ?, ?);");
+            stmt.setString(1, userID);
+            stmt.setString(2, username);
+            stmt.setString(3, password);
             try{
                 stmt.executeUpdate();
             } catch (SQLException throwables) {

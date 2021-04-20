@@ -6,6 +6,7 @@ import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,26 +14,16 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LobbyStore {
-    Lobby get(String id);
-    String getCode(Lobby lobby);
+    Lobby getCurrentLobby(String lobbyID) throws SQLException;
 
-    String getLobbyId(Lobby lobby);
+    List<Restaurant> getRestaurantList(String lobbyID) throws SQLException;
 
-    public List<String> getLobbyList(Lobby lobby);
+    Lobby initLobby(String ownerID, String lobbyID, String location) throws SQLException, IOException; // insert into lobbies and setup lobbypreference
 
-    // Function to get the list of Restaurants within a certain amount of miles
-    List<Restaurant> getByLocation(Double miles);
+    Lobby joinLobby(String userID, String lobbyID) throws SQLException;
 
-    public int storeToDB(DBconnection con_in, String lobbyID, String lobbyCode) throws SQLException;
+    void leaveLobby(String lobbyID, String userID) throws SQLException;
 
-    //    List<Content> getByRating(Rating rating);
-
-    public Map<String, Integer> generateLobbyMap(Lobby lobby);
-
-//    public List<Restaurant> getLobbyFeed(Lobby lobby);
-
-    //public Map<Restaurant, Integer> initializeLobby(List<Restaurant> restaurants, Lobby lobby);
-
-    //public Restaurant getRecommendation(Map<String, Integer> restaurants_maps, RestaurantStore restaurantStore);
+    Restaurant getRecommendation(String lobbyID) throws SQLException;
 
 }

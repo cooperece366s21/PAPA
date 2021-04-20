@@ -15,7 +15,7 @@ public class ConnectStoreImpl implements ConnectStore {
     @Override
     public String getString(Lobby lobby, Restaurant restaurant, User user){
         String lobbyID = lobby.ID();
-        String restID = restaurant.id();
+        String restID = restaurant.ID();
         String userID = user.ID();
 
         String output = lobbyID + ':' + restID + ':' + userID;

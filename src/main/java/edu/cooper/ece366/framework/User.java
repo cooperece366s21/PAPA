@@ -10,7 +10,9 @@ import java.util.UUID;
 public interface User {
     String ID();
 
-    String nickname();
+    String name();
+
+    String password();
 
 }
 

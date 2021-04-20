@@ -9,12 +9,12 @@ import java.sql.SQLException;
 
 public interface UserStore {
 
-  User get(String id);
+  User get(String ID) throws SQLException;
 
-  void update(User user);
+  int updateDB (final String ID,  final String name) throws SQLException;
 
   String getUserId(User user);
 
-  int storeToDB(DBconnection com_in, User user) throws SQLException;
+  int storeToDB(String userID, String username, String password) throws SQLException;
 
 }

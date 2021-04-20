@@ -1,19 +1,30 @@
 CREATE database if not exists ece366 ;
 USE ece366;
-create table if not exists users
+CREATE TABLE IF NOT EXISTS users
 (
-    ID       varchar(256) primary key not null,
-    name     varchar(36) not null
+    ID              VARCHAR(256)    PRIMARY KEY NOT NULL,
+    name            VARCHAR(36)     NOT NULL,
+    password        VARCHAR(64)     NOT NULL
 );
 
-create table if not exists lobbies
+CREATE TABLE IF NOT EXISTS lobbies
 (
-    ID       varchar(256) primary key not null,
-    code     varchar(36) not null
-    # Come ack and put in list of users in lobby and restaurants in lobby
+    ID              VARCHAR(256)    PRIMARY KEY NOT NULL,
+    code            VARCHAR(36)     NOT NULL,
+    owner           VARCHAR(256)    NOT NULL,
+    FOREIGN KEY (owner) REFERENCES users(ID)
 );
 
-create table if not exists restaurants
+CREATE TABLE IF NOT EXISTS lobbyUsers
+(
+    lobbyID         VARCHAR(256)    NOT NULL,
+    userID          VARCHAR(256)    NOT NULL,
+    FOREIGN KEY (lobbyID) REFERENCES lobbies(ID),
+    FOREIGN KEY (userID) REFERENCES users(ID),
+    PRIMARY KEY (lobbyID, userID)
+);
+
+CREATE TABLE IF NOT EXISTS restaurants
 (
     ID              VARCHAR(256)	PRIMARY KEY NOT NULL,
     alias           VARCHAR(128)    NOT NULL,
@@ -28,7 +39,7 @@ create table if not exists restaurants
     hourID          VARCHAR(32),
     yelpInfo		VARCHAR(4096)   NOT NULL
 );
-create table if not exists cuisine
+CREATE TABLE IF NOT EXISTS cuisine
 (
     restaurantID    VARCHAR(256)    NOT NULL,
     cuisineID       INTEGER  		AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -37,7 +48,7 @@ create table if not exists cuisine
     FOREIGN KEY (restaurantID) REFERENCES restaurants(ID),
     UNIQUE (restaurantID, cuisineTitle)
 );
-create table if not exists location
+CREATE TABLE IF NOT EXISTS location
 (
     restaurantID    VARCHAR(256) 	UNIQUE NOT NULL,
     locationID      INTEGER			PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -67,20 +78,21 @@ CREATE TABLE IF NOT EXISTS hours
     UNIQUE (restaurantID, dayWeek)
 );
 
-create table if not exists user_preferred_restaurants
+CREATE TABLE IF NOT EXISTS user_preferred_restaurants
 (
-    user_id varchar(36) not null,
-    rest_id varchar(36) not null,
-    preference enum('dislike', 'like'),
-    primary key (user_id, rest_id),
-    foreign key (user_id) references users (ID)
+    userID          VARCHAR(256)    NOT NULL,
+    restaurantID    VARCHAR(256)    NOT NULL,
+    preference      ENUM('dislike', 'like'),
+    PRIMARY KEY (userID, restaurantID),
+    FOREIGN KEY (userID) references users (ID)
 );
 
-create table if not exists lobby_preferred_restaurants
+CREATE TABLE IF NOT EXISTS lobby_preferred_restaurants
 (
-    lobby_id varchar(36) not null,
-    rest_id varchar(36) not null,
-    votes varchar(36) not null DEFAULT 0,
-    primary key (lobby_id, rest_id),
-    foreign key (lobby_id) references users (ID)
+    lobbyID         VARCHAR(256)     NOT NULL,
+    restaurantID    VARCHAR(256)     NOT NULL,
+    vote            INTEGER          not null DEFAULT 0,
+    PRIMARY KEY (lobbyID, restaurantID),
+    FOREIGN KEY (lobbyID) REFERENCES lobbies (ID),
+    FOREIGN KEY (restaurantID) REFERENCES restaurants(ID)
 );

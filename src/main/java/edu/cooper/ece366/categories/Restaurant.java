@@ -8,13 +8,16 @@ import io.norberg.automatter.AutoMatter;
 
 @AutoMatter
 public interface Restaurant {
-    String id();
+    String ID();
+    String alias();
     String name();
+    Boolean isOpenNow();
+    String displayPhone();
     String price();
     double rating();
-    Cuisine cuisine();
-    Address address();
-    PhoneNumber phoneNumber();
-    OperatingHours operatingHours();
+    String cuisine();
+    String address();
+    String phoneNumber();
+    String operatingHours();
 
 }
