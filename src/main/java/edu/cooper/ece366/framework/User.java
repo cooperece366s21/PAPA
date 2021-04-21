@@ -15,4 +15,3 @@ public interface User {
     String password();
 
 }
-
