@@ -19,4 +19,6 @@ public interface UserStore {
 
   User newUser(DBconnection com_in, String name, String password) throws SQLException;
 
+  User getUserbyID(DBconnection com_in, String userID) throws SQLException;
+
 }
