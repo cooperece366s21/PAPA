@@ -150,7 +150,11 @@ public class RestaurantStoreImpl implements RestaurantStore{
             } else {
                 insertLocation.setString(3, location.getString("address2"));
             }
-            insertLocation.setString(4, location.get("address3").toString());
+            if(location.get("address3") == null){
+                insertLocation.setString(4, "");
+            } else {
+                insertLocation.setString(4, location.getString("address3"));
+            }
             insertLocation.setString(5, location.get("city").toString());
             insertLocation.setString(6, location.get("zip_code").toString());
             insertLocation.setString(7, location.get("country").toString());
@@ -165,8 +169,13 @@ public class RestaurantStoreImpl implements RestaurantStore{
             } else {
                 insertLocation.setString(14, location.getString("address2"));
             }
+            if(location.get("address3") == null){
+                insertLocation.setString(15, "");
+            } else {
+                insertLocation.setString(15, location.getString("address3"));
+            }
             //insertLocation.setString(14, location.get("address2").toString());
-            insertLocation.setString(15, location.get("address3").toString());
+            //insertLocation.setString(15, location.get("address3").toString());
             insertLocation.setString(16, location.get("city").toString());
             insertLocation.setString(17, location.get("zip_code").toString());
             insertLocation.setString(18, location.get("country").toString());

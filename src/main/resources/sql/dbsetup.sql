@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS ece366;
-USE ece465;
+USE ece366;
 
 DROP USER IF EXISTS 'user1'@'%';
 DROP USER IF EXISTS 'user1'@'localhost';

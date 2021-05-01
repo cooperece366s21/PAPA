@@ -176,4 +176,39 @@ public class UserStoreImpl implements UserStore {
         return new UserBuilder().ID(userID).name(name).password(password).build();
     }
 
+    @Override
+    public User getUserbyID(DBconnection com_in, String userID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
+        this.conn = dbcp.getConnection();
+        String returnUserID = null, returnUsername = null, returnUserpassword = null;
+        try{
+            //conn = dbcp.getConnection();
+            PreparedStatement getUsername = conn.prepareStatement("SELECT * FROM users WHERE ID=?;");
+            getUsername.setString(1, userID);
+            try {
+                ResultSet rs = getUsername.executeQuery();
+                while(rs.next()){
+                    returnUserID = rs.getString("ID");
+                    returnUsername = rs.getString("name");
+                    returnUserpassword = rs.getString("password");
+                }
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException err) {
+            System.err.println("Error when connecting to database.");
+            err.printStackTrace();
+            return null;
+        }
+        finally {
+            conn.close();
+        }
+        User user = new UserBuilder().ID(returnUserID)
+                .name(returnUsername)
+                .password(returnUserpassword)
+                .build();
+        return user;
+    }
+
 }

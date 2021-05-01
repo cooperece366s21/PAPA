@@ -20,6 +20,8 @@ public interface LobbyStore {
 
     Lobby initLobby(DBconnection com_in, String ownerID, String location) throws SQLException, IOException; // insert into lobbies and setup lobbypreference
 
+    Lobby initLobbyWithKeyword(DBconnection com_in, String ownerID, String location, String keyword) throws IOException, SQLException;
+
     Lobby joinLobby(DBconnection com_in, String userID, String lobbyID) throws SQLException;
 
     void leaveLobby(DBconnection com_in, String lobbyID, String userID) throws SQLException;
@@ -27,4 +29,6 @@ public interface LobbyStore {
     Restaurant getRecommendation(DBconnection com_in, String lobbyID) throws SQLException;
 
     Lobby getCurrentLobbyByCode(DBconnection com_in, String lobbyCode) throws SQLException;
+
+    List<User> getLobbyUsers(DBconnection com_in, String lobbyCode) throws SQLException;
 }

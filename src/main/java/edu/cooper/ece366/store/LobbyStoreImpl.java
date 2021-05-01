@@ -135,7 +135,16 @@ public class LobbyStoreImpl implements LobbyStore {
         this.conn = dbcp.getConnection();
 
         String lobbyID = UUID.randomUUID().toString();
-        String lobbyCode = UUID.randomUUID().toString();
+        //String lobbyCode = UUID.randomUUID().toString();
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String lobbyCode = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
 
         try{
             PreparedStatement insertLobby = conn.prepareStatement(
@@ -180,6 +189,108 @@ public class LobbyStoreImpl implements LobbyStore {
             String price = "$$";
             //if(restaurantDetail.get("price") != null) {
                 //price = restaurantDetail.getString("price");
+            //}
+            restaurantstoreimpl.storeToDB(com_in,
+                    restaurantDetail.toString(),
+                    restaurantDetail.getString("id"),
+                    restaurantDetail.getString("alias"),
+                    restaurantDetail.getString("name"),
+                    restaurantDetail.getString("phone"),
+                    restaurantDetail.getString("display_phone"),
+                    cuisine,
+                    restaurantDetail.getDouble("rating"),
+                    loc,
+                    coordinates,
+                    price,
+                    hour);
+
+            // put restaurant into lobbyPreference
+
+            try{
+                PreparedStatement insertLobby = conn.prepareStatement(
+                        "INSERT INTO lobby_preferred_restaurants (lobbyID, restaurantID, vote)" +
+                                " VALUES (?, ?, 0)" +
+                                "ON DUPLICATE KEY UPDATE lobbyID = ?, restaurantID = ?");
+                insertLobby.setString(1, lobbyID);
+                insertLobby.setString(2, restaurantID);
+                insertLobby.setString(3, lobbyID);
+                insertLobby.setString(4, restaurantID);
+                try{
+                    insertLobby.executeUpdate();
+                } catch (SQLException throwables) {
+                    System.err.println("Error when executing SQL command.");
+                    throwables.printStackTrace();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        joinLobby(com_in, ownerID, lobbyID);
+        conn.close();
+        return new LobbyBuilder().ID(lobbyID).code(lobbyCode).ownerID(ownerID).build();
+    }
+
+    @Override
+    public Lobby initLobbyWithKeyword(DBconnection com_in, String ownerID, String location, String keyword) throws IOException, SQLException {
+        this.dbcp = com_in.getDataSource();
+        this.conn = dbcp.getConnection();
+
+        String lobbyID = UUID.randomUUID().toString();
+        //String lobbyCode = UUID.randomUUID().toString();
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String lobbyCode = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        try{
+            PreparedStatement insertLobby = conn.prepareStatement(
+                    "INSERT INTO lobbies (ID, code, owner) " +
+                            "VALUES (?, ?, ?)" +
+                            "ON DUPLICATE KEY UPDATE code = ?, owner = ?");
+            insertLobby.setString(1, lobbyID);
+            insertLobby.setString(2, lobbyCode);
+            insertLobby.setString(3, ownerID);
+            insertLobby.setString(4, lobbyCode);
+            insertLobby.setString(5, ownerID);
+
+            try{
+                insertLobby.executeUpdate();
+            } catch (SQLException throwables) {
+                System.err.println("Error when executing SQL command.");
+                throwables.printStackTrace();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        YelpApi yelpApi = new YelpApi();
+        JSONArray response = yelpApi.searchForBusinessesByLocation(keyword, location, 10);
+
+        ArrayList<Object> res = new ArrayList<>();
+
+        for(Object object : response){
+            res.add(object);
+        }
+        RestaurantStoreImpl restaurantstoreimpl = new RestaurantStoreImpl();
+        for(Object r : res){
+            JSONObject jsonObject = (JSONObject) r;
+            String restaurantID = jsonObject.getString("id");
+            JSONObject restaurantDetail = yelpApi.searchByBusinessId(jsonObject.getString("id"));
+            System.out.println(restaurantDetail.toString());
+            // put restaurant into restaurants
+            JSONArray cuisine = (JSONArray) restaurantDetail.get("categories");
+            JSONObject loc = (JSONObject) restaurantDetail.get("location");
+            JSONObject coordinates = (JSONObject) restaurantDetail.get("coordinates");
+            JSONArray hour = (JSONArray) restaurantDetail.get("hours");
+            String price = "$$";
+            //if(restaurantDetail.get("price") != null) {
+            //price = restaurantDetail.getString("price");
             //}
             restaurantstoreimpl.storeToDB(com_in,
                     restaurantDetail.toString(),
@@ -359,5 +470,33 @@ public class LobbyStoreImpl implements LobbyStore {
             conn.close();
         }
         return new LobbyBuilder().ID(returnLobbyID).code(returnLobbyCode).ownerID(returnLobbyOwner).build();
+    }
+
+    @Override
+    public List<User> getLobbyUsers(DBconnection com_in, String lobbyCode) throws SQLException {
+        this.dbcp = com_in.getDataSource();
+        this.conn = dbcp.getConnection();
+
+        UserStore userStore = new UserStoreImpl();
+
+        List<User> userList = new ArrayList<>();
+
+        String lobbyID = getCurrentLobbyByCode(com_in, lobbyCode).ID();
+        try {
+            this.conn = dbcp.getConnection();
+            PreparedStatement getUser = conn.prepareStatement(
+                    "SELECT userID FROM lobbyusers WHERE lobbyID=?");
+            getUser.setString(1, lobbyID);
+            ResultSet rs = getUser.executeQuery();
+            while(rs.next()){
+                userList.add(userStore.getUserbyID(com_in, rs.getString("userID")));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+        return userList;
     }
 }
