@@ -40,22 +40,27 @@ public final class PhoneNumber {
         return 10007 * (area + 1009 * exch) + ext;
     }
 
-    /*
-    public static void main(String[] args) {
-        PhoneNumber a = new PhoneNumber(609, 258, 4455);
-        PhoneNumber b = new PhoneNumber(609, 876, 5309);
-        PhoneNumber c = new PhoneNumber(609, 203, 5309);
-        PhoneNumber d = new PhoneNumber(215, 876, 5309);
-        PhoneNumber e = new PhoneNumber(609, 876, 5309);
-        StdOut.println("a = " + a);
-        StdOut.println("b = " + b);
-        StdOut.println("c = " + c);
-        StdOut.println("d = " + d);
-        StdOut.println("e = " + e);
-        StdOut.println("b == b:      " + (b == b));
-        StdOut.println("b == e:      " + (b == e));
-        StdOut.println("b.equals(b): " + (b.equals(b)));
-        StdOut.println("b.equals(e): " + (b.equals(e)));
+    public static class PhoneNumberBuilder{
+        private int area;   // area code (3 digits)
+        private int exch;   // exchange  (3 digits)
+        private int ext;    // extension (4 digits)
+
+        public PhoneNumberBuilder area(int area){
+            this.area = area;
+            return this;
+        }
+        public PhoneNumberBuilder exch(int exch){
+            this.exch = exch;
+            return this;
+        }
+        public PhoneNumberBuilder ext(int ext){
+            this.ext = ext;
+            return this;
+        }
+        public PhoneNumber build(){
+            return new PhoneNumber(area, exch, ext);
+        }
     }
-     */
+
+
 }

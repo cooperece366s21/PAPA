@@ -1,5 +1,7 @@
 package edu.cooper.ece366.model;
 
+import org.checkerframework.checker.units.qual.A;
+
 /**
  * A contact is a name and address.
  * <p>
@@ -151,6 +153,38 @@ public class Address implements Cloneable {
     {
         return new Address(name, streetAddress, city,
                 state, zipCode);
+    }
+
+    public static class AddressBuilder{
+        private String name;
+        private String streetAddress;
+        private String city;
+        private String state;
+        private String zipCode;
+
+        public AddressBuilder name(String name){
+            this.name = name;
+            return this;
+        }
+        public AddressBuilder streetAddress(String streetAddress){
+            this.streetAddress = streetAddress;
+            return this;
+        }
+        public AddressBuilder city(String city){
+            this.city = city;
+            return this;
+        }
+        public AddressBuilder state(String state){
+            this.state = state;
+            return this;
+        }
+        public AddressBuilder zipCode(String zipCode){
+            this.zipCode = zipCode;
+            return this;
+        }
+        public Address build(){
+            return new Address(name, streetAddress, city, state, zipCode);
+        }
     }
 
 }

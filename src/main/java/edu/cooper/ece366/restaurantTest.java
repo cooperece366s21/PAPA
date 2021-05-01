@@ -9,7 +9,7 @@ import edu.cooper.ece366.model.PhoneNumber;
 import java.util.ArrayList;
 
 public class restaurantTest {
-
+    /*
     public static void main(String[] args) {
         Restaurant restaurant1 = panya_setup();
         Restaurant restaurant2 = yakitoriTaisho_setup();
@@ -144,4 +144,6 @@ public class restaurantTest {
         return new Restaurant("the-bao-new-york","The Bao","$$",4,
                 theBao_cuisine,theBao_address,theBao_phoneNumber,theBao_operatingHours);
     }
+
+     */
 }

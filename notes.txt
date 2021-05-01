@@ -1,0 +1,18 @@
+
+
+User Restaurant Lobby Like/Dislike <-- i can like something one day and dislike the next
+
+userId, restId, lobbyId, LIKE/DISLIKE
+
+Map<UserId, <Map<RestId, Map<LobbyId, Like/Dislike>>>> ~ multimap
+Map<Triple, Decision>
+userId:restId:lobbyId, Like/Dislike
+
+use interfaces for stores to make switching out from hashmap to postgres easier
+
+user creates a lobby --> database action to create
+users join that lobby --> database action to add
+"game" is started, users presented with options --> "algo" to present all users with same recs
+users like/dislike options --> these are stored in a store somewhere (map or database, etc)
+"game" is ended, users presented with the final counts --> get from store and piece it together / sort if needed
+
