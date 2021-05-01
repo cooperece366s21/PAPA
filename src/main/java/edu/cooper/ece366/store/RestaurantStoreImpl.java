@@ -291,6 +291,30 @@ public class RestaurantStoreImpl implements RestaurantStore{
         }
         return  0;
     }
+
+    @Override
+    public String getRestaurantInfo(DBconnection com_in, String restaurantID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
+        this.conn = dbcp.getConnection();
+
+        String yelpInfo = null;
+
+        try{
+            PreparedStatement getRestaurant = conn.prepareStatement(
+                    "SELECT yelpInfo FROM restaurants WHERE ID=?");
+            getRestaurant.setString(1, restaurantID);
+            ResultSet rs = getRestaurant.executeQuery();
+            while(rs.next()){
+                yelpInfo = rs.getString("yelpInfo");
+            }
+        } catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        finally {
+            conn.close();
+        }
+        return yelpInfo;
+    }
 //
 //    @Override
 //    public List<Restaurant> getListRest(List<String> restStringList){

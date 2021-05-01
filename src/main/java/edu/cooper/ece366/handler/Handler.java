@@ -106,6 +106,13 @@ public class Handler {
         return lobbyStore.initLobby(com_in, ownerID, location);
     }
 
+    public Lobby createLobbyWithKeyword(final Request request) throws IOException, SQLException {
+        String ownerID = request.params(":userID");
+        String location = request.params(":location");
+        String keyword = request.params(":keyword");
+        return lobbyStore.initLobbyWithKeyword(com_in, ownerID, location, keyword);
+    }
+
     public Lobby joinLobby(final Request request, final Response response) throws SQLException {
         String userID = request.headers("papauser");
         AuthLobby auth = gson.fromJson(request.body(), AuthLobby.class);
@@ -117,10 +124,20 @@ public class Handler {
         return lobbyStore.joinLobby(com_in, userID, lobby.ID());
     }
 
+    public List<String> getLobbyUsers(final Request request) throws SQLException {
+        String lobbyID = request.headers("papalobby");
+        return lobbyStore.getLobbyUsers(com_in, lobbyID);
+    }
+
     public List<Restaurant> getRestaurantList(final Request request) throws SQLException {
         String lobbyID = request.headers("papalobby");
 
         return lobbyStore.getRestaurantList(com_in, lobbyID);
+    }
+
+    public String getRestaurantInfo(final Request request) throws SQLException {
+        String restaurantID = request.params(":restaurantID");
+        return restaurantStore.getRestaurantInfo(com_in, restaurantID);
     }
 
     public Integer like(Request request) throws SQLException {

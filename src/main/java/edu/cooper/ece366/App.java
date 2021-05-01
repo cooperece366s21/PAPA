@@ -86,6 +86,7 @@ public class App
       //  get("/user/:userId", (req, res) -> handler.getCurrentUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getCurrentLobby(req), gson::toJson);
         get("/:lobbyID/getList", (req, res) -> handler.getRestaurantList(req), gson::toJson);
+        get("/:restaurantID", (req, res) -> handler.getRestaurantInfo((req)), gson::toJson);
 
         //get("/:lobbyID/getLobbyFeed", (req, res) -> handler.getLobbyFeed(req), gson::toJson);
 
@@ -95,6 +96,7 @@ public class App
 
         //get("/:lobbyId/init", (req, res) -> handler.initLobbyMap(req), gson::toJson);
         get("/:lobbyID/recommendation", (req, res) -> handler.getRecommendation(req), gson::toJson);
+        get("/getLobbyUsers", (req, res) -> handler.getLobbyUsers(req), gson::toJson);
 
         post("/:userID/:lobbyID/:restID/like", (req, res) -> handler.like(req), gson::toJson);
         post("/:userID/:lobbyID/:restID/dislike", (req, res) -> handler.dislike(req), gson::toJson);
@@ -104,6 +106,7 @@ public class App
         post("/logout", handler::logout, gson::toJson);
 
         post("/:userID/:location/createLobby", (req, res) -> handler.createLobby(req), gson::toJson);
+        post("/:userID/:location/:keyword/createLobby", (req, res) -> handler.createLobbyWithKeyword(req), gson::toJson);
         post("/joinLobby", handler::joinLobby, gson::toJson);
         post("/leaveLobby", handler::leaveLobby, gson::toJson);
     }

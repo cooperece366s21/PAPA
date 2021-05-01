@@ -138,7 +138,7 @@ public class LobbyStoreImpl implements LobbyStore {
         //String lobbyCode = UUID.randomUUID().toString();
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
+        int targetStringLength = 6;
         Random random = new Random();
 
         String lobbyCode = random.ints(leftLimit, rightLimit + 1)
@@ -240,7 +240,7 @@ public class LobbyStoreImpl implements LobbyStore {
         //String lobbyCode = UUID.randomUUID().toString();
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
+        int targetStringLength = 6;
         Random random = new Random();
 
         String lobbyCode = random.ints(leftLimit, rightLimit + 1)
@@ -473,15 +473,14 @@ public class LobbyStoreImpl implements LobbyStore {
     }
 
     @Override
-    public List<User> getLobbyUsers(DBconnection com_in, String lobbyCode) throws SQLException {
+    public List<String> getLobbyUsers(DBconnection com_in, String lobbyID) throws SQLException {
         this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
 
         UserStore userStore = new UserStoreImpl();
 
-        List<User> userList = new ArrayList<>();
+        List<String> userList = new ArrayList<>();
 
-        String lobbyID = getCurrentLobbyByCode(com_in, lobbyCode).ID();
         try {
             this.conn = dbcp.getConnection();
             PreparedStatement getUser = conn.prepareStatement(
@@ -489,7 +488,7 @@ public class LobbyStoreImpl implements LobbyStore {
             getUser.setString(1, lobbyID);
             ResultSet rs = getUser.executeQuery();
             while(rs.next()){
-                userList.add(userStore.getUserbyID(com_in, rs.getString("userID")));
+                userList.add(userStore.getUserbyID(com_in, rs.getString("userID")).name());
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -30,5 +30,5 @@ public interface LobbyStore {
 
     Lobby getCurrentLobbyByCode(DBconnection com_in, String lobbyCode) throws SQLException;
 
-    List<User> getLobbyUsers(DBconnection com_in, String lobbyCode) throws SQLException;
+    List<String> getLobbyUsers(DBconnection com_in, String lobbyID) throws SQLException;
 }

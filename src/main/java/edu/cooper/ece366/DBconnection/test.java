@@ -16,6 +16,6 @@ public class test {
         LobbyStore lobbyStore = new LobbyStoreImpl();
         //List<User> userList = lobbyStore.getLobbyUsers(dbcp, "594281f5-8b95-4a5e-94c1-ff513bd0b3f5");
         //System.out.println(userList.toString());
-        lobbyStore.initLobbyWithKeyword(dbcp, "016613c0-33cd-4d9f-ba4b-40c188bb52da", "nyc", "bakery");
+        lobbyStore.initLobbyWithKeyword(dbcp, "016613c0-33cd-4d9f-ba4b-40c188bb52da", "nyc", "pizza");
     }
 }
