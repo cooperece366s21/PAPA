@@ -130,7 +130,7 @@ public class Handler {
     }
 
     public List<Restaurant> getRestaurantList(final Request request) throws SQLException {
-        String lobbyID = request.headers("papalobby");
+        String lobbyID = request.params(":lobbyID");
 
         return lobbyStore.getRestaurantList(com_in, lobbyID);
     }
