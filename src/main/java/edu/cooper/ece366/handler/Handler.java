@@ -140,6 +140,11 @@ public class Handler {
         return restaurantStore.getRestaurantUrl(com_in, restaurantID);
     }
 
+    public List<String> getRestaurantUrlList(final Request request) throws SQLException {
+        String lobbyID = request.params(":lobbyID");
+        return lobbyStore.getImageURLs(com_in, lobbyID);
+    }
+
     public Integer like(Request request) throws SQLException {
         String lobbyID = request.params(":lobbyID");
         String userID = request.params(":userID");

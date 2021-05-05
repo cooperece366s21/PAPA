@@ -498,4 +498,21 @@ public class LobbyStoreImpl implements LobbyStore {
         }
         return userList;
     }
+
+    @Override
+    public List<String> getImageURLs(DBconnection com_in, String lobbyID) throws SQLException {
+        this.dbcp = com_in.getDataSource();
+        this.conn = dbcp.getConnection();
+
+        RestaurantStore restaurantStore = new RestaurantStoreImpl();
+
+        List<String> URLs = new ArrayList<>();
+
+        List<Restaurant> restaurantList = getRestaurantList(com_in, lobbyID);
+        for (Restaurant r : restaurantList){
+            URLs.add(restaurantStore.getRestaurantUrl(com_in, r.ID()));
+        }
+
+        return URLs;
+    }
 }
