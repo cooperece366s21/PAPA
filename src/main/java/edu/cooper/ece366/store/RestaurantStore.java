@@ -22,5 +22,5 @@ public interface RestaurantStore {
                   String displayPhone, JSONArray cuisine, double rating, JSONObject location, JSONObject coordinates,
                   String price, JSONArray hour) throws SQLException;
 
-    String getRestaurantInfo(DBconnection con_in, String restaurantID) throws SQLException;
+    String getRestaurantUrl(DBconnection con_in, String restaurantID) throws SQLException;
 }

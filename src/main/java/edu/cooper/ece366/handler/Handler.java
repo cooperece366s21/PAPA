@@ -135,9 +135,9 @@ public class Handler {
         return lobbyStore.getRestaurantList(com_in, lobbyID);
     }
 
-    public String getRestaurantInfo(final Request request) throws SQLException {
+    public String getRestaurantUrl(final Request request) throws SQLException {
         String restaurantID = request.params(":restaurantID");
-        return restaurantStore.getRestaurantInfo(com_in, restaurantID);
+        return restaurantStore.getRestaurantUrl(com_in, restaurantID);
     }
 
     public Integer like(Request request) throws SQLException {

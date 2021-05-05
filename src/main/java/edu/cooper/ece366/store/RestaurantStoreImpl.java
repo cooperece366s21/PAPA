@@ -293,7 +293,7 @@ public class RestaurantStoreImpl implements RestaurantStore{
     }
 
     @Override
-    public String getRestaurantInfo(DBconnection com_in, String restaurantID) throws SQLException {
+    public String getRestaurantUrl(DBconnection com_in, String restaurantID) throws SQLException {
         this.dbcp = com_in.getDataSource();
         this.conn = dbcp.getConnection();
 
@@ -313,7 +313,9 @@ public class RestaurantStoreImpl implements RestaurantStore{
         finally {
             conn.close();
         }
-        return yelpInfo;
+        JSONObject jsonObject = new JSONObject(yelpInfo);
+        return jsonObject.getString("image_url");
+        //return yelpInfo;
     }
 //
 //    @Override

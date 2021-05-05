@@ -86,7 +86,7 @@ public class App
       //  get("/user/:userId", (req, res) -> handler.getCurrentUser(req), gson::toJson);
         get("/lobby/:lobbyId", (req, res) -> handler.getCurrentLobby(req), gson::toJson);
         get("/:lobbyID/getList", (req, res) -> handler.getRestaurantList(req), gson::toJson);
-        get("/:restaurantID/info", (req, res) -> handler.getRestaurantInfo((req)), gson::toJson);
+        get("/:restaurantID/image_url", (req, res) -> handler.getRestaurantUrl((req)), gson::toJson);
 
         //get("/:lobbyID/getLobbyFeed", (req, res) -> handler.getLobbyFeed(req), gson::toJson);
 
