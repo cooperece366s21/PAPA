@@ -105,7 +105,20 @@ public class LobbyStoreImpl implements LobbyStore {
 
                     returnCuisine = yelpInfo.get("categories").toString();
                     returnAddress = yelpInfo.get("location").toString();
-                    returnOperatingHours = yelpInfo.get("hours").toString();
+                    if(yelpInfo.has("hours")) {
+                        returnOperatingHours = yelpInfo.get("hours").toString();
+                    } else {
+                        returnOperatingHours = "[{\"open\":[" +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":0}," +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":1}," +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":2}," +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":3}," +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":4}," +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":5}," +
+                                "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":6}]," +
+                                "\"hours_type\":\"REGULAR\"," +
+                                "\"is_open_now\":true}]";
+                    }
                 }
             } catch(SQLException throwables){
                 throwables.printStackTrace();
@@ -185,8 +198,27 @@ public class LobbyStoreImpl implements LobbyStore {
             JSONArray cuisine = (JSONArray) restaurantDetail.get("categories");
             JSONObject loc = (JSONObject) restaurantDetail.get("location");
             JSONObject coordinates = (JSONObject) restaurantDetail.get("coordinates");
-            JSONArray hour = (JSONArray) restaurantDetail.get("hours");
-            String price = "$$";
+            JSONArray hour;
+            if(restaurantDetail.has("hours")) {
+                hour = (JSONArray) restaurantDetail.get("hours");
+            } else {
+                hour = new JSONArray("[{\"open\":[" +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":0}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":1}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":2}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":3}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":4}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":5}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":6}]," +
+                        "\"hours_type\":\"REGULAR\"," +
+                        "\"is_open_now\":true}]");
+            }
+            String price;
+            if(restaurantDetail.has("price")) {
+                price = restaurantDetail.getString("price");
+            } else {
+                price = "none";
+            }
             //if(restaurantDetail.get("price") != null) {
                 //price = restaurantDetail.getString("price");
             //}
@@ -287,8 +319,27 @@ public class LobbyStoreImpl implements LobbyStore {
             JSONArray cuisine = (JSONArray) restaurantDetail.get("categories");
             JSONObject loc = (JSONObject) restaurantDetail.get("location");
             JSONObject coordinates = (JSONObject) restaurantDetail.get("coordinates");
-            JSONArray hour = (JSONArray) restaurantDetail.get("hours");
-            String price = "$$";
+            JSONArray hour;
+            if(restaurantDetail.has("hours")) {
+                hour = (JSONArray) restaurantDetail.get("hours");
+            } else{
+                hour = new JSONArray("[{\"open\":[" +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":0}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":1}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":2}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":3}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":4}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":5}," +
+                        "{\"is_overnight\":false,\"start\":\"none\",\"end\":\"none\",\"day\":6}]," +
+                        "\"hours_type\":\"REGULAR\"," +
+                        "\"is_open_now\":true}]");
+            }
+            String price;
+            if(restaurantDetail.has("price")) {
+                price = restaurantDetail.getString("price");
+            } else {
+                price = "none";
+            }
             //if(restaurantDetail.get("price") != null) {
             //price = restaurantDetail.getString("price");
             //}
@@ -422,7 +473,11 @@ public class LobbyStoreImpl implements LobbyStore {
 
                         returnCuisine = yelpInfo.get("categories").toString();
                         returnAddress = yelpInfo.get("location").toString();
-                        returnOperatingHours = yelpInfo.get("hours").toString();
+                        if(yelpInfo.has("hours")) {
+                            returnOperatingHours = yelpInfo.get("hours").toString();
+                        } else{
+                            returnOperatingHours = "{\"hours\":\"none\"}";
+                        }
                     }
                 } catch(SQLException throwables){
                     throwables.printStackTrace();
