@@ -1,13 +1,7 @@
 package edu.cooper.ece366.store;
 
-import com.google.gson.JsonNull;
-import edu.cooper.ece366.categories.Restaurant;
 import javax.sql.DataSource;
-import edu.cooper.ece366.model.Address;
-import edu.cooper.ece366.model.OperatingHours;
-import edu.cooper.ece366.model.PhoneNumber;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,24 +12,12 @@ import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONException;
 import kong.unirest.json.JSONObject;
 
-import java.util.List;
 import java.util.ArrayList;
 
 public class RestaurantStoreImpl implements RestaurantStore{
 
     DataSource dbcp;
     Connection conn = null;
-
-//    @Override
-//    public Restaurant get(final String id) {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getRestId(Restaurant restaurant){
-//
-//        return null;
-//    }
 
     @Override
     public int storeToDB(DBconnection con_in, String response, String ID, String alias, String name, String phone,
@@ -317,14 +299,5 @@ public class RestaurantStoreImpl implements RestaurantStore{
         return jsonObject.getString("image_url");
         //return yelpInfo;
     }
-//
-//    @Override
-//    public List<Restaurant> getListRest(List<String> restStringList){
-//        List<Restaurant> restList = new ArrayList<Restaurant>();
-//        for(String restString : restStringList){
-//            Restaurant rest = get(restString);
-//            restList.add(rest);
-//        }
-//        return restList;
-//    }
+
 }

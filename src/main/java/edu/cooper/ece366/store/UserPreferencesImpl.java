@@ -2,9 +2,7 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
-import edu.cooper.ece366.framework.Lobby;
 import edu.cooper.ece366.framework.User;
-import edu.cooper.ece366.framework.UserBuilder;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -12,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserPreferencesImpl implements UserPreferences {

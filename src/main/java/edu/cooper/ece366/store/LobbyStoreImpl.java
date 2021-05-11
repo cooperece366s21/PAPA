@@ -1,20 +1,13 @@
 package edu.cooper.ece366.store;
 
-
-import com.google.common.base.Splitter;
 import edu.cooper.ece366.DBconnection.DBconnection;
 import edu.cooper.ece366.categories.Restaurant;
 import edu.cooper.ece366.categories.RestaurantBuilder;
 import edu.cooper.ece366.framework.Lobby;
-import edu.cooper.ece366.framework.User;
 import edu.cooper.ece366.framework.LobbyBuilder;
-import edu.cooper.ece366.store.RestaurantStoreImpl;
-import edu.cooper.ece366.store.UserStoreImpl;
-import edu.cooper.ece366.restaurantTest;
 import edu.cooper.ece366.yelpAPI.YelpApi;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
-import org.sqlite.core.DB;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -22,9 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import java.util.*;
 
